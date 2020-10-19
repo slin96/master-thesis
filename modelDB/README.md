@@ -89,6 +89,10 @@ Following Content from (8:00-25:00, demo from 32:10): [2]
 - [[2]](https://www.youtube.com/watch?v=U0lyF_lHngo) Vartak, Manasi: "Model Versioning Done Right: A ModelDB 2.0 Walkthrough"
 - [[3]](https://github.com/VertaAI/modeldb) GitHub: VertaAI/modeldb
 
-## Questions to answer (if possible):
+## Further Research/Questions to answer (if possible):
 - what was the data model of modelDB 1.0, what was exactly stored? 
-- how got modelDB 1.0 the data, active call like in 2.0 or automatic extraction? 
+- how got modelDB 1.0 the data, active call like in 2.0 or automatic extraction?
+- is there a data model for ModelDB 2.0 available (or do we have to extract it from GitHub)
+- how does this system differ to a system that we have in mind, why is it (not) possible to use it in our setting? 
+(e.g. Cars, Phones, Embedded Systems don't necessarily run Java)    
+
