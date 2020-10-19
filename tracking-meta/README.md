@@ -1,5 +1,24 @@
 # Automatically Tracking Metadata and Provenance of Machine Learning Experiments
 
+- Schema Design 
+    - declarability: store metadata of artifacts but not code that produces them -> authors advice: use git
+    - immutability: metadata entries are only written once
+        - *TrainingRun* only mutable entity
+    - **Datset-Metadata**
+        - stores metadata for dataset 
+        - stores fields like name and version 
+        - **only pointer to actual data**
+    - **Model-Metadata**
+        - reference to input dataset
+        - hyperparameters as extra entity 
+        - describe the transformation of the data by a graph of Transform entities
+            - **do not store parameters only pointers** 
+    - **TrainingRun**
+        - only mutable entity
+        - tracks live execution (e.g. training loss)
+    - **Prediction-Metadata**
+        - predcitions produced by a model
+
 - Simplified version of schema  
 ![alt text](images/schema.png "Schema")
 
@@ -7,7 +26,16 @@
 ![alt text](images/schema-full.png "SchemaFull")
 
 - Schema diff
-    - ...
+    - ConfusionMatrix class
+    - fields like: *creationTime*, *creator*, *creatorTeam*
+    
+## Automated Metadata Extraction
+- wrote additional code to track pipelines and extract metadata for: 
+    - SparkML, scikit-learn, MXNet
+    - for now not of great interest (code not available in repo, since paper from 2017 probably not working with 
+    the latest versions)
+
+
 
 
 
