@@ -38,7 +38,7 @@
 
 Following Content from (8:00-25:00, demo from 32:10): [2] 
 - Motivation 
-    - reproduceability of model (what model, version, hyperparamerters, ... were used)
+    - reproducibility of the model (what model, version, hyperparameters, ... were used)
     - better integration of CI/DC tools 
     - preservation/sharing of knowledge
     - track progress
@@ -46,13 +46,13 @@ Following Content from (8:00-25:00, demo from 32:10): [2]
 - Model Version Control (Git like)
     - manage changes to models over time 
         - audit, change logs, immutability
-    - uniquely identify model and the ability to return to it at any time
-        - reproducability, governance
+    - uniquely identify model, and the ability to return to it at any time
+        - reproducibility, governance
     - Enable multiple data scientists to contribute and reuse
         - collaboration, blame 
     - **Why not git?**
-        - git not good in handling large files
-        - needs to be accesed in code, not cmdline
+        - git not good at handling large files
+        - needs to be accessed in code, not cmdline
         - in git every user has full repo (maybe too large)
            
 - ModelDB 1.0 manages
@@ -63,7 +63,7 @@ Following Content from (8:00-25:00, demo from 32:10): [2]
 
 - ModelDB 2.0 
     - git like constructs (commit, fork, merge)
-    - matedata tracking as in ModelDB 1.0
+    - metadata tracking as in ModelDB 1.0
     - APIs for applications
     - integration in MLOps
     
@@ -72,13 +72,13 @@ Following Content from (8:00-25:00, demo from 32:10): [2]
         - Code
         - Config (i.e. Hyperparameter)
         - Data
-        - Environment (e.g Python version, library versions)
-    - weights and checkpoints can be stored as artifacts, but are **NOT** part of the model version itself
+        - Environment (e.g. Python version, library versions)
+    - weights and checkpoints can be stored as artifacts but are **NOT** part of the model version itself
   
     
 - Architecture
     - modelDB Repo "super repo"
-    - every type of data is manged in its own specialized repo (e.g. use git for code versioning)
+    - every type of data is managed in its own specialized repo (e.g. use git for code versioning)
 ![alt text](images/architecture.png "Architecture")
 
     
