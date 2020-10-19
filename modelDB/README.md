@@ -9,7 +9,7 @@
     - find trends and perform meta-analyses across models
     - search through models
     - collaboration
-- managing models means managing multi stage pipelines -> manag also: 
+- managing models means managing multi stage pipelines -> manage also: 
     - metadata (parameters of pre-processing steps, hyperparameters for models etc.)
     - quality metrics
     - datasets
