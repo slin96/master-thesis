@@ -14,8 +14,9 @@ This is an overview file of related Work in the domain of ML Model Managemnt
 - TODO: add notes
 
 ### ModelDB
-- TODO paper notes
-- link to verta.ai/modelDB
+- Git like model version control based on research at MIT
+- [webiste](https://www.verta.ai)
+- [notes](./modelDB/README.md)
 
 ## Reviewed (not too relevant)
 
