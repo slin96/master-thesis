@@ -2,15 +2,15 @@
 
 ## ModelDB 1.0: Paper [1] Manasi Vartak (2016, MIT) 
 - **end-to-end system for the management of machine learning models**
-- Model management is the problem of tracking, storing and indexing large numbers of machine learning models so they may subsequently be shared, queried and analyzed
+- Model management is the problem of tracking, storing, and indexing large numbers of machine learning models so they may subsequently be shared, queried, and analyzed
 - Model management provides support for: 
     - recapitulate insights
     - sensemaking
     - find trends and perform meta-analyses across models
     - search through models
     - collaboration
-- managing models means managing multi stage pipelines -> manage also: 
-    - metadata (parameters of pre-processing steps, hyperparameters for models etc.)
+- managing models means managing multi-stage pipelines -> manage also: 
+    - metadata (parameters of pre-processing steps, hyperparameters for models, etc.)
     - quality metrics
     - datasets
     
@@ -29,7 +29,7 @@
     - storage layer
         - relational DB
         - custom engine to store and index models 
-    - **Not described: Any details for Datamodel/Schema**
+    - **Not described: Any details on used datamodel/schema**
 
     
     
