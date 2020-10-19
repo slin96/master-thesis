@@ -8,14 +8,18 @@ This is an overview file of related Work in the domain of ML Model Managemnt
 - TODO: transfer Notes into Repo
 
 ### Automatically Tracking Metadata and Provenance of Machine Learning Experiments
-- TODO: transfer Notes into Repo 
+- **mainly interesting: presented [schema](https://github.com/awslabs/ml-experiments-schema)** 
+- lightweight system to extract, store and manage metadata and prove- nance information of common artifacts in machine
+ learning (ML) experiments
+- tracking: datasets, models, predictions, evaluations and training runs
+- [notes](./tracking-meta/README.md)
 
 ### On Challenges in Machine Learning Model Management
 - TODO: add notes
 
 ### ModelDB
 - Git like model version control based on research at MIT
-- [webiste](https://www.verta.ai)
+- [website](https://www.verta.ai)
 - [notes](./modelDB/README.md)
 
 ## Reviewed (not too relevant)
