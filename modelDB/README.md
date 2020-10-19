@@ -1,6 +1,6 @@
 # ModelDB
 
-## ModelDB 1.0: Paper [1] Manasi Vartak (2016, MIT) 
+## ModelDB 1.0: Paper [1] Manasi Vartak et al. (2016, MIT) 
 - **end-to-end system for the management of machine learning models**
 - Model management is the problem of tracking, storing, and indexing large numbers of machine learning models so they may subsequently be shared, queried, and analyzed
 - Model management provides support for: 
@@ -31,13 +31,10 @@
         - custom engine to store and index models 
     - **Not described: Any details on used datamodel/schema**
 
-    
-    
-
-    
-    
-    
-- Further work lead to product modelDB 2.0 [verta.ai](https://www.verta.ai)
+## ModelDB 2.0 - [verta.ai](https://www.verta.ai)
+- CEO/Founder: Manasi Vartak (1st Author of ModelDB 1.0 paper [1])
+- based on ModelDB 1.0, but completely redesigned
+- openSource Version on GitHub [3] 
 
 
 ## Sources
