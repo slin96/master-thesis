@@ -34,6 +34,9 @@ This is an overview file of related Work in the domain of ML Model Managemnt
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
 - KeystoneML: Optimizing Pipelines for Large-Scale Advanced Analytics
+- Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
+- Machine Learning Schema Community Group. W3c machine learning schema, 2017.
+- Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
 
 
  
