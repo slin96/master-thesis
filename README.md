@@ -41,6 +41,9 @@ This is an overview file of related work in the domain of ML Model Managemnt
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
 - Machine Learning Schema Community Group. W3c machine learning schema, 2017.
 - Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
+- Deep learning model management for coronary heart disease early warning research
+- [Reproducibility for Deep Learning](https://www.sciencedirect.com/science/article/pii/S2666389920300933)
+- [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 
 
  
