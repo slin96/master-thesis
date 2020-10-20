@@ -5,7 +5,9 @@
 This is an overview file of related Work in the domain of ML Model Managemnt
 
 ### MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis
-- TODO: transfer Notes into Repo
+- MISTIQUE: **M**odel **I**ntermediate **ST**ore and **QU**ery **E**ngine
+- Goal: Efficiently capture, store and query **model intermediates** for diagnosis
+- [notes](./mistique/README.md)
 
 ### Automatically Tracking Metadata and Provenance of Machine Learning Experiments
 - **mainly interesting: presented [schema](https://github.com/awslabs/ml-experiments-schema)** 
