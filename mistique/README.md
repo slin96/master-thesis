@@ -4,8 +4,8 @@
 - **TRAD**: Traditional ML Models with handcrafted features
 - **DNN**: Deep neural networks
 - **Model Diagnosis**
-    - The process of analysing ML model performance to identify where the model works well and where it doesn’t
-- **Categorise diagnostic techniques based on amount of data required**
+    - The process of analyzing ML model performance to identify where the model works well and where it doesn’t
+- **Categorize diagnostic techniques based on the amount of data required**
     - Few Columns, Few Rows (**FCFR**): "Get the predicted price error for Home-x"
     - Few Columns, May Rows (**FCMR**): "Examine the raw features for the house with the highest prediction error"
     - Many Columns, Few Rows (**MCFR**): "Find training data points that contribute to the prediction of House-X"
@@ -17,7 +17,8 @@
     - DNN: Representations produced by every layer
     
 ## Problem Formulation
-- Speeding up diagnostic queries by intelligently choosing: when to re-run a model **vs** (store and) read an intermediate and in turn minimising the cost of storing intermediates
+- Speeding up diagnostic queries by intelligently choosing: when to re-run a model **vs.** (store and) read an 
+intermediate and in turn minimizing the cost of storing intermediates
 
 
 
@@ -40,15 +41,15 @@
 How to most efficiently store intermediates
 
 ### Strategies to reduce storage footprint without compromising query time or accuracy 
-- **Quantisation and Summarisation**
+- **Quantization and Summarisation**
     - Idea: interested in relative values, not in exact ones
     - *Lower precision float representation*: e.g. store double with float precision, or store float32 ad float16
         - reduces storage: 2x, 4x
-    - *k-bit quantisation*: representing values using quantiles, given max number of bits for quantiles 
+    - *k-bit quantization*: representing values using quantiles, given max number of bits for quantiles 
         - reduces storage: o/b
-    - *Threshold-based quantisation*: only store binary value if over threshold or not
+    - *Threshold-based quantization*: only store binary value if over threshold or not
         - reduces storage: o
-    - *Pooling* don’t store all values but pool them with f.e. max or avg. pooling
+    - *Pooling* doesn’t store all values but pool them with f.e. max or avg. pooling
         - reduces storage: based on filter size
 - **Exact and Approximate De-duplication**
     - Intermediates in ML pipelines often have many identical columns
@@ -64,7 +65,8 @@ How to most efficiently store intermediates
     - time to read a certain intermediate from storage
         - Idea: if time to rerun larger than time to read -> rerun, store otherwise (if possible)
     - storage cost model
-        - defines value in seconds/GB (e.g. 1000s/1GB means: developer is willing to use 1GB of storage to save 1000s in query time)
+        - defines value in seconds/GB (e.g. 1000s/1GB means: developer is willing to use 1GB of storage to save 1000s
+         in query time)
     
 
 
