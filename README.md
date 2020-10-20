@@ -33,6 +33,11 @@ learning (ML) models
 
 ## Reviewed (not too relevant)
 
+### VisTrails
+- open-source scientific workflow and provenance management system that supports data exploration and visualization
+- [website](https://www.vistrails.org/index.php/Main_Page)
+- last version 05/2016, not maintained anymore  
+
 ## To Review TODO
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
