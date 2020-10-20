@@ -19,7 +19,12 @@ This is an overview file of related work in the domain of ML Model Managemnt
 - [notes](./tracking-meta/README.md)
 
 ### On Challenges in Machine Learning Model Management
-- TODO: add notes
+- **Model Management**: training, maintenance, deployment, monitoring, organization and documentation of machine 
+learning (ML) models
+- discuss a selection of ML use cases
+- overview over conceptual, engineering, and data-processing related challenges
+- point out future research directions
+- [notes](./challanges/README.md)
 
 ### ModelDB
 - Git like model version control based on research at MIT
