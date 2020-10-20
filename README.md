@@ -34,9 +34,16 @@ learning (ML) models
 ## Reviewed (not too relevant)
 
 ### VisTrails
-- open-source scientific workflow and provenance management system that supports data exploration and visualization
 - [website](https://www.vistrails.org/index.php/Main_Page)
+- open-source scientific workflow and provenance management system that supports data exploration and visualization
 - last version 05/2016, not maintained anymore  
+
+### Keystone ML
+- [Sparks, Evan R., et al. "Keystoneml: Optimizing pipelines for large-scale advanced analytics." 2017 IEEE 33rd 
+international conference on data engineering (ICDE). IEEE, 2017.](https://arxiv.org/pdf/1610.09451)
+- interesting aspect for us: "Allows users to specify end-to-end ML applications in a single system using high level 
+logical operators"
+- but operators are way too high-level for our use case 
 
 ## To Review TODO
 - https://neptune.ai
@@ -47,7 +54,6 @@ learning (ML) models
 - DEEM 2019: Workshop on Data Management for End-to-End Machine Learning
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
-- KeystoneML: Optimizing Pipelines for Large-Scale Advanced Analytics
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
 - Machine Learning Schema Community Group. W3c machine learning schema, 2017.
 - Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
