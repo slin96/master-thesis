@@ -51,7 +51,6 @@ logical operators"
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
 - ModelHub: Deep Learning Lifecycle Management
 - Automated Management of Deep Learning Experiments
-- DEEM 2019: Workshop on Data Management for End-to-End Machine Learning
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
