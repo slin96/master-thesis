@@ -54,6 +54,33 @@ learning (ML) models
 - Deep learning model management for coronary heart disease early warning research
 - [Reproducibility for Deep Learning](https://www.sciencedirect.com/science/article/pii/S2666389920300933)
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
+- [A Programming System for Model Compression](http://learningsys.org/neurips19/assets/papers/16_CameraReadySubmission_WORKSHOP_VERSION_NeurIPS_2019.pdf)
+
+## Related Research Directions 
+from talk by [Manasi Vartak at DEEM](http://deem-workshop.org/videos/2020/7_vartak.mp4)
+- Data Versioning
+    - version control data similar to code 
+    - existing work:
+     [OrpheusDB](https://dl.acm.org/doi/abs/10.1145/3035918.3058744?casa_token=aHTGdV87tw4AAAAA:RYB2lh00gt7W3IZxoS4xSjXnljA-6HfAzX7qqhGkBvyLyT863fTm83PoGyGjXIZWRs4QrO0eApg), 
+     [Principles of Dataset versioning](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5526644/),
+     [DataHub](https://arxiv.org/abs/1409.0798)
+- Data Linage
+    - How was a dataset produced
+    - existing work:
+        - [Sub-zero](https://dspace.mit.edu/handle/1721.1/90854)
+        - [ProvDB](http://sites.computer.org/debull/A18dec/p26.pdf)
+- Model Debugging 
+    - what data is the model predicting correctly vs. incorrectly, why?
+    - existing work:
+        - [MISTIQUE](./mistique/README.md)
+        - Model Assertion (Stanford)
+        - Model Diagnosis (UCB)  
+- Model & Data Monitoring 
+    - is the live model working similar to the offline model 
+- Human-in-the-Loop ML
+    - improving a model in real-time by annotating, re-training & testing 
+    - Interactive Machine Learning
+        
 
 
  
