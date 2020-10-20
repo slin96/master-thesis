@@ -2,7 +2,7 @@
 
 ## Reviewed (and relevant)
 
-This is an overview file of related Work in the domain of ML Model Managemnt
+This is an overview file of related work in the domain of ML Model Managemnt
 
 ### MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis
 - MISTIQUE: **M**odel **I**ntermediate **ST**ore and **QU**ery **E**ngine
