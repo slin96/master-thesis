@@ -1,23 +1,23 @@
 # On Challenges in Machine Learning Model Management
 
-- The focus of the following notes is challenges in ML Model Management 
+- The focus of the following notes is: Challenges in ML Model Management 
 - Problems have their roots in 
     - complexity of ML systems
     - lack of declarative abstraction 
-    - heterogeneity of the resulting code bases
+    - heterogeneity of the resulting codebases
 - questions of model management encounter a growing interest in academic community  
 
 ## Conceptual Challenges
 
 - Machine Learning Model Definition
-    - difficult to define the actual model to mange
+    - difficult to define the actual model to manage
     - not only model parameters/weights are important but also preprocessing steps (e.g. feature transformation)
-    - do we consider model as 'balck-box'?
+    - do we consider model as 'black-box'?
     - do we present model in form of comprised of operations with known semantics
-    - complexity of many real world ML applications make definition of model even more difficult
+    - complexity of many real-world ML applications make definition of model even more difficult
 
 - Model Validation
-    - everytime when: data changes/new software dependencies/improved model -> performance must be re-validated
+    - every time when: data changes/new software dependencies/improved model -> performance must be re-validated
         - must ensure:
             - trained and evaluated using same training, test and validation set
             - same code for evaluating metrics
@@ -41,7 +41,7 @@
 ## Engineering Challenges
 - Multi-Language Code Bases
 - Heterogeneous Skill Level of Users
-- Backwards Compatibility of Trained Models
+- Backward Compatibility of Trained Models
     - different degrees of backward compatibility, after e.g. a year
         - exact same results
         - similar results 
