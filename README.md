@@ -24,7 +24,8 @@
 	- elaborate forms of model comparison: MISTIQUE
 	- basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
 	
-## Possible research questions? 
+## (Possible research) questions
+- How does this setting differ to the setting of "data parallel training" of ML models
 - Best way to represent/save/transfer model? - Evaluate different strategies in different settings  
 - What do we have to save to make a model recoverable? 
 - Develop a system architecture/data model to manage multiple different models in a distributed setting 
@@ -100,6 +101,15 @@ learning (ML) models
 - Git like model version control based on research at MIT
 - [website](https://www.verta.ai)
 - [notes](./modelDB/README.md)
+
+### Scalable Deep Learning on Distributed Infrastructures: Challenges, Techniques, and Tools
+- good overview on how to train a model in a distributed setting 
+- especially interesting: 
+    - describes data parallel training
+    - section on Model (Data) Management, ref to ModelDB and ModelHUb
+- [pfd](./dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
+ so far no notes
+
 
 ## Reviewed (not too relevant)
 
