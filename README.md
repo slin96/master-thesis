@@ -16,13 +16,56 @@
 - Baseline 
 	- system that receives and stores all instances of individual models
 
-- Possibel Approach
+- Possible Approach
 	- local instances could send gradient updates 
 	- or just pipeline descriptions and raw data, if this is more efficient and deterministically computable
 
 - References
 	- elaborate forms of model comparison: MISTIQUE
 	-  basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
+	
+## Questions
+
+### General 
+- what assumptions are valid to make?
+    - e.g.: every instance has at least:
+        - xGB memory available
+        - enough computation power to: train model, calc diffs between models, ... 
+
+### Model (update)
+- How do we represent the model?
+- What needs to be deployed to the cars? 
+- What must be sent back to know/recover the model centrally?
+- Do we have specialized models form beginning (e.g. slightly different for car model)
+- What operations are possible on the target device to get to the final model (relevant if we e.g. only send data +
+ (un-/pre-)trained model) 
+- How do we calculate the diff between models/gradients?
+- Is sending data plus model pipeline more efficient? 
+- Merkle tree for efficient diff of pipelines, weights, ...?
+
+### Data
+- How does the data, seen by different instances, varies
+- is the collected data 'biased'
+    - daytime - e.g. drives only during night
+    - weather - rain/sun
+    - region - only specific country, region, highway vs city
+    - ...
+- To what extent do we have to store metadata
+    - e.g. probably don't need score for every epoch
+    
+### Instances (e.g. Cars) 
+- is a model trained on a specific instance feasible for other cars?
+- to what extent are the cars different
+    - hardware
+    - specific of car influence model performance, training, ...
+    - ...
+
+ 
+     
+
+     
+	
+
 
 
 
