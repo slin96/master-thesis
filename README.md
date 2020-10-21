@@ -1,3 +1,8 @@
+# Overview
+
+![alt text](images/distributed-models-3.png "idea")
+
+
 # Related Work
 
 ## Reviewed (and relevant)
@@ -60,6 +65,11 @@ logical operators"
 - [Reproducibility for Deep Learning](https://www.sciencedirect.com/science/article/pii/S2666389920300933)
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [A Programming System for Model Compression](http://learningsys.org/neurips19/assets/papers/16_CameraReadySubmission_WORKSHOP_VERSION_NeurIPS_2019.pdf)
+- [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
+- [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
+- [TF - ML Metadata - get started](https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md)
+- [Data Version Control](https://github.com/iterative/dvc)
+
 
 ## Related Research Directions 
 from talk by [Manasi Vartak at DEEM](http://deem-workshop.org/videos/2020/7_vartak.mp4)
