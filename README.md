@@ -126,6 +126,8 @@ logical operators"
 - but operators are way too high-level for our use case 
 
 ## To Review TODO
+- The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
+- Online Model Management via Temporally Biased Sampling
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
