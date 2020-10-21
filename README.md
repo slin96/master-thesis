@@ -22,9 +22,16 @@
 
 - References
 	- elaborate forms of model comparison: MISTIQUE
-	-  basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
+	- basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
 	
-## Questions
+## Possible research questions? 
+- Best way to represent/save/transfer model? - Evaluate different strategies in different settings  
+- What do we have to save to make a model recoverable? 
+- Develop a system architecture/data model to manage multiple different models in a distributed setting 
+(Distributed Model Management / Distributed Model Versioning)
+-...?
+    
+## Things to think about in described setting  
 
 ### General 
 - what assumptions are valid to make?
@@ -40,14 +47,14 @@
 - What operations are possible on the target device to get to the final model (relevant if we e.g. only send data +
  (un-/pre-)trained model) 
 - How do we calculate the diff between models/gradients?
-- Is sending data plus model pipeline more efficient? 
+- Is sending data plus model pipeline more efficient, thank model + weights? 
 - Merkle tree for efficient diff of pipelines, weights, ...?
 
 ### Data
 - How does the data, seen by different instances, varies
-- is the collected data 'biased'
+- is the data collected at single instances 'biased'
     - daytime - e.g. drives only during night
-    - weather - rain/sun
+    - weather - always rain/sun
     - region - only specific country, region, highway vs city
     - ...
 - To what extent do we have to store metadata
@@ -59,14 +66,6 @@
     - hardware
     - specific of car influence model performance, training, ...
     - ...
-
- 
-     
-
-     
-	
-
-
 
 
 # Related Work
