@@ -1,6 +1,6 @@
 # Overview
 
-![alt text](images/distributed-models-3.png "idea")
+![alt text](images/distributed-models.png "idea")
 
 **Idea**
 - managing many, slightly different models in a distributed setup
