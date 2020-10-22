@@ -24,6 +24,9 @@
 - [related work](./related-work)
 - elaborate forms of model comparison: MISTIQUE
 - basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
+
+**Other**
+- further [notes and research questions](./notes)
 	
 
         
