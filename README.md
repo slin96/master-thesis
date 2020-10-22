@@ -24,12 +24,12 @@
 - elaborate forms of model comparison: MISTIQUE
 - basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
 	
-## (Possible research) questions
-- How does this setting differ to the setting of "data parallel training" of ML models
+## Possible research questions
 - Best way to represent/save/transfer model? - Evaluate different strategies in different settings  
 - What do we have to save to make a model recoverable? 
 - Develop a system architecture/data model to manage multiple different models in a distributed setting 
 (Distributed Model Management / Distributed Model Versioning)
+- How does this setting differ to the setting of "data parallel training" of ML models
 -...?
     
 ## Things to think about in described setting  
@@ -38,7 +38,11 @@
 - what assumptions are valid to make?
     - e.g.: every instance has at least:
         - xGB memory available
-        - enough computation power to: train model, calc diffs between models, ... 
+        - enough computation power to: train model, calc diffs between models, ...
+- what do we mean by certain terms e.g. recoverable 
+    - just have a model that produces same results (only weights must be transferred)
+    - or ability to retrain the model on central server/node (data must be transferred,
+     maybe hash as rof weights to ensure same results)
 
 ### Model (update)
 - How do we represent the model?
