@@ -88,14 +88,14 @@ This is an overview file of related work in the domain of ML Model Managemnt
 - not really *Model Management*, but *Model Intermediate Management*
 - Goal: Efficiently capture, store and query **model intermediates** for diagnosis
 - **interesting**: techniques to reduce storage footprint, cost models
-- [notes](./mistique/README.md)
+- [notes](related-work/mistique/README.md)
 
 ### Automatically Tracking Metadata and Provenance of Machine Learning Experiments
 - **mainly interesting: presented [schema](https://github.com/awslabs/ml-experiments-schema)** 
 - lightweight system to extract, store and manage metadata and prove- nance information of common artifacts in machine
  learning (ML) experiments
 - tracking: datasets, models, predictions, evaluations and training runs
-- [notes](./tracking-meta/README.md)
+- [notes](related-work/tracking-meta/README.md)
 
 ### On Challenges in Machine Learning Model Management
 - **Model Management**: training, maintenance, deployment, monitoring, organization and documentation of machine 
@@ -103,19 +103,19 @@ learning (ML) models
 - discuss a selection of ML use cases
 - **overview of conceptual, engineering, and data-processing related challenges**
 - point out future research directions
-- [notes](./challanges/README.md)
+- [notes](related-work/challanges/README.md)
 
 ### ModelDB
 - Git like model version control based on research at MIT
 - [website](https://www.verta.ai)
-- [notes](./modelDB/README.md)
+- [notes](related-work/modelDB/README.md)
 
 ### Scalable Deep Learning on Distributed Infrastructures: Challenges, Techniques, and Tools
 - good overview on how to train a model in a distributed setting 
 - especially interesting: 
     - describes data parallel training
     - section on Model (Data) Management, ref to ModelDB and ModelHUb
-- [pfd](./dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
+- [pfd](related-work/dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
  so far no notes
  
 ### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
@@ -124,7 +124,7 @@ learning (ML) models
 - train models offline and online (might be relevant in our setting, further review needed)
     - online: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
     - offline: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
-- [pfd](./missing-piece/missing-piece.pdf),
+- [pfd](related-work/missing-piece/missing-piece.pdf),
  so far no extensive notes
 
 
@@ -181,7 +181,7 @@ from talk by [Manasi Vartak at DEEM](http://deem-workshop.org/videos/2020/7_vart
 - Model Debugging 
     - what data is the model predicting correctly vs. incorrectly, why?
     - existing work:
-        - [MISTIQUE](./mistique/README.md)
+        - [MISTIQUE](related-work/mistique/README.md)
         - Model Assertion (Stanford)
         - Model Diagnosis (UCB)  
 - Model & Data Monitoring 
