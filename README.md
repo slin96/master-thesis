@@ -15,10 +15,15 @@
 
 **Baseline** 
 - system that receives and stores all instances of individual models
+    - not to complicated but still relevant e.g. well known/established NN architecture 
 
-**Possible Approach**
-- local instances could send gradient updates 
-- or just pipeline descriptions and raw data, if this is more efficient and deterministically computable
+**Approach**
+- question to answer: How much can we do better than the baseline system
+- evaluate different directions, in what setting does it make sense to use what approach
+- focus: how can make the approach "bullet proof", meaning every model is recoverable at any time 
+- example approaches:
+    - local instances could send gradient updates (how to compress parameters?)
+    - just send pipeline descriptions and raw data (if this is more efficient and deterministically computable)
 
 **References**
 - [related work](./related-work)
