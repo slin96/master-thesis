@@ -29,7 +29,10 @@
 - What do we have to save to make a model recoverable (and how do we define recoverable)? 
 - Develop a system architecture + data model to manage multiple different models in a distributed setting 
 (Distributed Model Management / Distributed Model Versioning)
--...?
+- Develop ways to (mathematically) model: retrain time, used bandwidth to transfer data + param-hash, parameters + pipeline, ...
+    - define a tradeoff value(s) similar to e.g. 
+        - MISTIQUE's storage vs. saving query time for calc. intermediate
+        - opt ML workloads's storage vs. recompute time   
     
 ## Things to think about in described setting  
 
