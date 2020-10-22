@@ -21,6 +21,7 @@
 - or just pipeline descriptions and raw data, if this is more efficient and deterministically computable
 
 **References**
+- [related work](./related-work)
 - elaborate forms of model comparison: MISTIQUE
 - basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
 	
