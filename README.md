@@ -32,7 +32,8 @@
 - Develop ways to (mathematically) model: retrain time, used bandwidth to transfer data + param-hash, parameters + pipeline, ...
     - define a tradeoff value(s) similar to e.g. 
         - MISTIQUE's storage vs. saving query time for calc. intermediate
-        - opt ML workloads's storage vs. recompute time   
+        - opt ML workloads's storage vs. recompute time  
+- Think about a partly leaderless setting, remove workload from 'master' in P2P fashion? 
     
 ## Things to think about in described setting  
 
