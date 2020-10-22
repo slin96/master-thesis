@@ -117,6 +117,16 @@ learning (ML) models
     - section on Model (Data) Management, ref to ModelDB and ModelHUb
 - [pfd](./dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
  so far no notes
+ 
+### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
+- system for performing machine learning model serving and model maintenance at scale
+- efficiently cahce and replicate models across a cluster
+- train models offline and online (might be relevant in our setting, further review needed)
+    - online: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
+    - offline: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
+- [pfd](./missing-piece/missing-piece.pdf),
+ so far no extensive notes
+
 
 
 ## Reviewed (not too relevant)
@@ -134,7 +144,6 @@ logical operators"
 - but operators are way too high-level for our use case 
 
 ## To Review TODO
-- The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
 - Online Model Management via Temporally Biased Sampling
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
