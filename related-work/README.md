@@ -10,7 +10,7 @@
     
 ### Distributed Infrastructures
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
-- [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics:-Low-Latency,-Scalable-Model-Management-and-Serving-with-Velox)
+- [Velox](#Velox)
 
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
@@ -27,8 +27,8 @@
 - Deep Compression: Compressing Deep Neural Network with Pruning, Trained Quantization and Huffman Coding
 - openML
 - W3C Ml Schema
-#### intermediates**
-- [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE:-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
+#### intermediates
+- [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
 #### code
 - git
 #### data
@@ -101,7 +101,7 @@ learning (ML) models
 - [pfd](./dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
  so far no notes
  
-### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
+### Velox
 - system for performing machine learning model serving and model maintenance at scale
 - efficiently cahce and replicate models across a cluster
 - train models offline and online (might be relevant in our setting, further review needed)
