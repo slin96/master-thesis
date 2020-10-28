@@ -7,8 +7,8 @@ A Paper of reference can occur in more than one category
 #### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
     
-
 Distributed Infrastructures
+- [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
 
 Store Data/version data
 	- intermediates
@@ -57,7 +57,7 @@ learning (ML) models
 - [website](https://www.verta.ai)
 - [notes](./modelDB/README.md)
 
-### Scalable Deep Learning on Distributed Infrastructures: Challenges, Techniques, and Tools
+### Scalable Deep Learning on Distributed Infrastructures
 - good overview on how to train a model in a distributed setting 
 - especially interesting: 
     - describes data parallel training
