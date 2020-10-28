@@ -17,6 +17,7 @@
 - provDB 
 - Towards unified data and lifecycle management for deep learning
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
+- [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 
 ### Storage, Version, and Compression
 #### models
@@ -106,14 +107,9 @@ learning (ML) models
  
 ### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
 - system for performing machine learning model serving and model maintenance at scale
-- efficiently cahce and replicate models across a cluster
+- efficiently cache and replicate models across a cluster
 - train models offline and online (might be relevant in our setting, further review needed)
-    - online: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
-    - offline: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
-- [pfd](./missing-piece/missing-piece.pdf),
- so far no extensive notes
-
-
+- [pfd](./missing-piece/missing-piece.pdf), so far no extensive notes
 
 ## Reviewed (not too relevant)
 
