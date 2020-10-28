@@ -10,7 +10,7 @@
     
 ### Distributed Infrastructures
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
-- [Velox](#Velox)
+- [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
@@ -101,7 +101,7 @@ learning (ML) models
 - [pfd](./dystdl/Scalable-Deep-Learning-on-Distributed-Infrastructures-Challenges-Techniques-and-Tools.pdf),
  so far no notes
  
-### Velox
+### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
 - system for performing machine learning model serving and model maintenance at scale
 - efficiently cahce and replicate models across a cluster
 - train models offline and online (might be relevant in our setting, further review needed)
