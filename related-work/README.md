@@ -6,7 +6,7 @@ A Paper of reference can occur in more than one category
 
 #### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments]
-(#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
+(#Automatically-Tracking)
     
 
 Distributed Infrastructures
@@ -38,7 +38,7 @@ This is an overview file of related work in the domain of ML Model Managemnt
 - **interesting**: techniques to reduce storage footprint, cost models
 - [notes](./mistique/README.md)
 
-### Automatically Tracking Metadata and Provenance of Machine Learning Experiments
+### Automatically Tracking
 - **mainly interesting: presented [schema](https://github.com/awslabs/ml-experiments-schema)** 
 - lightweight system to extract, store and manage metadata and prove- nance information of common artifacts in machine
  learning (ML) experiments
