@@ -1,5 +1,31 @@
 # Related Work
 
+## Categories 
+Here all the related work we have looked at is categorized. 
+A Paper of reference can occur in more than one category
+
+####Schema definition
+- [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](###Automatically Tracking Metadata and Provenance of Machine Learning Experiments)
+    
+
+Distributed Infrastructures
+
+Store Data/version data
+	- intermediates
+	- code 
+	- data
+	- models
+
+Storage formats and compression
+
+Tradeoffs (e.g. storage vs. runtime)
+
+Model and Lifecycle Management
+
+Scientific workflow management
+- [VisTrails](###VisTrails)
+
+
 ## Reviewed (and relevant)
 
 This is an overview file of related work in the domain of ML Model Managemnt
