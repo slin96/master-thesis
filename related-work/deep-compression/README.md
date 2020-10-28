@@ -1,7 +1,7 @@
 # Deep Compression
-
 - technique to compress CNNs with **no change** in prediction accuracy
 - maybe interesting for not to strict implementation of recoverability
+- [pdf](./deep-compression.pdf)
 ### Drawbacks
 - if the results of the network are exactly the same is not said
     - probably not, probably predicted probability for classes slightly shifted but still same class predicted 
