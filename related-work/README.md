@@ -50,6 +50,9 @@
         
 
 ### Tradeoffs (e.g. storage vs. runtime)
+- [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
+- Optimizing Machine Learning Workloads in Collaborative Environments
+
 
 ### Scientific workflow management
 - [VisTrails](#VisTrails)
