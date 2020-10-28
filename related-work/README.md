@@ -25,7 +25,6 @@
 - ModelHUB
 - [Keystone ML](#Keystone-ML)
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
-- Deep Compression: Compressing Deep Neural Network with Pruning, Trained Quantization and Huffman Coding
 - openML
 - W3C Ml Schema
 #### intermediates
@@ -44,10 +43,13 @@
 - scientific data
     - Pstore: an efficient storage framework for managing scientific data
 #### formats/techniques
+- Deep Compression: Compressing Deep Neural Network with Pruning, Trained Quantization and Huffman Coding
 - delta encoding and compression
 - python: pickle
 - HD5
 - zip
+- Huffman Encoding
+- Huffman Encoding
         
 
 ### Tradeoffs (e.g. storage vs. runtime)
@@ -110,6 +112,15 @@ learning (ML) models
 - efficiently cache and replicate models across a cluster
 - train models offline and online (might be relevant in our setting, further review needed)
 - [pfd](./missing-piece/missing-piece.pdf), so far no extensive notes
+
+## Deep Compression
+- technique to compress CNNs with **no change** in prediction accuracy
+    - maybe interesting for not to strict implementation of recoverability
+- consists of 3 steps: pruning, enforce weight sharing, Huffman Encoding
+- Drawbacks
+    - results probably not exactly the same
+    - to get to compressed version retraining required  
+- [notes](./deep-compression/README.md)
 
 ## Reviewed (not too relevant)
 
