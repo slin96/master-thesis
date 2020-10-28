@@ -42,8 +42,8 @@
     - SciDB
 - scientific data
     - Pstore: an efficient storage framework for managing scientific data
-#### formats/techniques
-- Deep Compression: Compressing Deep Neural Network with Pruning, Trained Quantization and Huffman Coding
+#### storage and compression techniques/formats
+- [Deep Compression](#Deep-Compression)
 - delta encoding and compression
 - python: pickle
 - HD5
