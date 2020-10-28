@@ -1,5 +1,71 @@
 # Related Work
 
+## Categories 
+- Here all the related work that is potential relevant is listed and categorized.
+- A Paper of reference can occur in more than one category
+- If the reference is no link but plane text they haven't been reviewed and can be seen as a TODO
+
+#### Schema definition
+- [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
+    
+### Distributed Infrastructures
+- [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
+- [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
+
+### Model and Lifecycle Management
+- [ModelDB](#ModelDB)
+- provDB 
+- Towards unified data and lifecycle management for deep learning
+- [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
+- [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
+
+### Storage, Version, and Compression
+#### models
+- [ModelDB](#ModelDB)
+- ModelHUB
+- [Keystone ML](#Keystone-ML)
+- Model Selection Management Systems: The Next Frontier of Advanced Analytics
+- Deep Compression: Compressing Deep Neural Network with Pruning, Trained Quantization and Huffman Coding
+- openML
+- W3C Ml Schema
+#### intermediates
+- [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
+#### code
+- git
+#### data
+- datasets
+    - DataHub
+    - Decibel
+- versioning of relational data
+    - Orpheus DB
+- multi dimensional arrays
+    - TitleDB
+    - SciDB
+- scientific data
+    - Pstore: an efficient storage framework for managing scientific data
+#### formats/techniques
+- delta encoding and compression
+- python: pickle
+- HD5
+- zip
+        
+
+### Tradeoffs (e.g. storage vs. runtime)
+- [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
+- Optimizing Machine Learning Workloads in Collaborative Environments
+
+
+### Scientific workflow management
+- [VisTrails](#VisTrails)
+- Kepler
+- Taverna
+
+### Software engineering viewpoint
+- A TensorFlow-Based Production-Scale Machine Learning Platform
+- Hidden technical debt in machine learning systems
+- Versioning for end-to-end machine learning pipelines
+- Productionizing Machine Learning Pipelines at Scale.
+
 ## Reviewed (and relevant)
 
 This is an overview file of related work in the domain of ML Model Managemnt
@@ -31,7 +97,7 @@ learning (ML) models
 - [website](https://www.verta.ai)
 - [notes](./modelDB/README.md)
 
-### Scalable Deep Learning on Distributed Infrastructures: Challenges, Techniques, and Tools
+### Scalable Deep Learning on Distributed Infrastructures
 - good overview on how to train a model in a distributed setting 
 - especially interesting: 
     - describes data parallel training
@@ -41,14 +107,9 @@ learning (ML) models
  
 ### The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox
 - system for performing machine learning model serving and model maintenance at scale
-- efficiently cahce and replicate models across a cluster
+- efficiently cache and replicate models across a cluster
 - train models offline and online (might be relevant in our setting, further review needed)
-    - online: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
-    - offline: "The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox"
-- [pfd](./missing-piece/missing-piece.pdf),
- so far no extensive notes
-
-
+- [pfd](./missing-piece/missing-piece.pdf), so far no extensive notes
 
 ## Reviewed (not too relevant)
 
