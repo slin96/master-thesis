@@ -46,6 +46,7 @@
     - Pstore: an efficient storage framework for managing scientific data
 #### storage and compression techniques/formats
 - [Deep Compression](#Deep-Compression)
+- Martin Kleppmann: Designing data-intensive applications (Chapter: Encoding and Evolution)
 - delta encoding and compression
 - python: pickle (used in PyTorch)
 - zip (used in PyTorch)
