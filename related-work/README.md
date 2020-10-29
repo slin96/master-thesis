@@ -20,6 +20,8 @@
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
 
+### Recoverability/Reproducibility
+- [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
 
 ### Storage, Version, and Compression
 #### models
@@ -115,7 +117,7 @@ learning (ML) models
 - train models offline and online (might be relevant in our setting, further review needed)
 - [pfd](./missing-piece/missing-piece.pdf), so far no extensive notes
 
-## Deep Compression
+### Deep Compression
 - technique to compress CNNs with **no change** in prediction accuracy
     - maybe interesting for not to strict implementation of recoverability
 - consists of 3 steps: pruning, enforce weight sharing, Huffman Encoding
@@ -123,6 +125,9 @@ learning (ML) models
     - results probably not exactly the same
     - to get to compressed version retraining required  
 - [notes](./deep-compression/README.md)
+
+### dtoolAI: Reproducibility for Deep Learning
+- WIP
 
 ## Reviewed (not too relevant)
 
@@ -151,7 +156,7 @@ logical operators"
 - Machine Learning Schema Community Group. W3c machine learning schema, 2017.
 - Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
 - Deep learning model management for coronary heart disease early warning research
-- [Reproducibility for Deep Learning](https://www.sciencedirect.com/science/article/pii/S2666389920300933)
+
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [A Programming System for Model Compression](http://learningsys.org/neurips19/assets/papers/16_CameraReadySubmission_WORKSHOP_VERSION_NeurIPS_2019.pdf)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
