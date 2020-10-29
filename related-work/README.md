@@ -129,7 +129,8 @@ learning (ML) models
 - [notes](./deep-compression/README.md)
 
 ### dtoolAI: Reproducibility for Deep Learning
-- discusses Reproducibility, Replicability, and Repeatability in the context of DL 
+- discusses Reproducibility, Replicability, and Repeatability in the context of DL
+- builds on top of [dtool](https://dtool.readthedocs.io/en/latest/)
 - [notes](./dtoolai/README.md)
 
 ## Reviewed (not too relevant)
