@@ -7,6 +7,7 @@
 
 ### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
+- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
     
 ### Distributed Training/Infrastructure
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
@@ -16,6 +17,7 @@
 - [ModelDB](#ModelDB)
 - provDB 
 - Towards unified data and lifecycle management for deep learning
+- CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
@@ -127,7 +129,8 @@ learning (ML) models
 - [notes](./deep-compression/README.md)
 
 ### dtoolAI: Reproducibility for Deep Learning
-- WIP
+- discusses Reproducibility, Replicability, and Repeatability in the context of DL 
+- [notes](./dtoolai/README.md)
 
 ## Reviewed (not too relevant)
 
