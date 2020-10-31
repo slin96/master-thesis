@@ -5,6 +5,16 @@
 - A Paper of reference can occur in more than one category
 - If the reference is no link but plane text they haven't been reviewed and can be seen as a TODO
 
+### Terms and Definitions 
+#### Machine/Deep Learning
+- [Google ML Glossary](https://developers.google.com/machine-learning/glossary#validation)
+- [Deep Learning Book](https://www.deeplearningbook.org)
+#### Recoverability/Reproducibility
+- [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
+- Terminologies for reproducible research
+- Book: Reproducibility and replicability in science
+
+
 ### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
 - ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
@@ -130,7 +140,7 @@ learning (ML) models
 
 ### dtoolAI: Reproducibility for Deep Learning
 - discusses Reproducibility, Replicability, and Repeatability in the context of DL
-- builds on top of [dtool](https://dtool.readthedocs.io/en/latest/)
+- implements dtoolAI - software to track metadata for datasets and for training with PyTorch 
 - [notes](./dtoolai/README.md)
 
 ## Reviewed (not too relevant)
@@ -148,6 +158,8 @@ logical operators"
 - but operators are way too high-level for our use case 
 
 ## To Review TODO
+
+- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
 - Online Model Management via Temporally Biased Sampling
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
