@@ -9,9 +9,11 @@
 #### Machine/Deep Learning
 - [Google ML Glossary](https://developers.google.com/machine-learning/glossary#validation)
 - [Deep Learning Book](https://www.deeplearningbook.org)
+
 #### Recoverability/Reproducibility
 - [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
-- Terminologies for reproducible research
+- [Terminologies for reproducible research](#reproduce-vs-replicate-discussion)
+- [ACM: Artifact Review and Badging](#reproduce-vs-replicate-discussion)
 - Book: Reproducibility and replicability in science
 
 
@@ -142,6 +144,11 @@ learning (ML) models
 - discusses Reproducibility, Replicability, and Repeatability in the context of DL
 - implements dtoolAI - software to track metadata for datasets and for training with PyTorch 
 - [notes](./dtoolai/README.md)
+
+### reproduce vs replicate discussion
+- TODO add notes
+- https://www.acm.org/publications/policies/artifact-review-badging
+- https://www.acm.org/publications/policies/artifact-review-and-badging-current
 
 ## Reviewed (not too relevant)
 
