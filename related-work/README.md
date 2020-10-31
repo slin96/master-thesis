@@ -5,8 +5,19 @@
 - A Paper of reference can occur in more than one category
 - If the reference is no link but plane text they haven't been reviewed and can be seen as a TODO
 
+### Terms and Definitions 
+#### Machine/Deep Learning
+- [Google ML Glossary](https://developers.google.com/machine-learning/glossary#validation)
+- [Deep Learning Book](https://www.deeplearningbook.org)
+#### Recoverability/Reproducibility
+- [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
+- Terminologies for reproducible research
+- Book: Reproducibility and replicability in science
+
+
 ### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
+- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
     
 ### Distributed Training/Infrastructure
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
@@ -16,10 +27,13 @@
 - [ModelDB](#ModelDB)
 - provDB 
 - Towards unified data and lifecycle management for deep learning
+- CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
 
+### Recoverability/Reproducibility
+- [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
 
 ### Storage, Version, and Compression
 #### models
@@ -115,7 +129,7 @@ learning (ML) models
 - train models offline and online (might be relevant in our setting, further review needed)
 - [pfd](./missing-piece/missing-piece.pdf), so far no extensive notes
 
-## Deep Compression
+### Deep Compression
 - technique to compress CNNs with **no change** in prediction accuracy
     - maybe interesting for not to strict implementation of recoverability
 - consists of 3 steps: pruning, enforce weight sharing, Huffman Encoding
@@ -123,6 +137,11 @@ learning (ML) models
     - results probably not exactly the same
     - to get to compressed version retraining required  
 - [notes](./deep-compression/README.md)
+
+### dtoolAI: Reproducibility for Deep Learning
+- discusses Reproducibility, Replicability, and Repeatability in the context of DL
+- implements dtoolAI - software to track metadata for datasets and for training with PyTorch 
+- [notes](./dtoolai/README.md)
 
 ## Reviewed (not too relevant)
 
@@ -139,6 +158,8 @@ logical operators"
 - but operators are way too high-level for our use case 
 
 ## To Review TODO
+
+- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
 - Online Model Management via Temporally Biased Sampling
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
@@ -151,7 +172,7 @@ logical operators"
 - Machine Learning Schema Community Group. W3c machine learning schema, 2017.
 - Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
 - Deep learning model management for coronary heart disease early warning research
-- [Reproducibility for Deep Learning](https://www.sciencedirect.com/science/article/pii/S2666389920300933)
+
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [A Programming System for Model Compression](http://learningsys.org/neurips19/assets/papers/16_CameraReadySubmission_WORKSHOP_VERSION_NeurIPS_2019.pdf)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
