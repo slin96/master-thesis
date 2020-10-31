@@ -146,6 +146,9 @@ learning (ML) models
 - [notes](./dtoolai/README.md)
 
 ### reproduce vs replicate discussion
+- we use the terms as follows: 
+    - **reproduce**: same data+same methods=same results
+    - **replicate**: new data and/or new methods in an independent study=same findings
 - The document [Terminologies for Reproducible Research](./rep-vs-rec/Terminologies-for-Reproducible-Research.pdf)
 discusses different, partly contradictorily definitions for the terms *reproduce* and *replicate* and defines three 
 Categories. That the different of the term is not the same for all scientific work can also be seen by the fact that the
