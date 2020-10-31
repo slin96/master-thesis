@@ -146,9 +146,11 @@ learning (ML) models
 - [notes](./dtoolai/README.md)
 
 ### reproduce vs replicate discussion
-- TODO add notes
-- https://www.acm.org/publications/policies/artifact-review-badging
-- https://www.acm.org/publications/policies/artifact-review-and-badging-current
+- The document [Terminologies for Reproducible Research](./rep-vs-rec/Terminologies-for-Reproducible-Research.pdf)
+discusses different, partly contradictorily definitions for the terms *reproduce* and *replicate* and defines three 
+Categories. That the different of the term is not the same for all scientific work can also be seen by the fact that the
+ ACM swapped the definitions for *reproduce* and *replicate* (see [ACM: Artifact Review and Badging](https://www.acm.org/publications/policies/artifact-review-and-badging-current)
+- the definition of the terms how we use them is explained in a [separate readme](./rep-vs-rec/README.md)
 
 ## Reviewed (not too relevant)
 
