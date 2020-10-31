@@ -1,7 +1,7 @@
 # Replicate vs Reproduce
 
 - our main source to define the terms *replicate* vs *reproduce* is the paper 
-[Terminologies for Reproducible Research](./rep-vs-rec/Terminologies-for-Reproducible-Research.pdf)
+[Terminologies for Reproducible Research](./Terminologies-for-Reproducible-Research.pdf)
 - this paper defines three categories, and also gives references to publications and groups them by category
     - A: make no distinction between the words **reproduce** and **replicate**
     - **B1**:
@@ -13,7 +13,7 @@
     - in the past this used to be different, it was *B2*, see below 
     
 ## Comment on ACM definitions 
-- according to the [Terminologies for Reproducible Research](./rep-vs-rec/Terminologies-for-Reproducible-Research.pdf)
+- according to the [Terminologies for Reproducible Research](./Terminologies-for-Reproducible-Research.pdf)
 paper the ACM falls in the category *B2*
 - the author stated that the group *B2* is a minority. According to Table 2 only the disciplines of microbiology/ 
 immunology (FASEB) and computer science (ACM) use the terms according to category **B2**
