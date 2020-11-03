@@ -9,9 +9,11 @@
 #### Machine/Deep Learning
 - [Google ML Glossary](https://developers.google.com/machine-learning/glossary#validation)
 - [Deep Learning Book](https://www.deeplearningbook.org)
+
 #### Recoverability/Reproducibility
 - [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
-- Terminologies for reproducible research
+- [Terminologies for reproducible research](#reproduce-vs-replicate-discussion)
+- [ACM: Artifact Review and Badging](#reproduce-vs-replicate-discussion)
 - Book: Reproducibility and replicability in science
 
 
@@ -142,6 +144,16 @@ learning (ML) models
 - discusses Reproducibility, Replicability, and Repeatability in the context of DL
 - implements dtoolAI - software to track metadata for datasets and for training with PyTorch 
 - [notes](./dtoolai/README.md)
+
+### reproduce vs replicate discussion
+- we use the terms as follows: 
+    - **reproduce**: same data+same methods=same results
+    - **replicate**: new data and/or new methods in an independent study=same findings
+- The document [Terminologies for Reproducible Research](./rep-vs-rec/Terminologies-for-Reproducible-Research.pdf)
+discusses different, partly contradictorily definitions for the terms *reproduce* and *replicate* and defines three 
+Categories. That the different of the term is not the same for all scientific work can also be seen by the fact that the
+ ACM swapped the definitions for *reproduce* and *replicate* (see [ACM: Artifact Review and Badging](https://www.acm.org/publications/policies/artifact-review-and-badging-current)
+- the definition of the terms how we use them is explained in a [separate readme](./rep-vs-rec/README.md)
 
 ## Reviewed (not too relevant)
 
