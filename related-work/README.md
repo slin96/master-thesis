@@ -159,6 +159,10 @@ Categories. That the different of the term is not the same for all scientific wo
 - the definition of the terms how we use them is explained in a [separate readme](./rep-vs-rec/README.md)
 
 ### ONNX
+- Open Neural Network Exchange (ONNX): [official website](https://onnx.ai/about.html)
+- provides an open source format for AI models, both deep learning and traditional ML
+- **current focus on the capabilities needed for inferencing (scoring)**
+- [further notes and resources](./onnx/README.md)
 
 ## Reviewed (not too relevant)
 
