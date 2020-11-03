@@ -28,7 +28,7 @@
 
 ### Pytorch
 - [Exporting a model from pytorch to onnx and running it using onnx runtime](https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html)
-- the import of ONNX modles into PyTorch is not implemented yet, it is a [open feature request](https://github.com/pytorch/pytorch/issues/21683)
+- the import of ONNX models into PyTorch is not implemented yet, it is a [open feature request](https://github.com/pytorch/pytorch/issues/21683)
  since June 2019  
 - [Torch.ONNX](https://pytorch.org/docs/master/onnx.html)
     - resulting alexnet.onnx is a binary protobuf file which contains both the network structure and parameters of the model you exported
