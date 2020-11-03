@@ -5,6 +5,14 @@
 - defines an extensible computation graph model, as well as definitions of built-in operators and standard data types
 - **current focus on the capabilities needed for inferencing (scoring)**
     - can also be seen by the fact that most tutorials are about export, but not about training/import
+    
+## Latest Release
+- [Change Log](https://github.com/onnx/onnx/releases/tag/v1.7.0)
+-  allows one to create a model training task or a partially trained model in one framework, then export it in ONNX and 
+load into a runtime or another framework where the training can proceed, with the expectation of theoretically similar
+ outcome to the model trained in the original framework
+- **Note the converters do not support training yet**
+
 
 ## Further Resources
 - the best for the documentation and tutorials is their [GitHub Repo](https://github.com/onnx/onnx)
@@ -55,6 +63,11 @@
     - Training
         - setting a parameter in the exporting routine exports the model in a 'training friendly' way
         - it avoids certain model optimizations which might interfere with model parameter training
+        
+### Tensorflow
+- apparently ONNX supports 
+    - the export of TF models to ONNX format: [GitHub](https://github.com/onnx/tensorflow-onnx)
+    - the import of ONNX format models to TF: [GitHub](https://github.com/onnx/onnx-tensorflow) 
         
         
         
