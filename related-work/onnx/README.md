@@ -4,16 +4,32 @@
 - provides an open source format for AI models, both deep learning and traditional ML
 - defines an extensible computation graph model, as well as definitions of built-in operators and standard data types
 - **current focus on the capabilities needed for inferencing (scoring)**
+    - can also be seen by the fact that most tutorials are about export, but not about training/import
 
 ## Further Resources
 - the best for the documentation and tutorials is their [GitHub Repo](https://github.com/onnx/onnx)
+- interesting tutorial: [Convert a PyTorch model to Tensorflow using ONNX](https://github.com/onnx/tutorials/blob/master/tutorials/PytorchTensorflowMnist.ipynb)
+- [Portability between deep learning frameworks – with ONNX](https://blog.codecentric.de/en/2019/08/portability-deep-learning-frameworks-onnx/)
+    - In TensorFlow and Caffe2 we are using a static graph to run computations. In PyTorch we are using a dynamic graph.
+     The choose of the computation model can lead to some differences in programming and runtime. However, this is not 
+     an issue for the ONNX standard. 
+    - Limitations
+        - if we have any custom/not supported layers operations we have to implement it for ONNX by ourselfs, 
+        this can be time-consuming and laborious
+        - we also have to double-check that the used (and supported) operations and functions are implemented in the 
+        backends for the export and import.
+
 
 ### ONNX Runtime
 - ONNX Runtime is a performance-focused engine for ONNX models, which inferences efficiently across multiple platforms and hardware
 - [ONNX Runtime: a one-stop shop for machine learning inferencing](https://cloudblogs.microsoft.com/opensource/2019/05/22/onnx-runtime-machine-learning-inferencing-0-4-release/)
 
+
+
 ### Pytorch
-- [Exporting a model from pytorch to onnx and running it using onnx runtime](https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html)  
+- [Exporting a model from pytorch to onnx and running it using onnx runtime](https://pytorch.org/tutorials/advanced/super_resolution_with_onnxruntime.html)
+- the import of ONNX modles into PyTorch is not implemented yet, it is a [open feature request](https://github.com/pytorch/pytorch/issues/21683)
+ since June 2019  
 - [Torch.ONNX](https://pytorch.org/docs/master/onnx.html)
     - resulting alexnet.onnx is a binary protobuf file which contains both the network structure and parameters of the model you exported
     - trace based vs. script based
