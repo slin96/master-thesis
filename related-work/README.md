@@ -42,7 +42,7 @@
 ### Storage, Version, and Compression
 #### models
 - [ModelDB](#ModelDB)
-- ModelHUB
+- [ModelHub](#ModelHub)
 - [Keystone ML](#Keystone-ML)
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - openML
@@ -167,6 +167,12 @@ Categories. That the different of the term is not the same for all scientific wo
 - provides an open source format for AI models, both deep learning and traditional ML
 - **current focus on the capabilities needed for inferencing (scoring)**
 - [further notes and resources](./onnx/README.md)
+
+### ModelHub
+- a bit like git but specialized in ML data + a web-based interface 
+- demo video can be found [here](https://www.youtube.com/watch?v=4JVehm5Ohg4&feature=youtu.be)
+- problem no implementation and no insights!
+- [notes](./modelHub))
 
 ## Reviewed (not too relevant)
 
