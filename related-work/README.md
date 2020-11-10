@@ -169,9 +169,9 @@ Categories. That the different of the term is not the same for all scientific wo
 - [further notes and resources](./onnx/README.md)
 
 ### ModelHub
-- a bit like git but specialized on ML data + a web based interface 
+- a bit like git but specialized in ML data + a web-based interface 
 - demo video can be found [here](https://www.youtube.com/watch?v=4JVehm5Ohg4&feature=youtu.be)
-- problem no implementation, and no insights!
+- problem no implementation and no insights!
 - [notes](./modelHub))
 
 ## Reviewed (not too relevant)
