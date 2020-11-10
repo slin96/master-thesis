@@ -32,6 +32,7 @@
 
 **Other**
 - further [notes and research questions](./notes)
+- [writing](./writing)
 	
 # Links
 - [proposal overleaf project](https://www.overleaf.com/read/cjswngtksnky)

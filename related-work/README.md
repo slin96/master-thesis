@@ -16,7 +16,6 @@
 - [ACM: Artifact Review and Badging](#reproduce-vs-replicate-discussion)
 - Book: Reproducibility and replicability in science
 
-
 ### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
 - ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
@@ -85,6 +84,11 @@
 - Hidden technical debt in machine learning systems
 - Versioning for end-to-end machine learning pipelines
 - Productionizing Machine Learning Pipelines at Scale.
+
+### PyTorch links
+- [tochvision models](https://pytorch.org/docs/stable/torchvision/models.html) 
+- [Saving and loading models](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-model-for-inference)
+- [Reproducability](https://pytorch.org/docs/stable/notes/randomness.html)
 
 ## Reviewed (and relevant)
 
