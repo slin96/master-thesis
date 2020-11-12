@@ -18,7 +18,7 @@
 
 ### Schema definition
 - [Automatically Tracking Metadata and Provenance of Machine Learning Experiments](#Automatically-Tracking-Metadata-and-Provenance-of-Machine-Learning-Experiments)
-- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
+- [ML-Schema](#ML-Schema)
     
 ### Distributed Training/Infrastructure
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
@@ -191,7 +191,7 @@ international conference on data engineering (ICDE). IEEE, 2017.](https://arxiv.
 logical operators"
 - but operators are way too high-level for our use case 
 
-### ML-Schema:
+### ML-Schema
 - defining schema for ML experiments and compare the terms with other standards
 - can be used to get inspiration what to think about, but schema not applicable in our setting, too highlevel
 - last updated 2016
