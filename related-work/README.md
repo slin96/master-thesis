@@ -26,7 +26,7 @@
 
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
-- [ModelDB](#ModelDB)
+- [ModelHub](#ModelHub)
 - provDB 
 - CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
