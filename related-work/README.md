@@ -26,8 +26,8 @@
 
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
+- [ModelDB](#ModelDB)
 - provDB 
-- Towards unified data and lifecycle management for deep learning
 - CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)

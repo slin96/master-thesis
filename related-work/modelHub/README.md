@@ -1,13 +1,16 @@
 # ModelDB
 
+- Note: These notes are for two related papers, both describing the same system: 
+    - both pdfs can be found in this directory
+
 - data and lifecycle management system for deep learning
 - design model versioning system similar to git 
 - a read-optimized **parameter archival storage system (PAS) that minimizes storage footprint**
 - develop efficient algorithms for archiving versioned models using deltas
 - demo video can be found [here](https://www.youtube.com/watch?v=4JVehm5Ohg4&feature=youtu.be)
 
-Comment: Mainly interesting about this paper is to take a look on their compression techniques.
-So, in the notes we focus only on this, which makes the following not a good general summary of the paper. 
+Comment: Mainly interesting about this paper is to take a look at their compression techniques.
+So, in the notes, we focus only on this, which makes the following not a good general summary of the paper. 
 
 ## Modeling Data Artifacts 
 - key data artifact include: 
@@ -25,7 +28,7 @@ So, in the notes we focus only on this, which makes the following not a good gen
 
 ## Model Version 
 - model version(name, id, N, W, M, F)
-- name: human readable name 
+- name: a human-readable name 
 - id: running integer
 - N: network definition
     - stored as a DAG of (1) Nodes (layers), and (Edges) connecting the layers
@@ -41,25 +44,25 @@ So, in the notes we focus only on this, which makes the following not a good gen
 - **centered around the learned parameters, whose storage footprint can be very large**
 - focus on not compromising the query performance (**We don't need to set a focus on query performance**)
 - widely-used fine-tuning practices generate model versions with similar parameters, resulting
-in efficient delta encoding schemes.
+inefficient delta encoding schemes.
 
 ## Parameters as Segmented Float Matrices 
 ### Float Data Type Schemes
-- Float point: 32 bit floats (IEEE 754), optional e.g.: TF truncated only 16 bit
+- Float point: 32-bit floats (IEEE 754), optional, e.g., TF truncated only 16 bit
 - Fixed point: global exponent per matrix (**lossy scheme**)
 - Quantization: using only k bits to encode numbers (random or uniform) - most useful for weights that are used for 
 fine-tuning or initialization
 
 #####  Bytewise Segmentation for Float Matrices
-- high entropy of float numbers makes them vary hard to compress
+- high entropy of float numbers makes them very hard to compress
 - by exploiting DNN low-precision tolerance (**check what they exactly mean by this**)
-    - decompose floating point numbers and store them bytewise
+    - decompose floating-point numbers and store them bytewise
     - IEEE754 - 32 bit -> 1 bit sign + 8 bit exponent + 23 bit mantissa
     - IDEA: separate higher order and lower order mantissa bits 
     - advantage is the high-order bits have low entropy, and standard compression schemes (e.g., zlib) are effective for
      them
     - **advantage**
-        - lower order bytes can be offloaded to remote storage
+        - lower-order bytes can be offloaded to remote storage
         - queries can read only high-order bytes in exchange for tolerating small errors
         
 ![alt compression-accuracy](./images/compression-accuracy.png "compression-accuracy")
@@ -87,27 +90,7 @@ fine-tuning or initialization
 
     
 ### Optimal Parameter Archival Storage 
-- address the question of how to best store a collection of model versions, so that the total storage footprint occupied
- by the large segmented float matrices is minimized while the retrieval performance is not compromised.
-- recreation/storage trade off 
+- address the question of how to best store a collection of model versions so that the total storage footprint occupied
+ by the large segmented float, matrices are minimized while the retrieval performance is not compromised.
+- recreation/storage trade-off 
 - **for now not relevant, extensive explanation in paper**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
