@@ -26,8 +26,8 @@
 
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
+- [ModelHub](#ModelHub)
 - provDB 
-- Towards unified data and lifecycle management for deep learning
 - CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
@@ -49,10 +49,12 @@
 - W3C Ml Schema
 #### intermediates
 - [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
-#### code
-- git
 #### data
+- floats
+    - Pstore: an efficient storage framework for managing scientific data
+    - Isobar preconditioner for effective and high throughput lossless data compression
 - datasets
+    - Principles of dataset versioning: Exploring the recreation/storage tradeoff
     - DataHub
     - Decibel
 - versioning of relational data
@@ -60,8 +62,8 @@
 - multi dimensional arrays
     - TitleDB
     - SciDB
-- scientific data
-    - Pstore: an efficient storage framework for managing scientific data
+#### code
+- git
 #### storage and compression techniques/formats
 - [Deep Compression](#Deep-Compression)
 - Martin Kleppmann: Designing data-intensive applications (Chapter: Encoding and Evolution)
@@ -169,9 +171,10 @@ Categories. That the different of the term is not the same for all scientific wo
 - [further notes and resources](./onnx/README.md)
 
 ### ModelHub
-- a bit like git but specialized in ML data + a web-based interface 
-- demo video can be found [here](https://www.youtube.com/watch?v=4JVehm5Ohg4&feature=youtu.be)
-- problem no implementation and no insights!
+- data and lifecycle management system for deep learning
+- design model versioning system similar to git 
+- a read-optimized **parameter archival storage system (PAS) that minimizes storage footprint**
+- develop efficient algorithms for archiving versioned models using deltas
 - [notes](./modelHub))
 
 ## Reviewed (not too relevant)
@@ -195,13 +198,11 @@ logical operators"
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
-- ModelHub: Deep Learning Lifecycle Management
 - Automated Management of Deep Learning Experiments
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
 - Machine Learning Schema Community Group. W3c machine learning schema, 2017.
-- Hui Miao, Ang Li, Larry S Davis, and Amol Deshpande. Towards unified data and lifecycle management for deep learning. In ICDE, pages 571–582, 2017.
 - Deep learning model management for coronary heart disease early warning research
 
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
