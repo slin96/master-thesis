@@ -191,9 +191,17 @@ international conference on data engineering (ICDE). IEEE, 2017.](https://arxiv.
 logical operators"
 - but operators are way too high-level for our use case 
 
+### ML-Schema:
+- defining schema for ML experiments and compare the terms with other standards
+- can be used to get inspiration what to think about, but schema not applicable in our setting, too highlevel
+- last updated 2016
+- [pdf](https://arxiv.org/pdf/1807.05351.pdf)
+- [latest documentation](http://htmlpreview.github.io/?https://github.com/ML-Schema/documentation/blob/gh-pages/ML%20Schema.html)
+
+
 ## To Review TODO
 
-- ML-Schema: Exposing the Semantics of Machine Learning with Schemas and Ontologies
+
 - Online Model Management via Temporally Biased Sampling
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
