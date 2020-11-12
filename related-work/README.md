@@ -49,10 +49,12 @@
 - W3C Ml Schema
 #### intermediates
 - [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
-#### code
-- git
 #### data
+- floats
+    - Pstore: an efficient storage framework for managing scientific data
+    - Isobar preconditioner for effective and high throughput lossless data compression
 - datasets
+    - Principles of dataset versioning: Exploring the recreation/storage tradeoff
     - DataHub
     - Decibel
 - versioning of relational data
@@ -60,8 +62,8 @@
 - multi dimensional arrays
     - TitleDB
     - SciDB
-- scientific data
-    - Pstore: an efficient storage framework for managing scientific data
+#### code
+- git
 #### storage and compression techniques/formats
 - [Deep Compression](#Deep-Compression)
 - Martin Kleppmann: Designing data-intensive applications (Chapter: Encoding and Evolution)
@@ -169,9 +171,10 @@ Categories. That the different of the term is not the same for all scientific wo
 - [further notes and resources](./onnx/README.md)
 
 ### ModelHub
-- a bit like git but specialized in ML data + a web-based interface 
-- demo video can be found [here](https://www.youtube.com/watch?v=4JVehm5Ohg4&feature=youtu.be)
-- problem no implementation!
+- data and lifecycle management system for deep learning
+- design model versioning system similar to git 
+- a read-optimized **parameter archival storage system (PAS) that minimizes storage footprint**
+- develop efficient algorithms for archiving versioned models using deltas
 - [notes](./modelHub))
 
 ## Reviewed (not too relevant)
