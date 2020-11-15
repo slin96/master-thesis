@@ -194,7 +194,7 @@ Categories. That the different of the term is not the same for all scientific wo
 - ModelKB: automate the management of DL experiments with minimal user intervention
 - main contributions automatically store metadata and experiment artifacts
 - marked as future work: sharing and reproducing DL models  
-- [pdf](auto-manage-dl)
+- [pdf](./auto-manage-dl/auto-manage-dl.pdf)
 
 ## Reviewed (not too relevant)
 
