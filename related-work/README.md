@@ -53,7 +53,7 @@
 - [Keystone ML](#Keystone-ML)
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - openML
-- W3C Ml Schema
+- [W3C Ml Schema](#W3C-Ml-Schema)
 #### intermediates
 - [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
 #### data
@@ -239,6 +239,9 @@ logical operators"
 - [website](https://neptune.ai)
 - [GutHub](https://github.com/neptune-ai/)
 
+### W3C Ml Schema
+- doesn't seem to be an active project anymore, only found [mailing list](https://www.w3.org/community/ml-schema/)
+
 
 ## To Review TODO
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
@@ -246,8 +249,6 @@ logical operators"
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
-- Machine Learning Schema Community Group. W3c machine learning schema, 2017.
-- Deep learning model management for coronary heart disease early warning research
 
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
