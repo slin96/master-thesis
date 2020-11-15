@@ -2,8 +2,9 @@
 
 ## Categories 
 - Here all the related work that is potential relevant is listed and categorized.
-- A Paper of reference can occur in more than one category
-- If the reference is no link but plane text they haven't been reviewed and can be seen as a TODO
+- A Paper or reference can occur in more than one category
+- If the reference is no link but plane text it hasn't been reviewed and can be seen as a TODO or as source that 
+wasn't of interest so far but might help to get more information in the category it is listed in. 
 
 ### Terms and Definitions 
 #### Machine/Deep Learning
@@ -35,6 +36,7 @@
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
 - [The Missing Piece in Complex Analytics: Low Latency, Scalable Model Management and Serving with Velox](#The-Missing-Piece-in-Complex-Analytics-Low-Latency-Scalable-Model-Management-and-Serving-with-Velox)
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
+- [Rondo](#Rondo)
 
 ### Recoverability/Reproducibility
 - [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
@@ -246,6 +248,13 @@ logical operators"
 - platform to upload data, corresponding tasks, and solutions + metadata for it
 - [pdf](./openml/openml.pdf)
 - [website](https://www.openml.org)
+
+### Rondo
+- very generic way of model management
+- published 2003
+- [pdf](https://dl.acm.org/doi/pdf/10.1145/872757.872782?casa_token=Y-zay0eD_cIAAAAA:Zzhf_n6ek0Wygeb0LekTwpAep-l1yY2Y6XzM6uQuN5L_hqHcnRv-xm1iyrwOtjXJLbkQaValshE3AA)
+
+
  
 
 
@@ -253,7 +262,6 @@ logical operators"
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
-- Rondo: A Programming Platform for Generic Model Management
 
 
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
