@@ -179,6 +179,12 @@ Categories. That the different of the term is not the same for all scientific wo
 
 ## Reviewed (not too relevant)
 
+### Online Model Management via Temporally Biased Sampling
+- retraining of ML models in presence of evolving data
+- present temporal biased sampling schemes
+- result: increase ML accuracy and robustness with respect to evolving data
+- [pdf](./online-mm/online-mm.pdf)
+
 ### VisTrails
 - [website](https://www.vistrails.org/index.php/Main_Page)
 - open-source scientific workflow and provenance management system that supports data exploration and visualization
@@ -202,7 +208,7 @@ logical operators"
 ## To Review TODO
 
 
-- Online Model Management via Temporally Biased Sampling
+
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
