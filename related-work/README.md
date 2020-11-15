@@ -39,6 +39,10 @@
 ### Computational Graph (Formats) 
 - [ONNX](#ONNX)
 
+#### Model Compression (before deployment)
+- [Deep Compression](#Deep-Compression)
+- [A Programming System for Model Compression](#A-Programming-System-for-Model-Compression)
+
 ### Storage, Version, and Compression
 #### models
 - [ModelDB](#ModelDB)
@@ -65,7 +69,6 @@
 #### code
 - git
 #### storage and compression techniques/formats
-- [Deep Compression](#Deep-Compression)
 - Martin Kleppmann: Designing data-intensive applications (Chapter: Encoding and Evolution)
 - delta encoding and compression
 - python: pickle (used in PyTorch)
@@ -177,6 +180,16 @@ Categories. That the different of the term is not the same for all scientific wo
 - develop efficient algorithms for archiving versioned models using deltas
 - [notes](./modelHub))
 
+### A Programming System for Model Compression
+- models can be compressed without appreciable loss in accuracy
+- techniques are: wight pruning and quantization
+- introduce CONDENSA a programmable system for model compression
+- reduce memory footprint up to 65*, and improve runtime throughput up to 2.22*
+- see Table 1: 
+    - ResNet 56 on CIFAR-10: Baseline (92.75 acc), CONDESA (91.2 acc)
+    - VGG16-BN on Imagenet: Baseline (91.5 acc), CONDENSA (90.25 acc) 
+- [pdf](./progsys-modelcomp/a-programming-system-for-model-compression.pdf)
+
 ## Reviewed (not too relevant)
 
 ### Online Model Management via Temporally Biased Sampling
@@ -206,9 +219,6 @@ logical operators"
 
 
 ## To Review TODO
-
-
-
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
@@ -220,7 +230,6 @@ logical operators"
 - Deep learning model management for coronary heart disease early warning research
 
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
-- [A Programming System for Model Compression](http://learningsys.org/neurips19/assets/papers/16_CameraReadySubmission_WORKSHOP_VERSION_NeurIPS_2019.pdf)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
 - [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
 - [TF - ML Metadata - get started](https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md)
