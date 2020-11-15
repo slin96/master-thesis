@@ -28,6 +28,8 @@
 - [ModelDB](#ModelDB)
 - [ModelHub](#ModelHub)
 - [ModelKB: Automated Management of Deep Learning Experiments](#ModelKB-Automated-Management-of-Deep-Learning-Experiments)
+- [Runway](#Runway)
+- [NeptuneAI](#NeptuneAI)
 - provDB 
 - CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
@@ -230,10 +232,15 @@ logical operators"
 - doesn't give any insights in implementation detail 
 - [pdf](./runway/runway.pdf)
 
+### NeptuneAI
+- lightweight experiment management tool
+- tracks: metadata, code and artifacts
+- stores artifacts, e.g., models as ziped version (nothing advances), see [here](https://github.com/neptune-ai/neptune-client/blob/f490212e302dc33d0eee2594a4661a93ab806f35/neptune/internal/storage/storage_utils.py#L226) 
+- [website](https://neptune.ai)
+- [GutHub](https://github.com/neptune-ai/)
 
 
 ## To Review TODO
-- https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
