@@ -52,8 +52,8 @@
 - [ModelHub](#ModelHub)
 - [Keystone ML](#Keystone-ML)
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
-- openML
 - [W3C Ml Schema](#W3C-Ml-Schema)
+- [openML](#openML)
 #### intermediates
 - [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
 #### data
