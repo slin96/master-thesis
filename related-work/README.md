@@ -224,6 +224,13 @@ logical operators"
 - [pdf](https://arxiv.org/pdf/1807.05351.pdf)
 - [latest documentation](http://htmlpreview.github.io/?https://github.com/ML-Schema/documentation/blob/gh-pages/ML%20Schema.html)
 
+### Runway
+- software to manage machine learning experiments and their associated models
+- managed data: metadata and links to artifacts to reproduce models and experiments
+- doesn't give any insights in implementation detail 
+- [pdf](./runway/runway.pdf)
+
+
 
 ## To Review TODO
 - https://neptune.ai
