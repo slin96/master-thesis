@@ -190,6 +190,12 @@ Categories. That the different of the term is not the same for all scientific wo
     - VGG16-BN on Imagenet: Baseline (91.5 acc), CONDENSA (90.25 acc) 
 - [pdf](./progsys-modelcomp/a-programming-system-for-model-compression.pdf)
 
+### Automated Management of Deep Learning Experiments
+- ModelKB: automate the management of DL experiments with minimal user intervention
+- main contributions automatically store metadata and experiment artifacts
+- marked as future work: sharing and reproducing DL models  
+- [pdf](auto-manage-dl)
+
 ## Reviewed (not too relevant)
 
 ### Online Model Management via Temporally Biased Sampling
@@ -222,7 +228,6 @@ logical operators"
 - https://neptune.ai
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
-- Automated Management of Deep Learning Experiments
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
 - Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
