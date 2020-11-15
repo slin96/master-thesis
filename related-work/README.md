@@ -27,6 +27,7 @@
 ### Model and Lifecycle Management
 - [ModelDB](#ModelDB)
 - [ModelHub](#ModelHub)
+- [ModelKB: Automated Management of Deep Learning Experiments](#ModelKB-Automated-Management-of-Deep-Learning-Experiments)
 - provDB 
 - CometML
 - [On Challenges in Machine Learning Model Management](#On-Challenges-in-Machine-Learning-Model-Management)
@@ -190,7 +191,7 @@ Categories. That the different of the term is not the same for all scientific wo
     - VGG16-BN on Imagenet: Baseline (91.5 acc), CONDENSA (90.25 acc) 
 - [pdf](./progsys-modelcomp/a-programming-system-for-model-compression.pdf)
 
-### Automated Management of Deep Learning Experiments
+### ModelKB: Automated Management of Deep Learning Experiments
 - ModelKB: automate the management of DL experiments with minimal user intervention
 - main contributions automatically store metadata and experiment artifacts
 - marked as future work: sharing and reproducing DL models  
