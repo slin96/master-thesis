@@ -242,13 +242,19 @@ logical operators"
 ### W3C Ml Schema
 - doesn't seem to be an active project anymore, only found [mailing list](https://www.w3.org/community/ml-schema/)
 
+### openML
+- platform to upload data, corresponding tasks, and solutions + metadata for it
+- [pdf](./openml/openml.pdf)
+- [website](https://www.openml.org)
+ 
+
 
 ## To Review TODO
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
 - Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - Rondo: A Programming Platform for Generic Model Management
-- Joaquin Vanschoren, Jan N Van Rijn, Bernd Bischl, and Luis Torgo. OpenML: networked science in machine learning. SIGKDD, 15(2):49–60, 2014
+
 
 - [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
