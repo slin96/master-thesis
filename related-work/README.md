@@ -38,9 +38,6 @@ wasn't of interest so far but might help to get more information in the category
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
 - [Rondo](#Rondo)
 
-### Recoverability/Reproducibility
-- [dtoolAI: Reproducibility for Deep Learning](#dtoolAI-Reproducibility-for-Deep-Learning)
-
 ### Computational Graph (Formats) 
 - [ONNX](#ONNX)
 
@@ -53,7 +50,6 @@ wasn't of interest so far but might help to get more information in the category
 - [ModelDB](#ModelDB)
 - [ModelHub](#ModelHub)
 - [Keystone ML](#Keystone-ML)
-- Model Selection Management Systems: The Next Frontier of Advanced Analytics
 - [W3C Ml Schema](#W3C-Ml-Schema)
 - [openML](#openML)
 #### intermediates
@@ -78,7 +74,7 @@ wasn't of interest so far but might help to get more information in the category
 - delta encoding and compression
 - python: pickle (used in PyTorch)
 - zip (used in PyTorch)
-- HD5 (used in TF)
+- Tensorflow(HDF5)
 - Huffman Encoding
         
 
@@ -183,7 +179,7 @@ Categories. That the different of the term is not the same for all scientific wo
 - design model versioning system similar to git 
 - a read-optimized **parameter archival storage system (PAS) that minimizes storage footprint**
 - develop efficient algorithms for archiving versioned models using deltas
-- [notes](./modelHub))
+- [notes](./modelHub)
 
 ### A Programming System for Model Compression
 - models can be compressed without appreciable loss in accuracy
@@ -261,10 +257,8 @@ logical operators"
 ## To Review TODO
 - An Intermediate Representation for Optimizing Machine Learning Pipelines
 - noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
-- Model Selection Management Systems: The Next Frontier of Advanced Analytics
 
 
-- [Deployment and Model Management](https://link.springer.com/chapter/10.1007/978-3-030-45574-3_10)
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
 - [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
 - [TF - ML Metadata - get started](https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md)

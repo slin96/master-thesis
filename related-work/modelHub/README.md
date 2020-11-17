@@ -1,4 +1,4 @@
-# ModelDB
+# ModelHub
 
 - Note: These notes are for two related papers, both describing the same system: 
     - both pdfs can be found in this directory
