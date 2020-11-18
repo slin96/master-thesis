@@ -71,11 +71,10 @@ wasn't of interest so far but might help to get more information in the category
 - git
 #### storage and compression techniques/formats
 - Martin Kleppmann: Designing data-intensive applications (Chapter: Encoding and Evolution)
-- delta encoding and compression
+- [compression formats overview around zlib](https://www.euccas.me/zlib/#about)
 - python: pickle (used in PyTorch)
-- zip (used in PyTorch)
 - Tensorflow(HDF5)
-- Huffman Encoding
+
         
 
 ### Tradeoffs (e.g. storage vs. runtime)
