@@ -57,8 +57,7 @@ wasn't of interest so far but might help to get more information in the category
 #### data
 - floating point numbers
     - [Isobar](#Isobar)
-    - Pstore: an efficient storage framework for managing scientific data
-    
+    - [Pstore](#Pstore)
 - datasets
     - Principles of dataset versioning: Exploring the recreation/storage tradeoff
     - DataHub
@@ -206,6 +205,15 @@ Categories. That the different of the term is not the same for all scientific wo
 - improves compression ratio upon standard compressors
 - *Note: ModelHub float compression extends ideas from this paper* 
 - [pdf](./isobar/isobar.pdf)
+
+### Pstore 
+- storage framework for scientific data
+- selects appropriate compression scheme for data
+- main appraoches/techniques are: 
+    - Bytewise Compression (bwc) -> similar to [Isobar](#Isobar)
+    - Bytewise-XOR Compression
+- *Note: ModelHub float compression extends ideas from this paper*
+- [pdf](./pstore/pstore.pdf)
 
 ## Reviewed (not too relevant)
 
