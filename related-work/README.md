@@ -55,9 +55,10 @@ wasn't of interest so far but might help to get more information in the category
 #### intermediates
 - [MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis](#MISTIQUE-A-System-to-Store-and-Query-Model-Intermediates-for-Model-Diagnosis)
 #### data
-- floats
+- floating point numbers
+    - [Isobar](#Isobar)
     - Pstore: an efficient storage framework for managing scientific data
-    - Isobar preconditioner for effective and high throughput lossless data compression
+    
 - datasets
     - Principles of dataset versioning: Exploring the recreation/storage tradeoff
     - DataHub
@@ -196,6 +197,15 @@ Categories. That the different of the term is not the same for all scientific wo
 - main contributions automatically store metadata and experiment artifacts
 - marked as future work: sharing and reproducing DL models  
 - [pdf](./auto-manage-dl/auto-manage-dl.pdf)
+
+### Isobar
+- a preconditioner that identifies hard-to compress datasets in order to improve compression effieciency 
+- operates on byte level and divides the data in to compressible and incompressible
+- chooses optimal compression method
+- improves compression/decompression throughput 
+- improves compression ratio upon standard compressors
+- *Note: ModelHub float compression extends ideas from this paper* 
+- [pdf](./isobar/isobar.pdf)
 
 ## Reviewed (not too relevant)
 
