@@ -93,10 +93,25 @@ wasn't of interest so far but might help to get more information in the category
 - Versioning for end-to-end machine learning pipelines
 - Productionizing Machine Learning Pipelines at Scale.
 
-### PyTorch links
+## Links
+
+### PyTorch
 - [tochvision models](https://pytorch.org/docs/stable/torchvision/models.html) 
 - [Saving and loading models](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-model-for-inference)
 - [Reproducability](https://pytorch.org/docs/stable/notes/randomness.html)
+
+### Tensorflow
+- [Training checkpoints](https://www.tensorflow.org/guide/checkpoint)
+- [SavedModel format](https://www.tensorflow.org/guide/saved_model)
+- [Save and load models](https://www.tensorflow.org/tutorials/keras/save_and_load)
+- [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
+- [TF - ML Metadata - get started](https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md)
+
+### Deploy
+- [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
+
+
+
 
 ## Reviewed (and relevant)
 
@@ -271,14 +286,8 @@ logical operators"
 - transparently collects provenance from Python scripts, including data about the script execution and how the script evolves over time
 - [pdf](./no-workflow/noWorkflow.pdf)
 
-
-## To Review TODO
-
-- [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
-- [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
-- [TF - ML Metadata - get started](https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md)
+## TODO: To Review/To Categorize
 - [Data Version Control](https://github.com/iterative/dvc)
-
 
 ## Related Research Directions 
 from talk by [Manasi Vartak at DEEM](http://deem-workshop.org/videos/2020/7_vartak.mp4)
