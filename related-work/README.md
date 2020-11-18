@@ -267,14 +267,12 @@ logical operators"
 - published 2003
 - [pdf](https://dl.acm.org/doi/pdf/10.1145/872757.872782?casa_token=Y-zay0eD_cIAAAAA:Zzhf_n6ek0Wygeb0LekTwpAep-l1yY2Y6XzM6uQuN5L_hqHcnRv-xm1iyrwOtjXJLbkQaValshE3AA)
 
-
- 
+### noWorkflow
+- transparently collects provenance from Python scripts, including data about the script execution and how the script evolves over time
+- [pdf](./no-workflow/noWorkflow.pdf)
 
 
 ## To Review TODO
-- An Intermediate Representation for Optimizing Machine Learning Pipelines
-- noWorkflow: a Tool for Collecting, Analyzing, and Managing Provenance from Python Scripts
-
 
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
 - [TF - ML Metadata](https://www.tensorflow.org/tfx/guide/mlmd)
