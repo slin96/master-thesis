@@ -110,12 +110,10 @@ wasn't of interest so far but might help to get more information in the category
 ### Deploy
 - [How to put machine learning models into production](https://stackoverflow.blog/2020/10/12/how-to-put-machine-learning-models-into-production/?utm_source=Iterable&utm_medium=email&utm_campaign=the_overflow_newsletter)
 
-
-
+## TODO: To Review/To Categorize
+- [Data Version Control](https://github.com/iterative/dvc)
 
 ## Reviewed (and relevant)
-
-This is an overview file of related work in the domain of ML Model Managemnt
 
 ### MISTIQUE: A System to Store and Query Model Intermediates for Model Diagnosis
 - MISTIQUE: **M**odel **I**ntermediate **ST**ore and **QU**ery **E**ngine
@@ -285,9 +283,6 @@ logical operators"
 ### noWorkflow
 - transparently collects provenance from Python scripts, including data about the script execution and how the script evolves over time
 - [pdf](./no-workflow/noWorkflow.pdf)
-
-## TODO: To Review/To Categorize
-- [Data Version Control](https://github.com/iterative/dvc)
 
 ## Related Research Directions 
 from talk by [Manasi Vartak at DEEM](http://deem-workshop.org/videos/2020/7_vartak.mp4)
