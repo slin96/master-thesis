@@ -27,12 +27,10 @@
 
 **References**
 - [related work](./related-work)
-- elaborate forms of model comparison: MISTIQUE
-- basic description of an experiment model that could be used for storing the pipelines: "Schema Paper"
 
-**Other**
-- further [notes and research questions](./notes)
-- [writing](./writing)
+# Proposal
+- [proposal overleaf project](https://www.overleaf.com/read/cjswngtksnky)
 	
 # Links
-- [proposal overleaf project](https://www.overleaf.com/read/cjswngtksnky)
+- further [notes and research questions](./notes)
+- [writing](./writing)
