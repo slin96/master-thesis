@@ -13,8 +13,8 @@ We refer to the results and models listed in the
 [official PyTorch documentation](https://pytorch.org/docs/stable/torchvision/models.html) (last accessed, 01.12.2020)
 
 Essential questions to answer for pre-trained models (AlexNet, VGG-19, ResNet18, ResNet50, Resnet152):
-- What data was used to pre-train the models?
-- Was the validation dataset used to train the models?
+- What data was used to pre-train the models? (short answer: **data of ImageNet challenge 2012**)
+- Was the validation dataset used to train the models? (answer: **NO** )
 
 What data was exactly used to train the models can not be answered by the information given in the documentation. 
 Nevertheless, we can make some qualified guesses. 
