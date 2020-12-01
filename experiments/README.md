@@ -21,6 +21,61 @@
     - ~ 1.2 Million training images
     - ~ 50 Thousand validation images
     - ~ 100 Thousand test images
+    
+### COCO Dataset
+- source: [[2]](https://cocodataset.org/)
+- COCO - Common Objects in Context 
+- large-scale object detection, segmentation, and captioning dataset
+- general info
+    - total 80 categories
+    - each picture can have multiple categories
+    - train, val, and ,test set: more than 200 000 pictures 
+- definition of multiple challenges: 
+    - Object Detection 
+    - Keypoint Detection
+    - Stuff Segmentation
+    - Panoptic Segmentation
+    - Image Captioning
+    - DensePose
+    
+#### Focus
+- for us most interesting is the data provided for the **Object Detection** usecase
+- the data ([can be downloaded here](https://cocodataset.org/#download)) is structured in two parts:
+    - the images 
+    - the annotations
+- we need the *train_val annotations*, that contain 6 files of 3 categories (train and val split)
+    - person_keypoints
+    - captions
+    - instances
+- interesting for us are the *instances* annotations, the annotations data contains the following data 
+   - general info for file (JSON object) 
+   - list of licences
+   - list of annotations 
+   - list of categories
+- of this data the *annotations*, and the *categories* are of interest
+- they have the following format ([see here](https://cocodataset.org/#format-data)): 
+ ```json
+annotation{
+"id"            : int,
+"image_id"      : int,
+"category_id"   : int,
+"segmentation"  : RLE or [polygon],
+"area"          : float,
+"bbox"          : [x,y,width,height],
+"iscrowd"       : 0 or 1,
+}
+
+categories[{
+"id"            : int,
+"name"          : str,
+"supercategory" : str,
+}]
+```
+
+#### Customized COCO dataset
+
+
+    
 
 ## Models  
 
