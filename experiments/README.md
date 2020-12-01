@@ -73,7 +73,17 @@ categories[{
 ```
 
 #### Customized COCO dataset
-
+- the goal of creating our customized COCO dataset is to create a dataset that is similar/compatible to the ImageNet 
+dataset but from a different distribution than the ImageNet data
+- also we want to split the subset of the COCO data that we can use into multiple classes 
+##### Creation 
+- The images in the ImageNet data have only one defined category
+- Also in most images you can see only the one object defining the category
+- To create a similar dataset we filter the images:
+    - first we extract all images that have only one assigned category
+    - out of these images we then extract the images that have a category that is also part of the Imagenet dataset 
+- finally we take only the filtered images and store them only with the relevant data (in our case the category)
+- **TODO** final dataset description, format, and overview
 
     
 
