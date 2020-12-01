@@ -3,19 +3,19 @@
 ## Datasets
 
 ### ImageNet Data
-- when we say ImageNet data we refer to the data that is used for the ImageNet Large Scale Visual Recognition Challenge (ILSVRC)
+- when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition Challenge (ILSVRC)
 - an overview of the Challenges can be found [here](http://image-net.org/challenges/LSVRC/)
 #### Dataset 
 - source: [[1]](https://arxiv.org/pdf/1409.0575.pdf)  
 - **object categories**
-    - total of 1000 sysnets
-    - sysnets follow the WordNet hierarchy (2014)
+    - total of 1000 synsets
+    - synsets follow the WordNet hierarchy (2014)
     - since 2012 the used categories remained consistent
 - **data collection**
     - images are retrieved by querying multiple search engines
 - **image classification**
     - humans label the images (using Amazon Mechanical Turk) using Wikipedia definition
-    - multiple users label each image (at least 10 per image, until confidence threshold is passed)
+    - multiple users label each image (at least 10 per image until confidence threshold is passed)
 - **statistics**
     - 1000 object classes
     - ~ 1.2 Million training images
