@@ -1,15 +1,33 @@
 import argparse
 import json
+import os
+from shutil import copyfile
 
 from termcolor import colored
 import torchvision
 
+# COCO specific data
+COCO_META = 'coco_meta'
+COCO_META_JSON = 'coco_meta.json'
+COCO_IMAGE_TYPE = ".jpg"
+COCO_FILENAME_NUMBERS = 12
+
+# COCO fields
+IMAGE_ID = 'image_id'
 CATEGORY_ID = 'category_id'
+
+IMAGES = 'images'
+
+# Colors
 OK = colored('OK', 'green')
 WARNING = colored('WARNING', 'yellow')
 
 
 def main(args):
+
+    # create target root dir
+    os.makedirs(args.target_root)
+
     # print(OK, 'Read COCO train ...')
     # # train_coco_data = torchvision.datasets.CocoDetection(args.coco_train_root_path, args.coco_train_annotations)
     # print(OK, 'done')
@@ -41,10 +59,79 @@ def main(args):
     # train_match = match_classes(train_one_cat, imagenet_data.class_to_idx)
     print(OK, 'done')
 
-    # e = val_one_cat
+    val_match = [(x, 'val') for x in val_match]
+    # test_match = [(x, 'val') for x in train_match]
+    matched = val_match # + test_match
+    save_matched_coco(matched, imagenet_data.wnids, args)
 
-    el = imagenet_data[1]
-    vm = val_match[0]
+
+def save_matched_coco(elements, wnids, args):
+    meta_list = []
+
+    for element, split in elements:
+        coco_element, imagenet_index = element
+        _, coco_meta = coco_element
+
+        # we get a list but only need the first element
+        # in case there are multiple elements they have the same category and the info is redundant
+        coco_meta = coco_meta[0]
+
+        meta_dict = create_meta_dict(coco_meta, imagenet_index, wnids, split)
+        image_path = create_image_path(args, meta_dict['file_name'], split)
+
+        # add img metadata to list and cpy image to target dir
+        meta_list.append(meta_dict)
+        copy_image(image_path, args.target_root)
+
+    # save the metadata to a json
+    json_file_path = os.path.join(args.target_root, COCO_META_JSON)
+    sava_coco_meta(json_file_path, meta_list)
+
+
+def create_coco_filename(image_id):
+    return str(image_id).zfill(COCO_FILENAME_NUMBERS) + COCO_IMAGE_TYPE
+
+
+def copy_image(image_path, target_root):
+    target_dir = os.path.join(target_root, IMAGES)
+
+    # create dir if not exists
+    if not os.path.exists(target_dir):
+        os.makedirs(target_dir)
+
+    dst_path = os.path.join(target_dir, os.path.basename(image_path))
+    copyfile(image_path, dst_path)
+
+
+def sava_coco_meta(json_file_path, meta_list):
+    coco_meta = {COCO_META: meta_list}
+    with open(json_file_path, 'w') as json_file:
+        json.dump(coco_meta, json_file)
+
+
+def create_image_path(args, filename, split):
+    if split == 'train':
+        base_path = args.coco_train_root_path
+    elif split == 'val':
+        base_path = args.coco_val_root_path
+    else:
+        assert False
+
+    return os.path.join(base_path, filename)
+
+
+def create_meta_dict(coco_meta, imagenet_index, wnids, split):
+    result_meta = {}
+    # copy data from COCO data
+    result_meta['coco_image_id'] = coco_meta[IMAGE_ID]
+    result_meta['coco_category_id'] = coco_meta[CATEGORY_ID]
+    result_meta['coco_split'] = split
+
+    result_meta['imagenet_class_id'] = imagenet_index
+    result_meta['imagenet_wnid'] = wnids[imagenet_index]
+    result_meta['file_name'] = create_coco_filename(coco_meta[IMAGE_ID])
+
+    return result_meta
 
 
 def id_to_class_index(annotations_path):
@@ -58,6 +145,7 @@ def id_to_class_index(annotations_path):
 
     return index
 
+
 def match_classes(val_one_cat, coco_index, imagenet_index):
     matched = []
     for element in val_one_cat:
@@ -66,6 +154,7 @@ def match_classes(val_one_cat, coco_index, imagenet_index):
             matched.append((element, imagenet_index[coco_category]))
 
     return matched
+
 
 def get_coco_category(element, cat_index):
     _, annot = element
@@ -97,8 +186,11 @@ def parse_args():
     parser.add_argument('--coco-val-root-path', help='coco root path for validation data; \'val2017\'')
     parser.add_argument('--coco-val-annotations',
                         help='coco path for validation annotations; \'instances_val2017.json\'')
+
     parser.add_argument('--imagenet-root', help='imagenet root path for')
     parser.add_argument('--imagenet-split', default='val', choices=['train', 'val'])
+
+    parser.add_argument('--target-root', help='the directory to store the created dataset')
 
     args = parser.parse_args()
 
