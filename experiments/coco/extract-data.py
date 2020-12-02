@@ -24,24 +24,23 @@ WARNING = colored('WARNING', 'yellow')
 
 
 def main(args):
-
     # create target root dir
     os.makedirs(args.target_root)
 
-    # print(OK, 'Read COCO train ...')
-    # # train_coco_data = torchvision.datasets.CocoDetection(args.coco_train_root_path, args.coco_train_annotations)
-    # print(OK, 'done')
-    #
+    print(OK, 'Read COCO train ...')
+    train_coco_data = torchvision.datasets.CocoDetection(args.coco_train_root_path, args.coco_train_annotations)
+    print(OK, 'done')
+
     print(OK, 'Read COCO val ...')
     val_coco_data = torchvision.datasets.CocoDetection(args.coco_val_root_path, args.coco_val_annotations)
     print(OK, 'done')
-    #
-    # # filter the data s. th. all samples only have __exactly__ one assigned category
-    # print(OK, 'Filter train ...')
-    # train_one_cat = filter_number_of_categories(train_coco_data, 1)
-    # print(OK, 'done')
-    # print(OK, 'found {} elements with exactly one category in COCO training data'.format(len(train_one_cat)))
-    # #
+
+    # filter the data s. th. all samples only have __exactly__ one assigned category
+    print(OK, 'Filter train ...')
+    train_one_cat = filter_number_of_categories(train_coco_data, 1)
+    print(OK, 'done')
+    print(OK, 'found {} elements with exactly one category in COCO training data'.format(len(train_one_cat)))
+
     print(OK, 'Filter val ...')
     val_one_cat = filter_number_of_categories(val_coco_data, 1)
     print(OK, 'done')
@@ -56,12 +55,12 @@ def main(args):
 
     print(OK, 'Match data ...')
     val_match = match_classes(val_one_cat, coco_cat_index, imagenet_data.class_to_idx)
-    # train_match = match_classes(train_one_cat, imagenet_data.class_to_idx)
+    train_match = match_classes(train_one_cat, imagenet_data.class_to_idx)
     print(OK, 'done')
 
     val_match = [(x, 'val') for x in val_match]
-    # test_match = [(x, 'val') for x in train_match]
-    matched = val_match # + test_match
+    train_match = [(x, 'val') for x in train_match]
+    matched = val_match + train_match
     save_matched_coco(matched, imagenet_data.wnids, args)
 
 
