@@ -3,24 +3,34 @@ import json
 import os
 from shutil import copyfile
 
-from termcolor import colored
 import torchvision
+from termcolor import colored
 
-# COCO specific data
+NAME = 'name'
+ID = 'id'
+CATEGORY_ID = 'category_id'
+CATEGORIES = 'categories'
+IMAGE_ID = 'image_id'
+IMAGES = 'images'
+FILE_NAME = 'file_name'
+
+VAL = 'val'
+TRAIN = 'train'
+
 COCO_META = 'coco_meta'
 COCO_META_JSON = 'coco_meta.json'
 COCO_IMAGE_TYPE = ".jpg"
 COCO_FILENAME_NUMBERS = 12
 
-# COCO fields
-IMAGE_ID = 'image_id'
-CATEGORY_ID = 'category_id'
+COCO_SPLIT = 'coco_split'
+COCO_CATEGORY_ID = 'coco_category_id'
+COCO_IMAGE_ID = 'coco_image_id'
 
-IMAGES = 'images'
+IMAGENET_WNID = 'imagenet_wnid'
+IMAGENET_CLASS_ID = 'imagenet_class_id'
 
-# Colors
+# print output
 OK = colored('OK', 'green')
-WARNING = colored('WARNING', 'yellow')
 
 
 def main(args):
@@ -55,13 +65,15 @@ def main(args):
 
     print(OK, 'Match data ...')
     val_match = match_classes(val_one_cat, coco_cat_index, imagenet_data.class_to_idx)
-    train_match = match_classes(train_one_cat, imagenet_data.class_to_idx)
+    train_match = match_classes(train_one_cat, coco_cat_index, imagenet_data.class_to_idx)
     print(OK, 'done')
 
-    val_match = [(x, 'val') for x in val_match]
-    train_match = [(x, 'val') for x in train_match]
+    print(OK, 'Save data ...')
+    val_match = [(x, VAL) for x in val_match]
+    train_match = [(x, TRAIN) for x in train_match]
     matched = val_match + train_match
     save_matched_coco(matched, imagenet_data.wnids, args)
+    print(OK, 'done')
 
 
 def save_matched_coco(elements, wnids, args):
@@ -76,7 +88,7 @@ def save_matched_coco(elements, wnids, args):
         coco_meta = coco_meta[0]
 
         meta_dict = create_meta_dict(coco_meta, imagenet_index, wnids, split)
-        image_path = create_image_path(args, meta_dict['file_name'], split)
+        image_path = create_image_path(args, meta_dict[FILE_NAME], split)
 
         # add img metadata to list and cpy image to target dir
         meta_list.append(meta_dict)
@@ -109,9 +121,9 @@ def sava_coco_meta(json_file_path, meta_list):
 
 
 def create_image_path(args, filename, split):
-    if split == 'train':
+    if split == TRAIN:
         base_path = args.coco_train_root_path
-    elif split == 'val':
+    elif split == VAL:
         base_path = args.coco_val_root_path
     else:
         assert False
@@ -122,13 +134,13 @@ def create_image_path(args, filename, split):
 def create_meta_dict(coco_meta, imagenet_index, wnids, split):
     result_meta = {}
     # copy data from COCO data
-    result_meta['coco_image_id'] = coco_meta[IMAGE_ID]
-    result_meta['coco_category_id'] = coco_meta[CATEGORY_ID]
-    result_meta['coco_split'] = split
+    result_meta[COCO_IMAGE_ID] = coco_meta[IMAGE_ID]
+    result_meta[COCO_CATEGORY_ID] = coco_meta[CATEGORY_ID]
+    result_meta[COCO_SPLIT] = split
 
-    result_meta['imagenet_class_id'] = imagenet_index
-    result_meta['imagenet_wnid'] = wnids[imagenet_index]
-    result_meta['file_name'] = create_coco_filename(coco_meta[IMAGE_ID])
+    result_meta[IMAGENET_CLASS_ID] = imagenet_index
+    result_meta[IMAGENET_WNID] = wnids[imagenet_index]
+    result_meta[FILE_NAME] = create_coco_filename(coco_meta[IMAGE_ID])
 
     return result_meta
 
@@ -137,10 +149,10 @@ def id_to_class_index(annotations_path):
     index = {}
     with open(annotations_path, 'r') as COCO:
         js = json.loads(COCO.read())
-        cats = js['categories']
+        cats = js[CATEGORIES]
 
         for cat in cats:
-            index[cat['id']] = cat['name']
+            index[cat[ID]] = cat[NAME]
 
     return index
 
@@ -187,7 +199,7 @@ def parse_args():
                         help='coco path for validation annotations; \'instances_val2017.json\'')
 
     parser.add_argument('--imagenet-root', help='imagenet root path for')
-    parser.add_argument('--imagenet-split', default='val', choices=['train', 'val'])
+    parser.add_argument('--imagenet-split', default=VAL, choices=[TRAIN, VAL])
 
     parser.add_argument('--target-root', help='the directory to store the created dataset')
 
