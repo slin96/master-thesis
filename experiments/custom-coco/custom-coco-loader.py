@@ -1,6 +1,8 @@
 import json
+import os
 from typing import Optional, Callable, Any
 
+from PIL import Image
 from torchvision.datasets import VisionDataset
 
 
@@ -24,13 +26,17 @@ class CustomCocoLoader(VisionDataset):
                 self._items.append(e)
 
     def __getitem__(self, index: int) -> Any:
-        pass
+        item = self._items[index]
+        image_path = os.path.join(self.root, 'images', item['file_name'])
+        img = Image.open(image_path).convert('RGB')
+        label = item['imagenet_class_id']
+
+        if self.transform:
+            img = self.transform(img)
+        if self.target_transform:
+            label = self.target_transform(label)
+
+        return img, label
 
     def __len__(self) -> int:
         return len(self._items)
-
-
-if __name__ == '__main__':
-    test = CustomCocoLoader(root='/hpi/fs00/home/nils.strassenburg/test/matched-data',
-                            ann_file='/hpi/fs00/home/nils.strassenburg/test/matched-data/coco_meta.json')
-    print(len(test))
