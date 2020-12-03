@@ -1,14 +1,14 @@
-# Experiments
+# Data
 
-## Datasets
+Here we provide all code, scripts and JupyterNotebooks that are related to data used in our experiments.
 
-### ImageNet Data
+## ImageNet Data
 
 - when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition
   Challenge (ILSVRC)
 - an overview of the Challenges can be found [here](http://image-net.org/challenges/LSVRC/)
 
-#### Dataset
+### Dataset
 
 - source: [[1]](https://arxiv.org/pdf/1409.0575.pdf)
 - **object categories**
@@ -26,7 +26,7 @@
     - ~ 50 Thousand validation images
     - ~ 100 Thousand test images
 
-### COCO Dataset
+## COCO Dataset
 
 - source: [[2]](https://cocodataset.org/)
 - COCO - Common Objects in Context
@@ -45,7 +45,7 @@
     - Image Captioning
     - DensePose
 
-#### Focus
+### Focus
 
 - for us most interesting is the data provided for the **Object Detection** usecase
 - the data ([can be downloaded here](https://cocodataset.org/#download)) is structured in two parts:
@@ -81,13 +81,13 @@ categories[{
 }]
 ```
 
-#### Customized COCO dataset
+### Customized COCO dataset
 
 - the goal of creating our customized COCO dataset is to create a dataset that is similar/compatible to the ImageNet
   dataset but from a different distribution than the ImageNet data
 - also we want to split the subset of the COCO data that we can use into multiple classes
 
-##### Creation
+#### Creation
 
 - The images in the ImageNet data have only one defined category
 - Also in most images you can see only the one object defining the category
@@ -97,9 +97,9 @@ categories[{
 - finally we take only the filtered images and store them only with the relevant data (in our case the category)
 - **TODO** final dataset description, format, and overview
 
-## Models
+# Models
 
-## Pretrained Models: Used Data
+# Pretrained Models: Used Data
 
 We refer to the results and models listed in the
 [official PyTorch documentation](https://pytorch.org/docs/stable/torchvision/models.html) (last accessed, 01.12.2020)
