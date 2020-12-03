@@ -95,7 +95,7 @@ categories[{
 
 - the custom coco dataset is created by executing the [extract-custom-coco](./custom-data/extract-custom-coco.py) script
 using the following arguments 
-	- '--coco-train-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/train2017'
+	- `--coco-train-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/train2017`
 	- --coco-train-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_train2017.json
 	- --coco-val-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/val2017
 	- --coco-val-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_val2017.json
