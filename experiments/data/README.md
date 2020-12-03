@@ -2,15 +2,13 @@
 
 Here we provide all code, scripts and JupyterNotebooks that are related to data used in our experiments.
 
-## ImageNet Data
+## Datasets
 
+## ImageNet Data
 - when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition
   Challenge (ILSVRC)
 - an overview of the Challenges can be found [here](http://image-net.org/challenges/LSVRC/)
-
-### Dataset
-
-- source: [[1]](https://arxiv.org/pdf/1409.0575.pdf)
+- [paper](https://arxiv.org/pdf/1409.0575.pdf)
 - **object categories**
     - total of 1000 synsets
     - synsets follow the WordNet hierarchy (2014)
@@ -26,9 +24,9 @@ Here we provide all code, scripts and JupyterNotebooks that are related to data 
     - ~ 50 Thousand validation images
     - ~ 100 Thousand test images
 
-## COCO Dataset
+## COCO
 
-- source: [[2]](https://cocodataset.org/)
+- [cocodataset](https://cocodataset.org/)
 - COCO - Common Objects in Context
 - large-scale object detection, segmentation, and captioning dataset
 - general info
@@ -79,20 +77,31 @@ categories[{
 }]
 ```
 
-### Customized COCO dataset
+## Customized COCO dataset
 
 - the goal of creating our customized COCO dataset is to create a dataset that is similar/compatible to the ImageNet
   dataset but from a different distribution than the ImageNet data
-- also we want to split the subset of the COCO data that we can use into multiple classes
+- also we want to split the subset of the COCO data that we use into multiple classes
 
-#### Creation
+### Creation
 
 - The images in the ImageNet data have only one defined category
 - Also in most images you can see only the one object defining the category
+  
 - To create a similar dataset we filter the images:
     - first we extract all images that have only one assigned category
     - out of these images we then extract the images that have a category that is also part of the Imagenet dataset
-- finally we take only the filtered images and store them only with the relevant data (in our case the category)
+- finally we take only the filtered images and store them only with the relevant data
+
+- the custom coco dataset is created by executing the [extract-custom-coco](./custom-data/extract-custom-coco.py) script
+using the following arguments 
+	- '--coco-train-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/train2017'
+	- --coco-train-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_train2017.json
+	- --coco-val-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/val2017
+	- --coco-val-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_val2017.json
+	- --imagenet-root /hpi/fs00/share/fg/rabl/strassenburg/datasets/imgnet
+	- --target-root /hpi/fs00/home/nils.strassenburg/test/zebra-data
+  
 - **TODO** final dataset description, format, and overview
 
 # Models
