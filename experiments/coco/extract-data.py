@@ -1,4 +1,5 @@
 import argparse
+import ast
 import json
 import os
 from shutil import copyfile
@@ -34,6 +35,9 @@ OK = colored('OK', 'green')
 
 
 def main(args):
+    print(args.include_ids)
+    print(ast.literal_eval(args.include_ids))
+
     # create target root dir
     os.makedirs(args.target_root)
 
@@ -72,8 +76,22 @@ def main(args):
     val_match = [(x, VAL) for x in val_match]
     train_match = [(x, TRAIN) for x in train_match]
     matched = val_match + train_match
+    matched = filter_categories(args, matched)
     save_matched_coco(matched, imagenet_data.wnids, args)
     print(OK, 'done')
+
+
+def filter_categories(args, matched):
+    result = []
+    included_ids = ast.literal_eval(args.include_ids)
+    for element in matched:
+        # unpack tuple ((elem, imagenet_id), split)
+        _, annot = element[0][0]
+        # annot is a list with one element (if more elements they are redundant)
+        category_id = annot[0][CATEGORY_ID]
+        if category_id in included_ids:
+            result.append(element)
+    return result
 
 
 def save_matched_coco(elements, wnids, args):
@@ -202,6 +220,10 @@ def parse_args():
     parser.add_argument('--imagenet-split', default=VAL, choices=[TRAIN, VAL])
 
     parser.add_argument('--target-root', help='the directory to store the created dataset')
+
+    parser.add_argument('--include-ids', default=list(range(81)),
+                        help='Coco ids, that should be included, id overview: https://tech.amikelive.com/node-718/'
+                             'what-object-categories-labels-are-in-coco-dataset/')
 
     args = parser.parse_args()
 

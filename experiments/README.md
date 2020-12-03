@@ -27,7 +27,9 @@
 - COCO - Common Objects in Context 
 - large-scale object detection, segmentation, and captioning dataset
 - general info
-    - total 80 categories
+    - total 91 categories, for overview see 
+    [here](https://tech.amikelive.com/node-718/what-object-categories-labels-are-in-coco-dataset/)
+    (in the paper they say 80, but the classes have been extended over the years)
     - each picture can have multiple categories
     - train, val, and ,test set: more than 200 000 pictures 
 - definition of multiple challenges: 
