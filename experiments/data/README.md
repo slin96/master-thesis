@@ -15,7 +15,7 @@ Nevertheless, we can make some qualified guesses.
 
 What data was used to train the model?
 
-- for all models, the documentation says pretrained on ImageNet
+- for all models, the documentation says pre-trained on ImageNet
 - furthermore, the provided
   [dataloader uses the ImageNet data from 2012](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/torchvision/datasets/imagenet.py#L11-L15)
     - thus we can be pretty sure that the data used to pre-train the models is the **data of the ImageNet challenge
@@ -68,13 +68,13 @@ Was the validation set used to train the models?
 
 ## COCO
 
-- [cocodataset](https://cocodataset.org/)
+- [coco dataset](https://cocodataset.org/)
 - COCO - Common Objects in Context
 - large-scale object detection, segmentation, and captioning dataset
 - general info
-    - total 80 categories
+    - total of 80 categories
     - each picture can have multiple categories
-    - train, val, and ,test set: more than 200 000 pictures
+    - train, val, and test set: more than 200 000 pictures
 - definition of multiple challenges:
     - Object Detection
     - Keypoint Detection
@@ -85,11 +85,11 @@ Was the validation set used to train the models?
 
 ### Focus
 
-- for us most interesting is the data provided for the **Object Detection** usecase
+- for us most interesting is the data provided for the **Object Detection** use case
 - the data ([can be downloaded here](https://cocodataset.org/#download)) is structured in two parts:
     - the images
     - the annotations
-- we need the *train_val annotations*, that contain 6 files of 3 categories (train and val split)
+- we need the *train_val annotations* that contain 6 files of 3 categories (train and val split)
     - person_keypoints
     - captions
     - instances
@@ -98,7 +98,7 @@ Was the validation set used to train the models?
     - list of licences
     - list of annotations
     - list of categories
-- of this data the *annotations*, and the *categories* are of interest
+- of this data, the *annotations*, and the *categories* are of interest
 - they have the following format ([see here](https://cocodataset.org/#format-data)):
 
  ```json
@@ -121,19 +121,19 @@ categories[{
 
 ## Customized COCO dataset
 
-- the goal of creating our customized COCO dataset is to create a dataset that is similar/compatible to the ImageNet
-  dataset but from a different distribution than the ImageNet data
-- also we want to split the subset of the COCO data that we use into multiple classes
+- the goal of creating our customized COCO dataset is to create a dataset that is similar to/compatible with the 
+  ImageNet dataset but from a different distribution than the ImageNet data
+- also, we want to split the subset of the COCO data that we use into multiple classes
 
 ### Creation
 
 - The images in the ImageNet data have only one defined category
-- Also in most images you can see only the one object defining the category
+- Also in most images, you can see only the one object defining the category
   
-- To create a similar dataset we filter the images:
-    - first we extract all images that have only one assigned category
-    - out of these images we then extract the images that have a category that is also part of the Imagenet dataset
-- finally we take only the filtered images and store them only with the relevant data
+- To create a similar dataset, we filter the images:
+    - first, we extract all images that have only one assigned category
+    - out of these images, we then extract the images that have a category that is also part of the Imagenet dataset
+- finally, we take only the filtered images and store them only with the relevant data
 
 - the custom coco dataset is created by executing the [extract-custom-coco](custom/extract_custom_coco.py) script
 using the following arguments 
@@ -153,7 +153,7 @@ using the following arguments
   - the `<imagenet-root>` needs to contain the following files
     - `ILSVRC2012_devkit_t12.tar.gz`
     - `ILSVRC2012_img_val.tar`
-    - unfortunately we can not include a download link here because a login is required
+    - unfortunately, we can not include a download link here because a login is required
       - the root link is [here](http://www.image-net.org/challenges/LSVRC/2012/downloads)
       - **WARNING**: after login for download you get redirected to the data for 2010, change the link to 2012 
         (http://www.image-net.org/challenges/LSVRC/2012/downloads) before download!
