@@ -135,7 +135,7 @@ categories[{
     - out of these images we then extract the images that have a category that is also part of the Imagenet dataset
 - finally we take only the filtered images and store them only with the relevant data
 
-- the custom coco dataset is created by executing the [extract-custom-coco](./custom-data/extract-custom-coco.py) script
+- the custom coco dataset is created by executing the [extract-custom-coco](custom/extract-custom-coco.py) script
 using the following arguments 
 	- `--coco-train-root-path <coco-root>/train2017` 
 	- `--coco-train-annotations <coco-root>/annotations/instances_train2017.json`
