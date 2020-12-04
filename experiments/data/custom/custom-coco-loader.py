@@ -57,10 +57,3 @@ class CustomCocoLoader(VisionDataset):
 
     def __len__(self) -> int:
         return len(self._items)
-
-
-if __name__ == '__main__':
-    test = CustomCocoLoader(root='/hpi/fs00/home/nils.strassenburg/test/matched-data',
-                            ann_file='/hpi/fs00/home/nils.strassenburg/test/matched-data/coco_meta.json',
-                            id_subset_json='/hpi/fs00/home/nils.strassenburg/remote/code/experiments/custom-coco/coco-id-groups/coco-indoor-ids.json')
-    print(len(test))
