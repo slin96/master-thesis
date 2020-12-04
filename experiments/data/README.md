@@ -1,8 +1,50 @@
 # Data
 
-Here we provide all code, scripts and JupyterNotebooks that are related to data used in our experiments.
+## Pretrained Models: Used Data
 
-## Datasets
+We refer to the results and models listed in the
+[official PyTorch documentation](https://pytorch.org/docs/stable/torchvision/models.html) (last accessed, 01.12.2020)
+
+Essential questions to answer for pre-trained models (AlexNet, VGG-19, ResNet18, ResNet50, Resnet152):
+
+- What data was used to pre-train the models? (short answer: **data of ImageNet challenge 2012**)
+- Was the validation dataset used to train the models? (short answer: **NO** )
+
+What data was exactly used to train the models can not be answered by the information given in the documentation.
+Nevertheless, we can make some qualified guesses.
+
+What data was used to train the model?
+
+- for all models, the documentation says pretrained on ImageNet
+- furthermore, the provided
+  [dataloader uses the ImageNet data from 2012](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/torchvision/datasets/imagenet.py#L11-L15)
+    - thus we can be pretty sure that the data used to pre-train the models is the **data of the ImageNet challenge
+      2012**. The data can be downloaded [here](http://image-net.org/challenges/LSVRC/2012/downloads.php#images)
+
+Was the validation set used to train the models?
+
+- good overview of common definitions of train, test, and validation set can be
+  found [here](https://machinelearningmastery.com/difference-test-validation-datasets/)
+- they give the following definitions:
+    - Training Dataset: The sample of data used to fit the model.
+    - Validation Dataset: The sample of data used to provide an unbiased evaluation of a model fit on the training
+      dataset while tuning model hyperparameters. The evaluation becomes more biased as skill on the validation dataset
+      is incorporated into the model configuration.
+    - Test Dataset: The sample of data used to provide an unbiased evaluation of a final model fit on the training
+      dataset.
+- following these definitions, the validation dataset shouldn't be used to train the model, but it is also said:
+    - *the final model could be fit on the aggregate of the training and validation datasets*
+- taking a look at the [GitHub issue](https://github.com/pytorch/vision/issues/2469) asking for the code that was used
+  to generate the pre-trained models, we can find out that:
+    - the validation split is used to generate the *dataset
+      test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L110-L138))
+    - this data is **only** used to generate the *
+      data_loader_test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L164))
+    - the *data_loader_test* is **only** used in the *evaluate*
+      method ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L48-L71))
+    - the *evaluate* method calculates no gradients and also makes no use of the optimizer
+    - thus **the validation set was not used to pretrain the models we use** 
+
 
 ## ImageNet Data
 - when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition
@@ -95,62 +137,26 @@ categories[{
 
 - the custom coco dataset is created by executing the [extract-custom-coco](./custom-data/extract-custom-coco.py) script
 using the following arguments 
-	- `--coco-train-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/train2017`
-	- --coco-train-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_train2017.json
-	- --coco-val-root-path /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/val2017
-	- --coco-val-annotations /hpi/fs00/share/fg/rabl/strassenburg/datasets/coco/annotations/instances_val2017.json
-	- --imagenet-root /hpi/fs00/share/fg/rabl/strassenburg/datasets/imgnet
+	- `--coco-train-root-path <coco-root>/train2017` 
+	- `--coco-train-annotations <coco-root>/annotations/instances_train2017.json`
+	- `--coco-val-root-path <coco-root>/val2017` 
+	- `--coco-val-annotations <coco-root>/annotations/instances_val2017.json` 
+	- `--imagenet-root <imagenet-root>`
 	- --target-root /hpi/fs00/home/nils.strassenburg/test/zebra-data
   
-- **TODO** final dataset description, format, and overview
-
-# Models
-
-# Pretrained Models: Used Data
-
-We refer to the results and models listed in the
-[official PyTorch documentation](https://pytorch.org/docs/stable/torchvision/models.html) (last accessed, 01.12.2020)
-
-Essential questions to answer for pre-trained models (AlexNet, VGG-19, ResNet18, ResNet50, Resnet152):
-
-- What data was used to pre-train the models? (short answer: **data of ImageNet challenge 2012**)
-- Was the validation dataset used to train the models? (short answer: **NO** )
-
-What data was exactly used to train the models can not be answered by the information given in the documentation.
-Nevertheless, we can make some qualified guesses.
-
-What data was used to train the model?
-
-- for all models, the documentation says pretrained on ImageNet
-- furthermore, the provided
-  [dataloader uses the ImageNet data from 2012](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/torchvision/datasets/imagenet.py#L11-L15)
-    - thus we can be pretty sure that the data used to pre-train the models is the **data of the ImageNet challenge
-      2012**. The data can be downloaded [here](http://image-net.org/challenges/LSVRC/2012/downloads.php#images)
-
-Was the validation set used to train the models?
-
-- good overview of common definitions of train, test, and validation set can be
-  found [here](https://machinelearningmastery.com/difference-test-validation-datasets/)
-- they give the following definitions:
-    - Training Dataset: The sample of data used to fit the model.
-    - Validation Dataset: The sample of data used to provide an unbiased evaluation of a model fit on the training
-      dataset while tuning model hyperparameters. The evaluation becomes more biased as skill on the validation dataset
-      is incorporated into the model configuration.
-    - Test Dataset: The sample of data used to provide an unbiased evaluation of a final model fit on the training
-      dataset.
-- following these definitions, the validation dataset shouldn't be used to train the model, but it is also said:
-    - *the final model could be fit on the aggregate of the training and validation datasets*
-- taking a look at the [GitHub issue](https://github.com/pytorch/vision/issues/2469) asking for the code that was used
-  to generate the pre-trained models, we can find out that:
-    - the validation split is used to generate the *dataset
-      test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L110-L138))
-    - this data is **only** used to generate the *
-      data_loader_test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L164))
-    - the *data_loader_test* is **only** used in the *evaluate*
-      method ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L48-L71))
-    - the *evaluate* method calculates no gradients and also makes no use of the optimizer
-    - thus **the validation set was not used to pretrain the models we use** 
-
-
-
-
+### Download
+- **download initial data**
+  - [coco-train2017](http://images.cocodataset.org/zips/train2017.zip)
+  - [coco-val2017](http://images.cocodataset.org/zips/val2017.zip)
+  - [coco-annotations2017](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) 
+    (contains `instances_train2017.json` and `instances_val2017.json`) 
+  - the `<imagenet-root>` needs to contain the following files
+    - `ILSVRC2012_devkit_t12.tar.gz`
+    - `ILSVRC2012_img_val.tar`
+    - unfortunately we can not include a download link here because a login is required
+      - the root link is [here](http://www.image-net.org/challenges/LSVRC/2012/downloads)
+      - **WARNING**: after login for download you get redirected to the data for 2010, change the link to 2012 
+        (http://www.image-net.org/challenges/LSVRC/2012/downloads) before download!
+- **customized coco data**
+  - [full-dataset](https://owncloud.hpi.de/s/TRCzfvxwyHCRIQr)
+  
