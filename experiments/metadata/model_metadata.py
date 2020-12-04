@@ -1,5 +1,5 @@
-from torchvision import models
 from torchsummary import summary
+from torchvision import models
 
 if __name__ == '__main__':
     models = [models.alexnet, models.vgg19, models.resnet18, models.resnet50, models.resnet152]
