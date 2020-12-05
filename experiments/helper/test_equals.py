@@ -30,12 +30,6 @@ class TestModelEquals(unittest.TestCase):
 
         self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
 
-    def test_blackbox_resnet18_resnet152_pretrained(self):
-        mod1 = models.resnet18(pretrained=True)
-        mod2 = models.resnet152(pretrained=True)
-
-        self.assertFalse(blackbox_equals(mod1, mod2, imagenet_input))
-
     def test_blackbox_vgg19_pretrained(self):
         mod1 = models.vgg19(pretrained=True)
         mod2 = models.vgg19(pretrained=True)
@@ -47,3 +41,16 @@ class TestModelEquals(unittest.TestCase):
         mod2 = models.alexnet(pretrained=True)
 
         self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+
+    def test_blackbox_resnet18_resnet152_pretrained(self):
+        mod1 = models.resnet18(pretrained=True)
+        mod2 = models.resnet152(pretrained=True)
+
+        self.assertFalse(blackbox_equals(mod1, mod2, imagenet_input))
+
+    def test_blackbox_not_pretrained(self):
+        mod1 = models.resnet18()
+        mod2 = models.resnet18()
+
+        # we expect this to be false since the weight initialization is random
+        self.assertFalse(blackbox_equals(mod1, mod2, imagenet_input))
