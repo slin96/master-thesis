@@ -7,7 +7,7 @@ from experiments.helper.deterministic import set_deterministic
 from experiments.helper.model_equals import blackbox_equals, imagenet_input
 
 
-class TestModelEquals(unittest.TestCase):
+class TestBlackboxModelEquals(unittest.TestCase):
 
     def setUp(self):
         torch.manual_seed(0)
@@ -99,3 +99,15 @@ class TestModelEquals(unittest.TestCase):
         # we expect this to be true, the weights are randomly initialized,
         # but we set the seeds before weight initialization
         self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+
+    def test_blackbox_not_pretrained_deterministic_multiple_models(self):
+        set_deterministic()
+        alex1 = models.alexnet()
+        resnet1 = models.resnet18()
+
+        set_deterministic()
+        alex2 = models.alexnet()
+        resnet2 = models.resnet18()
+
+        self.assertTrue(blackbox_equals(alex1, alex2, imagenet_input))
+        self.assertTrue(blackbox_equals(resnet1, resnet2, imagenet_input))
