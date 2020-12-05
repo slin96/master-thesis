@@ -1,7 +1,8 @@
 import numpy as np
 import torch
 
-from experiments.helper.custom_alex import alexnet
+# from experiments.helper.custom_alex import alexnet
+from torchvision.models import alexnet
 
 
 def imagenet_input():
@@ -12,6 +13,9 @@ def imagenet_input():
 
 def blackbox_equals(m1, m2, produce_input):
     inp = produce_input()
+
+    m1.eval()
+    m2.eval()
 
     out1 = m1(inp)
     out2 = m2(inp)
@@ -34,7 +38,6 @@ if __name__ == '__main__':
     mod1 = alexnet(pretrained=True)
     mod2 = alexnet(pretrained=True)
 
-    mod1.eval()
 
     result = blackbox_equals(mod1, mod1, imagenet_input)
 
