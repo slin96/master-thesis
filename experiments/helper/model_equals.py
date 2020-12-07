@@ -39,6 +39,6 @@ def compare_state_dicts(d1, d2):
 
 
 def equals(m1, m2, produce_input):
-    # whitebox and balckbox check should be redundant,
+    # whitebox and blackbox check should be redundant,
     # but this way we have an extra safety net in case we forgot a special case
     return whitebox_equals(m1, m2) and blackbox_equals(m1, m2, produce_input)
