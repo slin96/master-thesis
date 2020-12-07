@@ -1,7 +1,5 @@
 import torch
 
-# from experiments.helper.custom_alex import alexnet
-
 
 def imagenet_input():
     inp = torch.rand(3, 300, 400)
@@ -25,14 +23,14 @@ def whitebox_equals(m1, m2):
     state1 = m1.state_dict()
     state2 = m2.state_dict()
 
-    return compare_state_dicts(state1, state2)
+    return state_dict_equals(state1, state2)
 
 
-def compare_state_dicts(d1, d2):
+def state_dict_equals(d1, d2):
     for item1, item2 in zip(d1.items(), d2.items()):
-        weight_tensor_1 = item1[1]
-        weight_tensor_2 = item2[1]
-        if not torch.equal(weight_tensor_1, weight_tensor_2):
+        layer_name1, weight_tensor1 = item1
+        layer_name2, weight_tensor2 = item2
+        if not layer_name1 == layer_name2 or not torch.equal(weight_tensor1, weight_tensor2):
             return False
 
     return True
