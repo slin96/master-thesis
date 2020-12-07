@@ -7,7 +7,7 @@ from torchvision import transforms
 # THIS CODE IS COPIED /INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
 
-# TODO link github issue/explain
+# Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
 inference_transforms = transforms.Compose([
