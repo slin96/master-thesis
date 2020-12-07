@@ -15,7 +15,7 @@ def _included_ids(id_subset_json):
     return ids
 
 
-class CustomCocoLoader(VisionDataset):
+class CustomCoco(VisionDataset):
 
     def __init__(self,
                  root: str,
@@ -25,7 +25,7 @@ class CustomCocoLoader(VisionDataset):
                  target_transform: Optional[Callable] = None,
                  transforms: Optional[Callable] = None,
                  ) -> None:
-        super(CustomCocoLoader, self).__init__(root, transforms, transform, target_transform)
+        super(CustomCoco, self).__init__(root, transforms, transform, target_transform)
         self.annFile = ann_file
 
         if id_subset_json:
