@@ -4,57 +4,57 @@ import torch
 from torchvision import models
 
 from experiments.helper.deterministic import set_deterministic
-from experiments.helper.model_equals import blackbox_equals, imagenet_input
+from experiments.helper.model_equals import equals, imagenet_input
 
 
-class TestBlackboxModelEquals(unittest.TestCase):
+class TestModelEquals(unittest.TestCase):
 
     def setUp(self):
-        torch.manual_seed(0)
+        self.seed = torch.manual_seed(0)
         torch._set_deterministic(True)
 
     def test_blackbox_resnet18_pretrained(self):
         mod1 = models.resnet18(pretrained=True)
         mod2 = models.resnet18(pretrained=True)
 
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_resnet50_pretrained(self):
         mod1 = models.resnet50(pretrained=True)
         mod2 = models.resnet50(pretrained=True)
 
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_resnet152_pretrained(self):
         mod1 = models.resnet152(pretrained=True)
         mod2 = models.resnet152(pretrained=True)
 
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_vgg19_pretrained(self):
         mod1 = models.vgg19(pretrained=True)
         mod2 = models.vgg19(pretrained=True)
 
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_alexnet_pretrained(self):
         mod1 = models.alexnet(pretrained=True)
         mod2 = models.alexnet(pretrained=True)
 
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_resnet18_resnet152_pretrained(self):
         mod1 = models.resnet18(pretrained=True)
         mod2 = models.resnet152(pretrained=True)
 
-        self.assertFalse(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertFalse(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_not_pretrained(self):
         mod1 = models.resnet18()
         mod2 = models.resnet18()
 
         # we expect this to be false since the weight initialization is random
-        self.assertFalse(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertFalse(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_resnet18_not_pretrained_deterministic(self):
         set_deterministic()
@@ -65,7 +65,7 @@ class TestBlackboxModelEquals(unittest.TestCase):
 
         # we expect this to be true, the weights are randomly initialized,
         # but we set the seeds before weight initialization
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_resnet152_not_pretrained_deterministic(self):
         set_deterministic()
@@ -76,7 +76,7 @@ class TestBlackboxModelEquals(unittest.TestCase):
 
         # we expect this to be true, the weights are randomly initialized,
         # but we set the seeds before weight initialization
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_vgg19_not_pretrained_deterministic(self):
         set_deterministic()
@@ -87,7 +87,7 @@ class TestBlackboxModelEquals(unittest.TestCase):
 
         # we expect this to be true, the weights are randomly initialized,
         # but we set the seeds before weight initialization
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_alexnet_not_pretrained_deterministic(self):
         set_deterministic()
@@ -98,7 +98,7 @@ class TestBlackboxModelEquals(unittest.TestCase):
 
         # we expect this to be true, the weights are randomly initialized,
         # but we set the seeds before weight initialization
-        self.assertTrue(blackbox_equals(mod1, mod2, imagenet_input))
+        self.assertTrue(equals(mod1, mod2, imagenet_input))
 
     def test_blackbox_not_pretrained_deterministic_multiple_models(self):
         set_deterministic()
@@ -109,5 +109,5 @@ class TestBlackboxModelEquals(unittest.TestCase):
         alex2 = models.alexnet()
         resnet2 = models.resnet18()
 
-        self.assertTrue(blackbox_equals(alex1, alex2, imagenet_input))
-        self.assertTrue(blackbox_equals(resnet1, resnet2, imagenet_input))
+        self.assertTrue(equals(alex1, alex2, imagenet_input))
+        self.assertTrue(equals(resnet1, resnet2, imagenet_input))
