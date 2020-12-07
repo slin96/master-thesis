@@ -1,13 +1,18 @@
 import time
 
 import torch
+from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
+
+# Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
+from torchvision.models import resnet18
+
+from experiments.data.custom.custom_coco import CustomCoco
 
 # THIS CODE IS COPIED /INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
 
-# Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
 inference_transforms = transforms.Compose([
@@ -28,6 +33,8 @@ train_transforms = transforms.Compose([
 def inference(model, dataset, batch_size, loader_workers, use_gpu=False, gpu=None):
     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=loader_workers,
                              pin_memory=True)
+
+    # TODO check if any of the arguments influence repeatability, e.g.: num_workers
 
     if use_gpu:
         # load model on gpu
@@ -79,7 +86,7 @@ def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer
         # measure data loading time
         data_time.update(time.time() - end)
 
-        if use_gpu is not None:
+        if use_gpu:
             # TODO check if blocking influences repeatability
             images = images.cuda(gpu, non_blocking=True)
         if torch.cuda.is_available():
@@ -173,3 +180,24 @@ def accuracy(output, target, topk=(1,)):
             correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
+
+
+if __name__ == '__main__':
+    model = resnet18(pretrained=True)
+
+    coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+                             '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+                             transform=inference_transforms)
+
+    print(len(coco_data))
+
+    # outputs = inference(model, coco_data, 64, 1)
+
+    loss_func = nn.CrossEntropyLoss().cuda(None)
+
+    optimizer = torch.optim.SGD(model.parameters(), 0.00001)
+
+    train_epoch(model, coco_data, 64, 1, loss_func, optimizer, 1)
+    train_epoch(model, coco_data, 64, 1, loss_func, optimizer, 2)
+
+    print('test')
