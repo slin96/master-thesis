@@ -29,39 +29,12 @@ train_transforms = transforms.Compose([
     normalize,
 ])
 
-
-# def inference(model, dataset, batch_size, loader_workers, use_gpu=False, gpu=None):
-#     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=loader_workers,
-#                              pin_memory=True)
-#
-#     # TODO check if any of the arguments influence repeatability, e.g.: num_workers
-#
-#     if use_gpu:
-#         # load model on gpu
-#         torch.cuda.set_device(gpu)
-#         model = model.cuda(gpu)
-#
-#     # set model to eval mode
-#     model.eval()
-#
-#     outputs = []
-#     with torch.no_grad():
-#         for i, (images, target) in enumerate(data_loader):
-#             if use_gpu:
-#                 # load images to gpu
-#                 # TODO check if blocking influences repeatability
-#                 images = images.cuda(gpu, non_blocking=True)
-#
-#             output = model(images)
-#             outputs.append(output)
-#
-#     return outputs
-
-
 def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer, epoch, use_gpu=False, gpu=None,
                 print_freq=1):
-    data_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=loader_workers,
-                                              pin_memory=True, )
+    # TODO check params
+    data_loader = torch.utils.data.DataLoader(
+        dataset, batch_size=batch_size, shuffle=True,
+        num_workers=1, pin_memory=True, sampler=None)
 
     if use_gpu:
         # load model on gpu
@@ -185,6 +158,7 @@ def accuracy(output, target, topk=(1,)):
 def validate(val_data, model, criterion, gpu, print_freq, get_outputs=False):
     val_loader = torch.utils.data.DataLoader(
         val_data,
+        # TODO parameters
         batch_size=16, shuffle=False,
         num_workers=1, pin_memory=True)
 
@@ -242,6 +216,10 @@ def validate(val_data, model, criterion, gpu, print_freq, get_outputs=False):
 
 if __name__ == '__main__':
     model = resnet18(pretrained=True)
+    loss_func = nn.CrossEntropyLoss().cuda()
+    optimizer = torch.optim.SGD(model.parameters(), 0.1,
+                                momentum=0.9,
+                                weight_decay=1e-4)
 
     # # use the same data for inference and train just for testing
     # inference_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
@@ -260,10 +238,7 @@ if __name__ == '__main__':
     # # outputs_img = inference(model, inference_imagenet_data, 64, 1)
     # # outputs_coco = inference(model, inference_coco_data, 64, 1)
 
-    loss_func = nn.CrossEntropyLoss().cuda()
-    optimizer = torch.optim.SGD(model.parameters(), 0.1,
-                                momentum=0.9,
-                                weight_decay=1e-4)
+
 
     # TODO check what this var does
     cudnn.benchmark = True
@@ -274,28 +249,23 @@ if __name__ == '__main__':
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
-    train_dataset = datasets.ImageFolder(
-        traindir,
-        transforms.Compose([
+
+    val_data = datasets.ImageNet(valdir, 'val', transform=inference_transforms)
+    # val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+    #                        '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+    #                        transform=inference_transforms)
+
+    # out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
+
+    train_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose([
             transforms.RandomResizedCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             normalize,
         ]))
 
-    train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=256, shuffle=True,
-        num_workers=4, pin_memory=True, sampler=None)
 
-    # val_data = datasets.ImageNet(valdir, 'val', transform=inference_transforms)
-    val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
-                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
-                           transform=inference_transforms)
-
-    out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
-
-
-    # train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
+    train_epoch(model, val_data, 64, 1, loss_func, optimizer, 1)
     # train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
 
     print('test')
