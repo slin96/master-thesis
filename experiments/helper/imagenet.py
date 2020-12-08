@@ -6,12 +6,14 @@ from torch import nn
 from torch.backends import cudnn
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
-# Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 from torchvision.models import resnet18
+
+from experiments.helper.imagenet_utils import AverageMeter, ProgressMeter, accuracy
 
 # THIS CODE IS COPIED /INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
-from experiments.data.custom.custom_coco import CustomCoco
+
+# Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
@@ -22,12 +24,14 @@ inference_transforms = transforms.Compose([
     normalize, ])
 
 train_transforms = transforms.Compose([
-    # TODO check if this is deterministic when using seed
     transforms.RandomResizedCrop(224),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
     normalize,
 ])
+
+
+
 
 def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer, epoch, use_gpu=False, gpu=None,
                 print_freq=1):
@@ -89,72 +93,6 @@ def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer
 
         if i % print_freq == 0:
             progress.display(i)
-
-
-class AverageMeter(object):
-    """Computes and stores the average and current value"""
-
-    def __init__(self, name, fmt=':f'):
-        self.name = name
-        self.fmt = fmt
-        self.reset()
-
-    def reset(self):
-        self.val = 0
-        self.avg = 0
-        self.sum = 0
-        self.count = 0
-
-    def update(self, val, n=1):
-        self.val = val
-        self.sum += val * n
-        self.count += n
-        self.avg = self.sum / self.count
-
-    def __str__(self):
-        fmtstr = '{name} {val' + self.fmt + '} ({avg' + self.fmt + '})'
-        return fmtstr.format(**self.__dict__)
-
-
-class ProgressMeter(object):
-    def __init__(self, num_batches, meters, prefix=""):
-        self.batch_fmtstr = self._get_batch_fmtstr(num_batches)
-        self.meters = meters
-        self.prefix = prefix
-
-    def display(self, batch):
-        entries = [self.prefix + self.batch_fmtstr.format(batch)]
-        entries += [str(meter) for meter in self.meters]
-        print('\t'.join(entries))
-
-    def _get_batch_fmtstr(self, num_batches):
-        num_digits = len(str(num_batches // 1))
-        fmt = '{:' + str(num_digits) + 'd}'
-        return '[' + fmt + '/' + fmt.format(num_batches) + ']'
-
-
-def adjust_learning_rate(optimizer, epoch, args):
-    """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
-    lr = args.lr * (0.1 ** (epoch // 30))
-    for param_group in optimizer.param_groups:
-        param_group['lr'] = lr
-
-
-def accuracy(output, target, topk=(1,)):
-    """Computes the accuracy over the k top predictions for the specified values of k"""
-    with torch.no_grad():
-        maxk = max(topk)
-        batch_size = target.size(0)
-
-        _, pred = output.topk(maxk, 1, True, True)
-        pred = pred.t()
-        correct = pred.eq(target.view(1, -1).expand_as(pred))
-
-        res = []
-        for k in topk:
-            correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
-            res.append(correct_k.mul_(100.0 / batch_size))
-        return res
 
 
 def validate(val_data, model, criterion, gpu, print_freq, get_outputs=False):
@@ -240,8 +178,6 @@ if __name__ == '__main__':
     # # outputs_img = inference(model, inference_imagenet_data, 64, 1)
     # # outputs_coco = inference(model, inference_coco_data, 64, 1)
 
-
-
     # TODO check what this var does
     cudnn.benchmark = True
 
@@ -251,32 +187,28 @@ if __name__ == '__main__':
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
-
     val_data = datasets.ImageNet(valdir, 'val', transform=inference_transforms)
     # val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
     #                        '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
     #                        transform=inference_transforms)
 
-    # out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
+    out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
 
-    # train_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose([
-    #         transforms.RandomResizedCrop(224),
-    #         transforms.RandomHorizontalFlip(),
-    #         transforms.ToTensor(),
-    #         normalize,
-    #     ]))
+    train_data = datasets.ImageNet(valdir, 'val', transform=train_transforms)
 
-    train_data = val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
-                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
-                           transform=transforms.Compose([
-            transforms.RandomResizedCrop(224),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            normalize,
-        ]))
+    # TODO way to get outputs
+    # TODO magic numbers, e.g. batch size
 
+    # train_data = val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+    #                                    '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+    #                                    transform=transforms.Compose([
+    #                                        transforms.RandomResizedCrop(224),
+    #                                        transforms.RandomHorizontalFlip(),
+    #                                        transforms.ToTensor(),
+    #                                        normalize,
+    #                                    ]))
 
-    train_epoch(model, train_data, 64, 1, loss_func, optimizer, 1)
+    # train_epoch(model, train_data, 64, 1, loss_func, optimizer, 1)
     # train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
 
     print('test')
