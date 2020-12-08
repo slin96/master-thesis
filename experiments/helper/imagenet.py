@@ -1,10 +1,12 @@
+import os
 import time
 
 import torch
 import torchvision
 from torch import nn
+from torch.backends import cudnn
 from torch.utils.data import DataLoader
-from torchvision import transforms
+from torchvision import transforms, datasets
 # Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 from torchvision.models import resnet18, resnet50, vgg19, vgg16, alexnet, resnet152
 
@@ -181,31 +183,111 @@ def accuracy(output, target, topk=(1,)):
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
 
+def validate(val_loader, model, criterion):
+    batch_time = AverageMeter('Time', ':6.3f')
+    losses = AverageMeter('Loss', ':.4e')
+    top1 = AverageMeter('Acc@1', ':6.2f')
+    top5 = AverageMeter('Acc@5', ':6.2f')
+    progress = ProgressMeter(
+        len(val_loader),
+        [batch_time, losses, top1, top5],
+        prefix='Test: ')
+
+    # switch to evaluate mode
+    model.eval()
+
+    with torch.no_grad():
+        end = time.time()
+        for i, (images, target) in enumerate(val_loader):
+            if None is not None:
+                images = images.cuda(None, non_blocking=True)
+            if torch.cuda.is_available():
+                target = target.cuda(None, non_blocking=True)
+
+            # compute output
+            output = model(images)
+            loss = criterion(output, target)
+
+            # measure accuracy and record loss
+            acc1, acc5 = accuracy(output, target, topk=(1, 5))
+            losses.update(loss.item(), images.size(0))
+            top1.update(acc1[0], images.size(0))
+            top5.update(acc5[0], images.size(0))
+
+            # measure elapsed time
+            batch_time.update(time.time() - end)
+            end = time.time()
+
+            if i % 1 == 0:
+                progress.display(i)
+
+        # TODO: this should also be done with the ProgressMeter
+        print(' * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}'
+              .format(top1=top1, top5=top5))
+
+    return top1.avg
+
 
 if __name__ == '__main__':
-    model = resnet152(pretrained=True)
+    model = resnet18(pretrained=True)
 
-    # use the same data for inference and train just for testing
-    inference_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
-                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
-                           transform=inference_transforms)
+    # # use the same data for inference and train just for testing
+    # inference_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+    #                        '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+    #                        transform=inference_transforms)
+    #
+    # train_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+    #                        '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+    #                        transform=train_transforms)
+    #
+    # # use the same data for inference and train just for testing
+    # root_path = '/Users/nils/Studium/master-thesis/repo/tmp/imgnet'
+    # # inference_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=inference_transforms)
+    # train_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=train_transforms)
+    #
+    # # outputs_img = inference(model, inference_imagenet_data, 64, 1)
+    # # outputs_coco = inference(model, inference_coco_data, 64, 1)
 
-    train_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
-                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
-                           transform=train_transforms)
+    loss_func = nn.CrossEntropyLoss().cuda()
+    optimizer = torch.optim.SGD(model.parameters(), 0.1,
+                                momentum=0.9,
+                                weight_decay=1e-4)
 
-    # use the same data for inference and train just for testing
-    root_path = '/Users/nils/Studium/master-thesis/repo/tmp/imgnet'
-    # inference_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=inference_transforms)
-    train_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=train_transforms)
+    cudnn.benchmark = True
 
-    # outputs_img = inference(model, inference_imagenet_data, 64, 1)
-    # outputs_coco = inference(model, inference_coco_data, 64, 1)
+    # Data loading code
+    traindir = os.path.join('/Users/nils/Studium/master-thesis/repo/tmp/imgnet', 'val')
+    valdir = os.path.join('/Users/nils/Studium/master-thesis/repo/tmp/imgnet', 'val')
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
 
-    loss_func = nn.CrossEntropyLoss().cuda(None)
-    optimizer = torch.optim.SGD(model.parameters(), 0.00001)
+    train_dataset = datasets.ImageFolder(
+        traindir,
+        transforms.Compose([
+            transforms.RandomResizedCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            normalize,
+        ]))
 
-    train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset, batch_size=256, shuffle=True,
+        num_workers=4, pin_memory=True, sampler=None)
+
+    val_loader = torch.utils.data.DataLoader(
+        datasets.ImageFolder(valdir, transforms.Compose([
+            transforms.Resize(256),
+            transforms.CenterCrop(224),
+            transforms.ToTensor(),
+            normalize,
+        ])),
+        batch_size=256, shuffle=False,
+        num_workers=4, pin_memory=True)
+
+    validate(val_loader, model, loss_func)
+
+
+    # train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
     # train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
 
     print('test')
