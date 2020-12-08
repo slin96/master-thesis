@@ -79,9 +79,9 @@ def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer
         top5.update(acc5[0], images.size(0))
 
         # compute gradient and do SGD step
-        # optimizer.zero_grad()
-        # loss.backward()
-        # optimizer.step()
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
         # measure elapsed time
         batch_time.update(time.time() - end)
@@ -219,7 +219,7 @@ def validate(val_data, model, criterion, gpu, print_freq, get_outputs=False):
 if __name__ == '__main__':
     model = resnet18(pretrained=True)
     loss_func = nn.CrossEntropyLoss().cuda()
-    optimizer = torch.optim.SGD(model.parameters(), 0.1,
+    optimizer = torch.optim.SGD(model.parameters(), 1e-4,
                                 momentum=0.9,
                                 weight_decay=1e-4)
 
@@ -267,7 +267,7 @@ if __name__ == '__main__':
         ]))
 
 
-    train_epoch(model, val_data, 64, 1, loss_func, optimizer, 1)
+    train_epoch(model, train_data, 64, 1, loss_func, optimizer, 1)
     # train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
 
     print('test')
