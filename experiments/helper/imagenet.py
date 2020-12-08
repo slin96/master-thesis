@@ -11,6 +11,7 @@ from torchvision.models import resnet18
 
 # THIS CODE IS COPIED /INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
+from experiments.data.custom.custom_coco import CustomCoco
 
 normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
@@ -264,6 +265,7 @@ if __name__ == '__main__':
                                 momentum=0.9,
                                 weight_decay=1e-4)
 
+    # TODO check what this var does
     cudnn.benchmark = True
 
     # Data loading code
@@ -285,8 +287,10 @@ if __name__ == '__main__':
         train_dataset, batch_size=256, shuffle=True,
         num_workers=4, pin_memory=True, sampler=None)
 
-    val_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose(
-        [transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), normalize, ]))
+    # val_data = datasets.ImageNet(valdir, 'val', transform=inference_transforms)
+    val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+                           transform=inference_transforms)
 
     out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
 
