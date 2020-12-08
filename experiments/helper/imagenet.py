@@ -31,10 +31,12 @@ train_transforms = transforms.Compose([
 
 def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer, epoch, use_gpu=False, gpu=None,
                 print_freq=1):
-    # TODO check params
-    data_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=batch_size, shuffle=True,
-        num_workers=1, pin_memory=True, sampler=None)
+    data_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=loader_workers,
+                                              pin_memory=True, )
+    # # TODO check params
+    # data_loader = torch.utils.data.DataLoader(
+    #     dataset, batch_size=batch_size, shuffle=True,
+    #     num_workers=1, pin_memory=True, sampler=None)
 
     if use_gpu:
         # load model on gpu
@@ -77,9 +79,9 @@ def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer
         top5.update(acc5[0], images.size(0))
 
         # compute gradient and do SGD step
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        # optimizer.zero_grad()
+        # loss.backward()
+        # optimizer.step()
 
         # measure elapsed time
         batch_time.update(time.time() - end)
