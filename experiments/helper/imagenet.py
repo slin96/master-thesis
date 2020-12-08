@@ -259,7 +259,16 @@ if __name__ == '__main__':
 
     # out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
 
-    train_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose([
+    # train_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose([
+    #         transforms.RandomResizedCrop(224),
+    #         transforms.RandomHorizontalFlip(),
+    #         transforms.ToTensor(),
+    #         normalize,
+    #     ]))
+
+    train_data = val_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
+                           '/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data/coco_meta.json',
+                           transform=transforms.Compose([
             transforms.RandomResizedCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
