@@ -6,7 +6,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
 # Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
-from torchvision.models import resnet18
+from torchvision.models import resnet18, resnet50, vgg19, vgg16, alexnet, resnet152
 
 from experiments.data.custom.custom_coco import CustomCoco
 
@@ -183,7 +183,7 @@ def accuracy(output, target, topk=(1,)):
 
 
 if __name__ == '__main__':
-    model = resnet18(pretrained=True)
+    model = resnet152(pretrained=True)
 
     # use the same data for inference and train just for testing
     inference_coco_data = CustomCoco('/Users/nils/Studium/master-thesis/repo/tmp/cutsom-coco-data',
@@ -196,16 +196,16 @@ if __name__ == '__main__':
 
     # use the same data for inference and train just for testing
     root_path = '/Users/nils/Studium/master-thesis/repo/tmp/imgnet'
-    inference_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=inference_transforms)
+    # inference_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=inference_transforms)
     train_imagenet_data = torchvision.datasets.ImageNet(root_path, split='val', transform=train_transforms)
 
-    outputs_img = inference(model, inference_imagenet_data, 64, 1)
-    outputs_coco = inference(model, inference_coco_data, 64, 1)
+    # outputs_img = inference(model, inference_imagenet_data, 64, 1)
+    # outputs_coco = inference(model, inference_coco_data, 64, 1)
 
     loss_func = nn.CrossEntropyLoss().cuda(None)
     optimizer = torch.optim.SGD(model.parameters(), 0.00001)
 
     train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
-    train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
+    # train_epoch(model, train_coco_data, 64, 1, loss_func, optimizer, 2)
 
     print('test')
