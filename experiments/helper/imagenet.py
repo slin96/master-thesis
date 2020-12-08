@@ -32,32 +32,32 @@ train_transforms = transforms.Compose([
 ])
 
 
-def inference(model, dataset, batch_size, loader_workers, use_gpu=False, gpu=None):
-    data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=loader_workers,
-                             pin_memory=True)
-
-    # TODO check if any of the arguments influence repeatability, e.g.: num_workers
-
-    if use_gpu:
-        # load model on gpu
-        torch.cuda.set_device(gpu)
-        model = model.cuda(gpu)
-
-    # set model to eval mode
-    model.eval()
-
-    outputs = []
-    with torch.no_grad():
-        for i, (images, target) in enumerate(data_loader):
-            if use_gpu:
-                # load images to gpu
-                # TODO check if blocking influences repeatability
-                images = images.cuda(gpu, non_blocking=True)
-
-            output = model(images)
-            outputs.append(output)
-
-    return outputs
+# def inference(model, dataset, batch_size, loader_workers, use_gpu=False, gpu=None):
+#     data_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=loader_workers,
+#                              pin_memory=True)
+#
+#     # TODO check if any of the arguments influence repeatability, e.g.: num_workers
+#
+#     if use_gpu:
+#         # load model on gpu
+#         torch.cuda.set_device(gpu)
+#         model = model.cuda(gpu)
+#
+#     # set model to eval mode
+#     model.eval()
+#
+#     outputs = []
+#     with torch.no_grad():
+#         for i, (images, target) in enumerate(data_loader):
+#             if use_gpu:
+#                 # load images to gpu
+#                 # TODO check if blocking influences repeatability
+#                 images = images.cuda(gpu, non_blocking=True)
+#
+#             output = model(images)
+#             outputs.append(output)
+#
+#     return outputs
 
 
 def train_epoch(model, dataset, batch_size, loader_workers, loss_func, optimizer, epoch, use_gpu=False, gpu=None,
@@ -183,7 +183,8 @@ def accuracy(output, target, topk=(1,)):
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
 
-def validate(val_loader, model, criterion, gpu, print_freq):
+
+def validate(val_loader, model, criterion, gpu, print_freq, get_outputs=False):
     batch_time = AverageMeter('Time', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
@@ -195,6 +196,8 @@ def validate(val_loader, model, criterion, gpu, print_freq):
 
     # switch to evaluate mode
     model.eval()
+
+    outputs = []
 
     with torch.no_grad():
         end = time.time()
@@ -221,11 +224,17 @@ def validate(val_loader, model, criterion, gpu, print_freq):
             if i % print_freq == 0:
                 progress.display(i)
 
+            if get_outputs:
+                outputs.append(output)
+
         # TODO: this should also be done with the ProgressMeter
         print(' * Acc@1 {top1.avg:.3f} Acc@5 {top5.avg:.3f}'
               .format(top1=top1, top5=top5))
 
-    return top1.avg
+    if get_outputs:
+        return top1.avg, output
+    else:
+        return top1.avg
 
 
 if __name__ == '__main__':
@@ -281,10 +290,10 @@ if __name__ == '__main__':
             transforms.ToTensor(),
             normalize,
         ])),
-        batch_size=256, shuffle=False,
-        num_workers=4, pin_memory=True)
+        batch_size=16, shuffle=False,
+        num_workers=1, pin_memory=True)
 
-    validate(val_loader, model, loss_func, None, 1)
+    out = validate(val_loader, model, loss_func, None, 1, get_outputs=True)
 
 
     # train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
