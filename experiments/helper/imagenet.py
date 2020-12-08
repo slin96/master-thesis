@@ -183,7 +183,7 @@ def accuracy(output, target, topk=(1,)):
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
 
-def validate(val_loader, model, criterion):
+def validate(val_loader, model, criterion, gpu, print_freq):
     batch_time = AverageMeter('Time', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
@@ -199,10 +199,10 @@ def validate(val_loader, model, criterion):
     with torch.no_grad():
         end = time.time()
         for i, (images, target) in enumerate(val_loader):
-            if None is not None:
-                images = images.cuda(None, non_blocking=True)
+            if gpu is not None:
+                images = images.cuda(gpu, non_blocking=True)
             if torch.cuda.is_available():
-                target = target.cuda(None, non_blocking=True)
+                target = target.cuda(gpu, non_blocking=True)
 
             # compute output
             output = model(images)
@@ -218,7 +218,7 @@ def validate(val_loader, model, criterion):
             batch_time.update(time.time() - end)
             end = time.time()
 
-            if i % 1 == 0:
+            if i % print_freq == 0:
                 progress.display(i)
 
         # TODO: this should also be done with the ProgressMeter
@@ -284,7 +284,7 @@ if __name__ == '__main__':
         batch_size=256, shuffle=False,
         num_workers=4, pin_memory=True)
 
-    validate(val_loader, model, loss_func)
+    validate(val_loader, model, loss_func, None, 1)
 
 
     # train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
