@@ -2,15 +2,12 @@ import os
 import time
 
 import torch
-import torchvision
 from torch import nn
 from torch.backends import cudnn
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
 # Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
-from torchvision.models import resnet18, resnet50, vgg19, vgg16, alexnet, resnet152
-
-from experiments.data.custom.custom_coco import CustomCoco
+from torchvision.models import resnet18
 
 # THIS CODE IS COPIED /INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
@@ -184,7 +181,12 @@ def accuracy(output, target, topk=(1,)):
         return res
 
 
-def validate(val_loader, model, criterion, gpu, print_freq, get_outputs=False):
+def validate(val_data, model, criterion, gpu, print_freq, get_outputs=False):
+    val_loader = torch.utils.data.DataLoader(
+        val_data,
+        batch_size=16, shuffle=False,
+        num_workers=1, pin_memory=True)
+
     batch_time = AverageMeter('Time', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
@@ -266,7 +268,7 @@ if __name__ == '__main__':
 
     # Data loading code
     traindir = os.path.join('/Users/nils/Studium/master-thesis/repo/tmp/imgnet', 'val')
-    valdir = os.path.join('/Users/nils/Studium/master-thesis/repo/tmp/imgnet', 'val')
+    valdir = os.path.join('/Users/nils/Studium/master-thesis/repo/tmp/imgnet')
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
@@ -283,17 +285,10 @@ if __name__ == '__main__':
         train_dataset, batch_size=256, shuffle=True,
         num_workers=4, pin_memory=True, sampler=None)
 
-    val_loader = torch.utils.data.DataLoader(
-        datasets.ImageFolder(valdir, transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            normalize,
-        ])),
-        batch_size=16, shuffle=False,
-        num_workers=1, pin_memory=True)
+    val_data = datasets.ImageNet(valdir, 'val', transform=transforms.Compose(
+        [transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(), normalize, ]))
 
-    out = validate(val_loader, model, loss_func, None, 1, get_outputs=True)
+    out = validate(val_data, model, loss_func, None, 1, get_outputs=True)
 
 
     # train_epoch(model, train_imagenet_data, 64, 1, loss_func, optimizer, 1)
