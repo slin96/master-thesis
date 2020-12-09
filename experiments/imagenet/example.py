@@ -34,7 +34,8 @@ if __name__ == '__main__':
 
     num = 3
     print('imagenet train')
-    img_train_output = train_epoch(model, imagenet_train_data, loss_func, optimizer, get_outputs=True, number_batches=num)
+    img_train_output = train_epoch(model, imagenet_train_data, loss_func, optimizer, get_outputs=True,
+                                   number_batches=num)
     print('coco train')
     coco_train_output = train_epoch(model, coco_train_data, loss_func, optimizer, get_outputs=True, number_batches=num)
 

@@ -38,8 +38,8 @@ Was the validation set used to train the models?
   to generate the pre-trained models, we can find out that:
     - the validation split is used to generate the *dataset
       test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L110-L138))
-    - this data is **only** used to generate the
-      *data_loader_test* ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L164))
+    - this data is **only** used to generate the *data_loader_test*
+      ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L164))
     - the *data_loader_test* is **only** used in the *evaluate*
       method ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L48-L71))
     - the *evaluate* method calculates no gradients and also makes no use of the optimizer

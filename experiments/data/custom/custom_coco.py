@@ -58,4 +58,3 @@ class CustomCoco(VisionDataset):
 
     def __len__(self) -> int:
         return len(self._items)
-
