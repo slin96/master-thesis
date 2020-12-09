@@ -27,8 +27,7 @@ class CustomCoco(VisionDataset):
                  ) -> None:
         super(CustomCoco, self).__init__(root, transforms, transform, target_transform)
         self.images_path = os.path.join(self.root, const.IMAGES)
-
-        self.annFile = ann_file
+        self.ann_file = os.path.join(self.root, ann_file)
 
         if id_subset_json:
             self.included_ids = _included_ids(id_subset_json)
@@ -36,7 +35,7 @@ class CustomCoco(VisionDataset):
             self.included_ids = list(range(const.COCO_CLASSES + 1))
 
         self._items = []
-        with open(ann_file) as f:
+        with open(self.ann_file) as f:
             ann_data = json.load(f)
             coco_meta = ann_data[const.COCO_META]
             for e in coco_meta:
@@ -59,3 +58,4 @@ class CustomCoco(VisionDataset):
 
     def __len__(self) -> int:
         return len(self._items)
+
