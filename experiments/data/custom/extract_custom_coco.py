@@ -1,5 +1,4 @@
 import argparse
-import ast
 import json
 import os
 from shutil import copyfile
@@ -7,37 +6,12 @@ from shutil import copyfile
 import torchvision
 from termcolor import colored
 
-NAME = 'name'
-ID = 'id'
-CATEGORY_ID = 'category_id'
-CATEGORIES = 'categories'
-IMAGE_ID = 'image_id'
-IMAGES = 'images'
-FILE_NAME = 'file_name'
+import experiments.data.util.constants as const
 
-VAL = 'val'
-TRAIN = 'train'
-
-COCO_META = 'coco_meta'
-COCO_META_JSON = 'coco_meta.json'
-COCO_IMAGE_TYPE = ".jpg"
-COCO_FILENAME_NUMBERS = 12
-
-COCO_SPLIT = 'coco_split'
-COCO_CATEGORY_ID = 'coco_category_id'
-COCO_IMAGE_ID = 'coco_image_id'
-
-IMAGENET_WNID = 'imagenet_wnid'
-IMAGENET_CLASS_ID = 'imagenet_class_id'
-
-# print output
 OK = colored('OK', 'green')
 
 
 def main(args):
-    print(args.include_ids)
-    print(ast.literal_eval(args.include_ids))
-
     # create target root dir
     os.makedirs(args.target_root)
 
@@ -73,8 +47,8 @@ def main(args):
     print(OK, 'done')
 
     print(OK, 'Save data ...')
-    val_match = [(x, VAL) for x in val_match]
-    train_match = [(x, TRAIN) for x in train_match]
+    val_match = [(x, const.VAL) for x in val_match]
+    train_match = [(x, const.TRAIN) for x in train_match]
     matched = val_match + train_match
     save_matched_coco(matched, imagenet_data.wnids, args)
     print(OK, 'done')
@@ -92,23 +66,23 @@ def save_matched_coco(elements, wnids, args):
         coco_meta = coco_meta[0]
 
         meta_dict = create_meta_dict(coco_meta, imagenet_index, wnids, split)
-        image_path = create_image_path(args, meta_dict[FILE_NAME], split)
+        image_path = create_image_path(args, meta_dict[const.FILE_NAME], split)
 
         # add img metadata to list and cpy image to target dir
         meta_list.append(meta_dict)
         copy_image(image_path, args.target_root)
 
     # save the metadata to a json
-    json_file_path = os.path.join(args.target_root, COCO_META_JSON)
+    json_file_path = os.path.join(args.target_root, const.COCO_META_JSON)
     sava_coco_meta(json_file_path, meta_list)
 
 
 def create_coco_filename(image_id):
-    return str(image_id).zfill(COCO_FILENAME_NUMBERS) + COCO_IMAGE_TYPE
+    return str(image_id).zfill(const.COCO_FILENAME_NUMBERS) + const.COCO_IMAGE_TYPE
 
 
 def copy_image(image_path, target_root):
-    target_dir = os.path.join(target_root, IMAGES)
+    target_dir = os.path.join(target_root, const.IMAGES)
 
     # create dir if not exists
     if not os.path.exists(target_dir):
@@ -119,15 +93,15 @@ def copy_image(image_path, target_root):
 
 
 def sava_coco_meta(json_file_path, meta_list):
-    coco_meta = {COCO_META: meta_list}
+    coco_meta = {const.COCO_META: meta_list}
     with open(json_file_path, 'w') as json_file:
         json.dump(coco_meta, json_file)
 
 
 def create_image_path(args, filename, split):
-    if split == TRAIN:
+    if split == const.TRAIN:
         base_path = args.coco_train_root_path
-    elif split == VAL:
+    elif split == const.VAL:
         base_path = args.coco_val_root_path
     else:
         assert False
@@ -138,13 +112,13 @@ def create_image_path(args, filename, split):
 def create_meta_dict(coco_meta, imagenet_index, wnids, split):
     result_meta = {}
     # copy data from COCO data
-    result_meta[COCO_IMAGE_ID] = coco_meta[IMAGE_ID]
-    result_meta[COCO_CATEGORY_ID] = coco_meta[CATEGORY_ID]
-    result_meta[COCO_SPLIT] = split
+    result_meta[const.COCO_IMAGE_ID] = coco_meta[const.IMAGE_ID]
+    result_meta[const.COCO_CATEGORY_ID] = coco_meta[const.CATEGORY_ID]
+    result_meta[const.COCO_SPLIT] = split
 
-    result_meta[IMAGENET_CLASS_ID] = imagenet_index
-    result_meta[IMAGENET_WNID] = wnids[imagenet_index]
-    result_meta[FILE_NAME] = create_coco_filename(coco_meta[IMAGE_ID])
+    result_meta[const.IMAGENET_CLASS_ID] = imagenet_index
+    result_meta[const.IMAGENET_WNID] = wnids[imagenet_index]
+    result_meta[const.FILE_NAME] = create_coco_filename(coco_meta[const.IMAGE_ID])
 
     return result_meta
 
@@ -153,10 +127,10 @@ def id_to_class_index(annotations_path):
     index = {}
     with open(annotations_path, 'r') as COCO:
         js = json.loads(COCO.read())
-        cats = js[CATEGORIES]
+        cats = js[const.CATEGORIES]
 
         for cat in cats:
-            index[cat[ID]] = cat[NAME]
+            index[cat[const.ID]] = cat[const.NAME]
 
     return index
 
@@ -188,7 +162,7 @@ def filter_number_of_categories(elements, num_categories):
 def category_ids(annotation):
     cat_ids = set()
     for a in annotation:
-        cat_ids.add(a[CATEGORY_ID])
+        cat_ids.add(a[const.CATEGORY_ID])
 
     return cat_ids
 
@@ -203,7 +177,7 @@ def parse_args():
                         help='coco path for validation annotations; \'instances_val2017.json\'')
 
     parser.add_argument('--imagenet-root', help='imagenet root path for')
-    parser.add_argument('--imagenet-split', default=VAL, choices=[TRAIN, VAL])
+    parser.add_argument('--imagenet-split', default=const.VAL, choices=[const.TRAIN, const.VAL])
 
     parser.add_argument('--target-root', help='the directory to store the created dataset')
 
