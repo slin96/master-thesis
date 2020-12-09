@@ -19,13 +19,15 @@ class CustomCoco(VisionDataset):
 
     def __init__(self,
                  root: str,
-                 ann_file: str,
+                 ann_file: str = 'coco_meta.json',
                  id_subset_json: str = None,
                  transform: Optional[Callable] = None,
                  target_transform: Optional[Callable] = None,
                  transforms: Optional[Callable] = None,
                  ) -> None:
         super(CustomCoco, self).__init__(root, transforms, transform, target_transform)
+        self.images_path = os.path.join(self.root, 'images')
+
         self.annFile = ann_file
 
         if id_subset_json:
@@ -44,7 +46,7 @@ class CustomCoco(VisionDataset):
 
     def __getitem__(self, index: int) -> Any:
         item = self._items[index]
-        image_path = os.path.join(self.root, 'images', item['file_name'])
+        image_path = os.path.join(self.images_path, item['file_name'])
         img = Image.open(image_path).convert('RGB')
         label = item['imagenet_class_id']
 

@@ -142,7 +142,7 @@ categories[{
     - `--coco-val-root-path <coco-root>/val2017`
     - `--coco-val-annotations <coco-root>/annotations/instances_val2017.json`
     - `--imagenet-root <imagenet-root>`
-    - --target-root /hpi/fs00/home/nils.strassenburg/test/zebra-data
+    - `--target-root <target-dir>`
 
 ### Download
 
