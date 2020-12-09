@@ -43,10 +43,10 @@ Was the validation set used to train the models?
     - the *data_loader_test* is **only** used in the *evaluate*
       method ([code](https://github.com/pytorch/vision/blob/6e7ed49a93a1b0d47cef7722ea2c2f525dcb8795/references/classification/train.py#L48-L71))
     - the *evaluate* method calculates no gradients and also makes no use of the optimizer
-    - thus **the validation set was not used to pretrain the models we use** 
-
+    - thus **the validation set was not used to pretrain the models we use**
 
 ## ImageNet Data
+
 - when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition
   Challenge (ILSVRC)
 - an overview of the Challenges can be found [here](http://image-net.org/challenges/LSVRC/)
@@ -121,7 +121,7 @@ categories[{
 
 ## Customized COCO dataset
 
-- the goal of creating our customized COCO dataset is to create a dataset that is similar to/compatible with the 
+- the goal of creating our customized COCO dataset is to create a dataset that is similar to/compatible with the
   ImageNet dataset but from a different distribution than the ImageNet data
 - also, we want to split the subset of the COCO data that we use into multiple classes
 
@@ -129,34 +129,35 @@ categories[{
 
 - The images in the ImageNet data have only one defined category
 - Also in most images, you can see only the one object defining the category
-  
+
 - To create a similar dataset, we filter the images:
     - first, we extract all images that have only one assigned category
     - out of these images, we then extract the images that have a category that is also part of the Imagenet dataset
 - finally, we take only the filtered images and store them only with the relevant data
 
-- the custom coco dataset is created by executing the [extract-custom-coco](custom/extract_custom_coco.py) script
-using the following arguments 
-	- `--coco-train-root-path <coco-root>/train2017` 
-	- `--coco-train-annotations <coco-root>/annotations/instances_train2017.json`
-	- `--coco-val-root-path <coco-root>/val2017` 
-	- `--coco-val-annotations <coco-root>/annotations/instances_val2017.json` 
-	- `--imagenet-root <imagenet-root>`
-	- --target-root /hpi/fs00/home/nils.strassenburg/test/zebra-data
-  
+- the custom coco dataset is created by executing the [extract-custom-coco](custom/extract_custom_coco.py) script using
+  the following arguments
+    - `--coco-train-root-path <coco-root>/train2017`
+    - `--coco-train-annotations <coco-root>/annotations/instances_train2017.json`
+    - `--coco-val-root-path <coco-root>/val2017`
+    - `--coco-val-annotations <coco-root>/annotations/instances_val2017.json`
+    - `--imagenet-root <imagenet-root>`
+    - --target-root /hpi/fs00/home/nils.strassenburg/test/zebra-data
+
 ### Download
+
 - **download initial data**
-  - [coco-train2017](http://images.cocodataset.org/zips/train2017.zip)
-  - [coco-val2017](http://images.cocodataset.org/zips/val2017.zip)
-  - [coco-annotations2017](http://images.cocodataset.org/annotations/annotations_trainval2017.zip) 
-    (contains `instances_train2017.json` and `instances_val2017.json`) 
-  - the `<imagenet-root>` needs to contain the following files
-    - `ILSVRC2012_devkit_t12.tar.gz`
-    - `ILSVRC2012_img_val.tar`
-    - unfortunately, we can not include a download link here because a login is required
-      - the root link is [here](http://www.image-net.org/challenges/LSVRC/2012/downloads)
-      - **WARNING**: after login for download you get redirected to the data for 2010, change the link to 2012 
-        (http://www.image-net.org/challenges/LSVRC/2012/downloads) before download!
+    - [coco-train2017](http://images.cocodataset.org/zips/train2017.zip)
+    - [coco-val2017](http://images.cocodataset.org/zips/val2017.zip)
+    - [coco-annotations2017](http://images.cocodataset.org/annotations/annotations_trainval2017.zip)
+      (contains `instances_train2017.json` and `instances_val2017.json`)
+    - the `<imagenet-root>` needs to contain the following files
+        - `ILSVRC2012_devkit_t12.tar.gz`
+        - `ILSVRC2012_img_val.tar`
+        - unfortunately, we can not include a download link here because a login is required
+            - the root link is [here](http://www.image-net.org/challenges/LSVRC/2012/downloads)
+            - **WARNING**: after login for download you get redirected to the data for 2010, change the link to 2012
+              (http://www.image-net.org/challenges/LSVRC/2012/downloads) before download!
 - **customized coco data**
-  - [full-dataset](https://owncloud.hpi.de/s/TRCzfvxwyHCRIQr)
+    - [full-dataset](https://owncloud.hpi.de/s/TRCzfvxwyHCRIQr)
   
