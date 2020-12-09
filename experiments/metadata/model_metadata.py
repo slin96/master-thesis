@@ -4,8 +4,6 @@ from torchvision import models
 if __name__ == '__main__':
     models = [models.alexnet, models.vgg19, models.resnet18, models.resnet50, models.resnet152]
 
-    # /Users/nils/.cache/torch/hub/checkpoints/vgg16-397923af.pth
-
     for mod in models:
         model = mod()
         print('Model: {}'.format(mod.__name__))
