@@ -22,6 +22,7 @@ def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_w
         # load model on gpu
         torch.cuda.set_device(gpu)
         model = model.cuda(gpu)
+        loss_func = loss_func.cuda(gpu)
 
     batch_time = AverageMeter('Time', ':6.3f')
     data_time = AverageMeter('Data', ':6.3f')
@@ -93,6 +94,7 @@ def validate(model, data, loss_func, batch_size=64, num_workers=1, use_gpu=False
         # load model on gpu
         torch.cuda.set_device(gpu)
         model = model.cuda(gpu)
+        loss_func = loss_func.cuda(gpu)
 
     batch_time = AverageMeter('Time', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')

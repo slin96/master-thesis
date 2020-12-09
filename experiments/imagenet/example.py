@@ -12,7 +12,7 @@ if __name__ == '__main__':
     model = resnet18(pretrained=True)
 
     # TODO check if this could go in training
-    loss_func = nn.CrossEntropyLoss().cuda()
+    loss_func = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), 1e-4,
                                 momentum=0.9,
                                 weight_decay=1e-4)
