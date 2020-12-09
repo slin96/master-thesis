@@ -5,6 +5,7 @@ CATEGORIES = 'categories'
 IMAGE_ID = 'image_id'
 IMAGES = 'images'
 FILE_NAME = 'file_name'
+INCLUDED_COCO_IDS = 'included-coco-ids'
 
 VAL = 'val'
 TRAIN = 'train'
@@ -13,6 +14,7 @@ COCO_META = 'coco_meta'
 COCO_META_JSON = 'coco_meta.json'
 COCO_IMAGE_TYPE = ".jpg"
 COCO_FILENAME_NUMBERS = 12
+COCO_CLASSES = 91
 
 COCO_SPLIT = 'coco_split'
 COCO_CATEGORY_ID = 'coco_category_id'
