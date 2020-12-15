@@ -1,9 +1,9 @@
 import argparse
-import datetime
 import os
 from pathlib import Path
 
 import torch
+from mmlib.deterministic import deterministic
 from torch import nn
 from torch.backends import cudnn
 from torchvision import models, datasets
@@ -26,27 +26,23 @@ def experiment_inference(model, data, number_batches):
     return output
 
 
-def save_output(args, time, model_getter, out):
-    date_string = time.strftime("%Y_%m_%d-%H%M")
+def save_output(args, model_getter, out):
+    Path(args.tmp_output_root).mkdir(parents=True, exist_ok=False)
 
-    out_path = os.path.join(args.tmp_output_root, date_string)
-    Path(out_path).mkdir(parents=True, exist_ok=True)
-
-    output_file = os.path.join(out_path, 'model-{}-output'.format(model_getter.__name__))
+    output_file = os.path.join(args.tmp_output_root, 'model-{}-output'.format(model_getter.__name__))
     torch.save(out, output_file)
 
 
 def main(args):
-    now = datetime.datetime.now()
-
     imgnet_val_data = datasets.ImageNet(args.imagenet_root, 'val', transform=inference_transforms)
 
     # TODO make deterministic to have same results on different machines
     for mod_getter in MODELS:
         model = mod_getter(pretrained=True)
-        out = experiment_inference(model, imgnet_val_data, args.number_batches)
+        params = [model, imgnet_val_data, args.number_batches]
+        out = deterministic(experiment_inference, f_args=params, f_kwargs={})
 
-        save_output(args, now, mod_getter, out)
+        save_output(args, mod_getter, out)
 
 
 def parse_args():
