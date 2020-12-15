@@ -36,7 +36,6 @@ def save_output(args, model_getter, out):
 def main(args):
     imgnet_val_data = datasets.ImageNet(args.imagenet_root, 'val', transform=inference_transforms)
 
-    # TODO make deterministic to have same results on different machines
     for mod_getter in MODELS:
         model = mod_getter(pretrained=True)
         params = [model, imgnet_val_data, args.number_batches]
