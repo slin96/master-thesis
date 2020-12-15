@@ -27,8 +27,6 @@ def experiment_inference(model, data, number_batches):
 
 
 def save_output(args, model_getter, out):
-    Path(args.tmp_output_root).mkdir(parents=True, exist_ok=False)
-
     output_file = os.path.join(args.tmp_output_root, 'model-{}-output'.format(model_getter.__name__))
     torch.save(out, output_file)
 
@@ -41,6 +39,8 @@ def main(args):
         params = [model, imgnet_val_data, args.number_batches]
         out = deterministic(experiment_inference, f_args=params, f_kwargs={})
 
+        # create output dir
+        Path(args.tmp_output_root).mkdir(parents=True, exist_ok=False)
         save_output(args, mod_getter, out)
 
 
