@@ -2,7 +2,7 @@ import argparse
 
 import torch
 
-from experiments.repeatability.util import MODELS, get_output
+from experiments.repeatability.inference.util import MODELS, get_output
 
 
 def compare(out1, out2):

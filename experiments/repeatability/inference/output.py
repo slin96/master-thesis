@@ -8,7 +8,7 @@ from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
 from experiments.imagenet.processing import validate
-from experiments.repeatability.util import save_output, MODELS
+from experiments.repeatability.inference.util import save_output, MODELS
 
 
 def experiment_inference(model, data, number_batches):
