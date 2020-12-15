@@ -39,9 +39,9 @@ def main(args):
         params = [model, imgnet_val_data, args.number_batches]
         out = deterministic(experiment_inference, f_args=params, f_kwargs={})
 
-        # create output dir
-        Path(args.tmp_output_root).mkdir(parents=True, exist_ok=False)
-        save_output(args, mod_getter, out)
+    # create output dir
+    Path(args.tmp_output_root).mkdir(parents=True, exist_ok=False)
+    save_output(args, mod_getter, out)
 
 
 def parse_args():
