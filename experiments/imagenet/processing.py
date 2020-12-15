@@ -148,7 +148,7 @@ def validate(model, data, loss_func, batch_size=64, num_workers=1, use_gpu=False
               .format(top1=top1, top5=top5))
 
     if get_outputs:
-        return output
+        return outputs
     else:
         return top1.avg
 
