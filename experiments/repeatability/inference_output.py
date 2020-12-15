@@ -4,13 +4,11 @@ from pathlib import Path
 from mmlib.deterministic import deterministic
 from torch import nn
 from torch.backends import cudnn
-from torchvision import models, datasets
+from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
 from experiments.imagenet.processing import validate
-from experiments.repeatability.util import save_output
-
-MODELS = [models.alexnet, models.vgg19, models.resnet18, models.resnet50, models.resnet152]
+from experiments.repeatability.util import save_output, MODELS
 
 
 def experiment_inference(model, data, number_batches):
