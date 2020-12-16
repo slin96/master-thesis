@@ -41,15 +41,21 @@
 ### 3. Compare Outputs
 
 - if necessary:
-    - copy the results written to `<OUTPUT-ROOT>`to ONE node
-    - activate the `venv` and set `PYTHONPATH` (see above)
+  - copy the results written to `<OUTPUT-ROOT>`to ONE node
+  - activate the `venv` and set `PYTHONPATH` (see above)
 - cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
-    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
+  - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
 
 #### Results
 
 If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPUTS ARE THE SAME`
+
+- **different machines but same setup + hardware**
+  - produced predictions are the same
+
+- **different machines, same setup but different hardware**
+  - produced predictions differ
 
 ## Experiment: Repeatable Training
 
@@ -84,3 +90,9 @@ If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPU
 
 If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPUTS ARE THE SAME`
 and `ALL MODELS ARE THE SAME`
+
+- **different machines but same setup + hardware**
+  - produced models and outputs are the same
+
+- **different machines, same setup but different hardware**
+  - produced models and outputs differ 
