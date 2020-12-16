@@ -16,7 +16,7 @@
 ```
 
 - now run the script: `sh setup.sh` (can be found under:
-  `master-thesis/experiments/repeatability/scripts /setup.sh`)
+  `master-thesis/experiments/repeatability/scripts/setup.sh`)
   
 ## Experiment: Repeatable Inference
 
