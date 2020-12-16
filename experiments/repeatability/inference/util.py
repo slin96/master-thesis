@@ -15,4 +15,3 @@ def save_output(root, model_getter, output):
 def get_output(root, model_getter):
     read_file = os.path.join(root, MODEL_OUTPUT.format(model_getter.__name__))
     return torch.load(read_file)
-
