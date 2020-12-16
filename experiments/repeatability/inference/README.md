@@ -1,8 +1,8 @@
 # Experiments: Repeatable Inference
 
-## Manual execution
+## Manual Execution
 ### 1. Setup
-- create a dir to execute the xperiments in, e.g. `tmp`
+- create a dir to execute the experiments in, e.g. `tmp`
 - clone the master thesis repo 
     - `git clone https://github.com/slin96/master-thesis.git`
 - clone the mmlib repo 
@@ -16,7 +16,7 @@
 - now run the script: `sh setup.sh` (can be found under:
   `master-thesis/experiments/repeatability/inference/scripts /setup.sh`)
 
-### 2. Create output on first Node
+### 2. Create Output on the first Node
 - double check that the venv under `master-thesis/experiments/venv` is activated
   - `source master-thesis/experiments/venv/bin/activate`
   
@@ -26,12 +26,12 @@
 - cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 output.py --imagenet-root <IMAGENET-ROOT> --tmp-output-root <OUTPUT-ROOT> --number-batches <BATCHES>`
 
-### 3. Create output on second Node
+### 3. Create Output on the second Node
 - repeat the steps form 2. (maybe also step 1.), and make sure
   - you are on a different node
   - set `<OUTPUT-ROOT>` to another dir to not overwrite the output 
   
-### 4. Compare outputs
+### 4. Compare Outputs
 - if necessary:
   - copy the results written to `<OUTPUT-ROOT>`to ONE node
   - activate the `venv` and set `PYTHONPATH` (see above)
