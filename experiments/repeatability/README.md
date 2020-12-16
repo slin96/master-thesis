@@ -17,15 +17,10 @@
 
 - now run the script: `sh setup.sh` (can be found under:
   `master-thesis/experiments/repeatability/scripts /setup.sh`)
-
-
-
+  
 ## Experiment: Repeatable Inference
 
-### Manual Execution
-
-
-#### 2. Create Output on the first Node
+### 1. Create Output on the first Node
 
 - double check that the venv under `master-thesis/experiments/venv` is activated
     - `source master-thesis/experiments/venv/bin/activate`
@@ -36,20 +31,20 @@
 - cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 output.py --imagenet-root <IMAGENET-ROOT> --tmp-output-root <OUTPUT-ROOT> --number-batches <BATCHES>`
 
-#### 3. Create Output on the second Node
+### 2. Create Output on the second Node
 
-- repeat the steps form 2. (maybe also step 1.), and make sure
+- repeat the steps form 1. (maybe also the setup), and make sure
     - you are on a different node
     - set `<OUTPUT-ROOT>` to another dir to not overwrite the output
 
-#### 4. Compare Outputs
+### 3. Compare Outputs
 
 - if necessary:
     - copy the results written to `<OUTPUT-ROOT>`to ONE node
     - activate the `venv` and set `PYTHONPATH` (see above)
 - execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
-    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 2 and 3
+    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
 
 #### Results
 
-If the results of step 2. and 3. are the same, step 4. should output: `ALL OUTPUTS ARE THE SAME`
+If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPUTS ARE THE SAME`
