@@ -22,3 +22,7 @@ def save_model_weights(root, model_getter, model):
     output_file = os.path.join(root, MODEL_WEIGHTS.format(model_getter.__name__))
     torch.save(model.state_dict(), output_file)
 
+
+def load_state_dict(root, model_getter):
+    read_file = os.path.join(root, MODEL_WEIGHTS.format(model_getter.__name__))
+    return torch.load(read_file)
