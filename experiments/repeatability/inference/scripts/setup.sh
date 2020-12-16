@@ -8,7 +8,7 @@ REQ=../../../../requirements.txt
 LIB=../../../../../mmlib
 
 # build mmlib library
-./$LIB/generate-archives.sh
+sh $LIB/generate-archives.sh
 
 python3 -m venv $VENV
 source $VENV/bin/activate
