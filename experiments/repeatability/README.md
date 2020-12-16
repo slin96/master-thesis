@@ -48,3 +48,23 @@
 #### Results
 
 If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPUTS ARE THE SAME`
+
+## Experiment: Repeatable Training
+
+### 1. Create Output on the first Node
+
+- double check that the venv under `master-thesis/experiments/venv` is activated
+    - `source master-thesis/experiments/venv/bin/activate`
+
+- set python path
+    - `export PYTHONPATH="<PATH>/master-thesis"`
+
+- cd into `master-thesis/experiments/repeatability/training`
+- execute `python3 output.py --imagenet-root <IMAGENET-ROOT> --tmp-output-root <OUTPUT-ROOT> --number-batches <BATCHES>`
+
+### 2. Create Output on the second Node
+
+- repeat the steps form 1. (maybe also the setup), and make sure
+    - you are on a different node
+    - set `<OUTPUT-ROOT>` to another dir to not overwrite the output
+  
