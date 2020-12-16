@@ -42,6 +42,7 @@
 - if necessary:
     - copy the results written to `<OUTPUT-ROOT>`to ONE node
     - activate the `venv` and set `PYTHONPATH` (see above)
+- cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
     - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
 
@@ -68,3 +69,11 @@ If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPU
     - you are on a different node
     - set `<OUTPUT-ROOT>` to another dir to not overwrite the output
   
+### 3. Compare Outputs and Models
+
+- if necessary:
+    - copy the results written to `<OUTPUT-ROOT>`to ONE node
+    - activate the `venv` and set `PYTHONPATH` (see above)
+- cd into `master-thesis/experiments/repeatability/training`
+- execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
+    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
