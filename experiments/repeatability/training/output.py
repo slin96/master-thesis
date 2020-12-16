@@ -1,23 +1,24 @@
 import argparse
 from pathlib import Path
 
+import torch
 from mmlib.deterministic import deterministic
 from torch import nn
 from torch.backends import cudnn
 from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
-from experiments.imagenet.processing import validate
-from experiments.repeatability.util import save_output, MODELS
+from experiments.imagenet.processing import train_epoch
+from experiments.repeatability.util import save_output, MODELS, save_model_weights
 
 
-def experiment_inference(model, data, number_batches):
+def experiment_training(model, data, optimizer, number_batches):
     loss_func = nn.CrossEntropyLoss()
 
     # TODO check what this var does
     cudnn.benchmark = True
 
-    output = validate(model, data, loss_func, get_outputs=True, number_batches=number_batches)
+    output = train_epoch(model, data, loss_func, optimizer, get_outputs=True, number_batches=number_batches)
 
     return output
 
@@ -30,10 +31,13 @@ def main(args):
 
     for mod_getter in MODELS:
         model = mod_getter(pretrained=True)
-        params = [model, imgnet_val_data, args.number_batches]
-        out = deterministic(experiment_inference, f_args=params)
+        optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
+
+        params = [model, imgnet_val_data, optimizer, args.number_batches]
+        out = deterministic(experiment_training, f_args=params)
 
         save_output(args.tmp_output_root, mod_getter, out)
+        save_model_weights(args.tmp_output_root, mod_getter, model)
 
 
 def parse_args():
