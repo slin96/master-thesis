@@ -3,9 +3,9 @@
 # operate in the current dir
 cd "$(dirname "$0")"
 
-VENV=../../../venv
-REQ=../../../../requirements.txt
-LIB=../../../../../mmlib
+VENV=../../venv
+REQ=../../../requirements.txt
+LIB=../../../../mmlib
 
 # build mmlib library
 sh $LIB/generate-archives.sh

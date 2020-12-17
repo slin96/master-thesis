@@ -2,7 +2,7 @@ import argparse
 
 import torch
 
-from experiments.repeatability.inference.util import MODELS, get_output
+from experiments.repeatability.util import MODELS, get_output
 
 
 def compare(out1, out2):
@@ -15,7 +15,7 @@ def compare(out1, out2):
     return True
 
 
-def compare_all_models(args):
+def compare_all_outputs(args):
     for mod_getter in MODELS:
         out1 = get_output(args.input_root, mod_getter)
         out2 = get_output(args.compare_to_root, mod_getter)
@@ -27,7 +27,7 @@ def compare_all_models(args):
 
 
 def main(args):
-    if compare_all_models(args):
+    if compare_all_outputs(args):
         print('ALL OUTPUTS ARE THE SAME')
     else:
         print('OUTPUTS DIFFER')
