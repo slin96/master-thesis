@@ -274,7 +274,10 @@
 
 #### Blog Series on Reproducibility in Machine Learning
 
-- TODO
+- Blog Series of Reproducibility in ML
+- Implementation in Tensorflow and Kubernetes 
+- Not very scientifically written but good overview and good references
+- [further notes and blog saved as pdf](./reproducibility-in-ml)
 
 ## Reviewed (not too relevant)
 
