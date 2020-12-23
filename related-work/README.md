@@ -38,6 +38,12 @@ wasn't of interest so far but might help to get more information in the category
 - [Scalable Deep Learning on Distributed Infrastructures](#Scalable-Deep-Learning-on-Distributed-Infrastructures)
 - [Rondo](#Rondo)
 
+### Implementation of Reproducibility
+- [Blog Series on Reproducibility in Machine Learning](#Blog-Series-on-Reproducibility-in-Machine-Learning)
+- [PyTorch:Reproducability](https://pytorch.org/docs/master/)
+
+
+
 ### Computational Graph (Formats) 
 - [ONNX](#ONNX)
 
@@ -99,6 +105,8 @@ wasn't of interest so far but might help to get more information in the category
 - [tochvision models](https://pytorch.org/docs/stable/torchvision/models.html) 
 - [Saving and loading models](https://pytorch.org/tutorials/beginner/saving_loading_models.html#saving-loading-model-for-inference)
 - [Reproducability](https://pytorch.org/docs/stable/notes/randomness.html)
+- [Reproducability](https://pytorch.org/docs/master/)
+
 
 ### Tensorflow
 - [Training checkpoints](https://www.tensorflow.org/guide/checkpoint)
@@ -226,6 +234,9 @@ Categories. That the different of the term is not the same for all scientific wo
     - Bytewise-XOR Compression
 - *Note: ModelHub float compression extends ideas from this paper*
 - [pdf](./pstore/pstore.pdf)
+
+#### Blog Series on Reproducibility in Machine Learning
+- TODO
 
 ## Reviewed (not too relevant)
 
