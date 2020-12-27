@@ -49,6 +49,7 @@
 
 - [Blog Series on Reproducibility in Machine Learning](#Blog-Series-on-Reproducibility-in-Machine-Learning)
 - [PyTorch:Reproducability](https://pytorch.org/docs/master/)
+- [NVIDIA: Framework Determinism](https://github.com/NVIDIA/framework-determinism)
 
 ### Computational Graph (Formats)
 
