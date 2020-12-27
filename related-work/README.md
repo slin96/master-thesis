@@ -50,6 +50,7 @@
 - [Blog Series on Reproducibility in Machine Learning](#Blog-Series-on-Reproducibility-in-Machine-Learning)
 - [PyTorch:Reproducability](https://pytorch.org/docs/master/)
 - [NVIDIA: Framework Determinism](https://github.com/NVIDIA/framework-determinism)
+- NVIDIA: Determinism in DL - [slides](https://developer.download.nvidia.com/video/gputechconf/gtc/2019/presentation/s9911-determinism-in-deep-learning.pdf) - [video](https://www.youtube.com/watch?v=TB07_mUMt0U)
 
 ### Computational Graph (Formats)
 
