@@ -48,9 +48,12 @@
 ### Implementation of Reproducibility
 
 - [Blog Series on Reproducibility in Machine Learning](#Blog-Series-on-Reproducibility-in-Machine-Learning)
-- [PyTorch:Reproducability](https://pytorch.org/docs/master/)
+- [PyTorch: Reproducibility](https://pytorch.org/docs/master/)
+- NVIDIA: Determinism in DL
+  - [slides](https://developer.download.nvidia.com/video/gputechconf/gtc/2019/presentation/s9911-determinism-in-deep-learning.pdf)
+  - [video](https://www.youtube.com/watch?v=TB07_mUMt0U)
 - [NVIDIA: Framework Determinism](https://github.com/NVIDIA/framework-determinism)
-- NVIDIA: Determinism in DL - [slides](https://developer.download.nvidia.com/video/gputechconf/gtc/2019/presentation/s9911-determinism-in-deep-learning.pdf) - [video](https://www.youtube.com/watch?v=TB07_mUMt0U)
+- [CUDA: floating-point](https://docs.nvidia.com/cuda/floating-point/index.html)
 
 ### Computational Graph (Formats)
 
@@ -274,10 +277,10 @@
 - *Note: ModelHub float compression extends ideas from this paper*
 - [pdf](./pstore/pstore.pdf)
 
-#### Blog Series on Reproducibility in Machine Learning
+### Blog Series on Reproducibility in Machine Learning
 
 - Blog Series of Reproducibility in ML
-- Implementation in Tensorflow and Kubernetes 
+- Implementation in Tensorflow and Kubernetes
 - Not very scientifically written but good overview and good references
 - [further notes and blog saved as pdf](./reproducibility-in-ml)
 

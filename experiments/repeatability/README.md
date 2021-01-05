@@ -17,17 +17,17 @@
 
 - now run the script: `sh setup.sh` (can be found under:
   `master-thesis/experiments/repeatability/scripts/setup.sh`)
-  
+
 ## Experiment: Repeatable Inference
 
 ### 1. Create Output on the first Node
 
 - double check that the venv under `master-thesis/experiments/venv` is activated
-  - `source master-thesis/experiments/venv/bin/activate`
+    - `source master-thesis/experiments/venv/bin/activate`
 
 - set python path
-  - cd into `master-thesis/`
-  - `export PYTHONPATH="$PWD"`
+    - cd into `master-thesis/`
+    - `export PYTHONPATH="$PWD"`
 
 - cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 output.py --imagenet-root <IMAGENET-ROOT> --tmp-output-root <OUTPUT-ROOT> --number-batches <BATCHES>`
@@ -41,32 +41,32 @@
 ### 3. Compare Outputs
 
 - if necessary:
-  - copy the results written to `<OUTPUT-ROOT>`to ONE node
-  - activate the `venv` and set `PYTHONPATH` (see above)
+    - copy the results written to `<OUTPUT-ROOT>`to ONE node
+    - activate the `venv` and set `PYTHONPATH` (see above)
 - cd into `master-thesis/experiments/repeatability/inference`
 - execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
-  - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
+    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
 
 #### Results
 
 If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPUTS ARE THE SAME`
 
 - **different machines but same setup + hardware**
-  - produced predictions are the same
+    - produced predictions are the same
 
 - **different machines, same setup but different hardware**
-  - produced predictions differ
+    - produced predictions differ
 
 ## Experiment: Repeatable Training
 
 ### 1. Create Output on the first Node
 
 - double check that the venv under `master-thesis/experiments/venv` is activated
-  - `source master-thesis/experiments/venv/bin/activate`
+    - `source master-thesis/experiments/venv/bin/activate`
 
 - set python path
-  - cd into `master-thesis/`
-  - `export PYTHONPATH="$PWD"`
+    - cd into `master-thesis/`
+    - `export PYTHONPATH="$PWD"`
 
 - cd into `master-thesis/experiments/repeatability/training`
 - execute `python3 output.py --imagenet-root <IMAGENET-ROOT> --tmp-output-root <OUTPUT-ROOT> --number-batches <BATCHES>`
@@ -80,11 +80,11 @@ If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPU
 ### 3. Compare Outputs and Models
 
 - if necessary:
-  - copy the results written to `<OUTPUT-ROOT>`to ONE node
-  - activate the `venv` and set `PYTHONPATH` (see above)
+    - copy the results written to `<OUTPUT-ROOT>`to ONE node
+    - activate the `venv` and set `PYTHONPATH` (see above)
 - cd into `master-thesis/experiments/repeatability/training`
 - execute `python3 compare.py --input-root <INPUT-ROOT> --compare-to-root <COMPATE-TO-ROOT>`
-  - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
+    - `<INPUT-ROOT>` and `<COMPATE-TO-ROOT>` are the `<OUTPUT-ROOT>`s from steps 1. and 2.
 
 #### Results
 
@@ -92,7 +92,7 @@ If the results of step 1. and 2. are the same, step 3. should output: `ALL OUTPU
 and `ALL MODELS ARE THE SAME`
 
 - **different machines but same setup + hardware**
-  - produced models and outputs are the same
+    - produced models and outputs are the same
 
 - **different machines, same setup but different hardware**
-  - produced models and outputs differ 
+    - produced models and outputs differ 
