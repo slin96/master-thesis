@@ -1,4 +1,4 @@
-# Images 
+# Images
 
 If images have been created with draw.io you can find the link to the .xml file here
 
