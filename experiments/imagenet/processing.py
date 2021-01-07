@@ -7,7 +7,7 @@ from experiments.imagenet.imagenet_utils import AverageMeter, ProgressMeter, acc
 from experiments.repeatability.util import get_device
 
 
-# THIS CODE IS COPIED /INSPIRED BY:
+# THIS CODE IS COPIED/INSPIRED BY:
 # https://github.com/pytorch/examples/blob/master/imagenet/main.py
 
 # Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965

@@ -2,6 +2,7 @@ import argparse
 
 import torch
 
+from experiments.repeatability.args import add_compare_args
 from experiments.repeatability.util import MODELS, get_output
 
 
@@ -35,8 +36,7 @@ def main(args):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Inference experiment script')
-    parser.add_argument('--input-root', help='root dir for model outputs')
-    parser.add_argument('--compare-to-root', help='root dir for outputs to compare against')
+    add_compare_args(parser)
     args = parser.parse_args()
 
     return args
