@@ -14,9 +14,6 @@ from experiments.repeatability.util import save_output, MODELS
 def experiment_inference(model, data, number_batches):
     loss_func = nn.CrossEntropyLoss()
 
-    # TODO check what this var does
-    cudnn.benchmark = True
-
     output = validate(model, data, loss_func, get_outputs=True, number_batches=number_batches)
 
     return output

@@ -15,9 +15,6 @@ from experiments.repeatability.util import save_output, MODELS, save_model_weigh
 def experiment_training(model, data, optimizer, number_batches):
     loss_func = nn.CrossEntropyLoss()
 
-    # TODO check what this var does
-    cudnn.benchmark = True
-
     output = train_epoch(model, data, loss_func, optimizer, get_outputs=True, number_batches=number_batches)
 
     return output
