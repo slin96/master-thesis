@@ -26,3 +26,9 @@ def save_model_weights(root, model_getter, model):
 def load_state_dict(root, model_getter):
     read_file = os.path.join(root, MODEL_WEIGHTS.format(model_getter.__name__))
     return torch.load(read_file)
+
+
+def get_device(device):
+    if device is None:
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    return device
