@@ -3,7 +3,6 @@ from pathlib import Path
 
 from mmlib.deterministic import deterministic
 from torch import nn
-from torch.backends import cudnn
 from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
@@ -39,6 +38,8 @@ def parse_args():
     parser.add_argument('--tmp-output-root', help='dir where tmp output is written to')
     parser.add_argument('--number-batches', type=int,
                         help='the number of batches that should be included in the output')
+    parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], help='the to execute on')
+
     args = parser.parse_args()
 
     return args
