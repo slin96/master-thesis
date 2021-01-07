@@ -51,10 +51,7 @@ def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_w
         loss = loss_func(output, target)
 
         # measure accuracy and record loss
-        acc1, acc5 = accuracy(output, target, topk=(1, 5))
-        losses.update(loss.item(), images.size(0))
-        top1.update(acc1[0], images.size(0))
-        top5.update(acc5[0], images.size(0))
+        acc_record_loss(images, loss, losses, output, target, top1, top5)
 
         # compute gradient and do SGD step
         optimizer.zero_grad()
@@ -76,6 +73,13 @@ def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_w
 
     if get_outputs:
         return output
+
+
+def acc_record_loss(images, loss, losses, output, target, top1, top5):
+    acc1, acc5 = accuracy(output, target, topk=(1, 5))
+    losses.update(loss.item(), images.size(0))
+    top1.update(acc1[0], images.size(0))
+    top5.update(acc5[0], images.size(0))
 
 
 def validate(model, data, loss_func, batch_size=64, num_workers=1, device=None, print_freq=1, get_outputs=False,
@@ -114,10 +118,7 @@ def validate(model, data, loss_func, batch_size=64, num_workers=1, device=None, 
             loss = loss_func(output, target)
 
             # measure accuracy and record loss
-            acc1, acc5 = accuracy(output, target, topk=(1, 5))
-            losses.update(loss.item(), images.size(0))
-            top1.update(acc1[0], images.size(0))
-            top5.update(acc5[0], images.size(0))
+            acc_record_loss(images, loss, losses, output, target, top1, top5)
 
             # measure elapsed time
             batch_time.update(time.time() - end)
