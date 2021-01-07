@@ -3,7 +3,7 @@ def add_shared_args(parser):
     parser.add_argument('--tmp-output-root', help='dir where tmp output is written to')
     parser.add_argument('--number-batches', type=int,
                         help='the number of batches that should be included in the output')
-    parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], help='the device to execute on')
+    parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], help='the device to execute on', default='cpu')
 
 
 def add_compare_args(parser):
