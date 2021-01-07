@@ -12,8 +12,9 @@ from experiments.repeatability.util import save_output, MODELS, save_model_weigh
 
 
 def experiment_training(model, data, optimizer, loss_func, args):
+    device = torch.device(args.device)
     output = train_epoch(model, data, loss_func, optimizer, get_outputs=True, number_batches=args.number_batches,
-                         device=args.devcie)
+                         device=device)
 
     return output
 
