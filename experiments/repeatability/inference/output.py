@@ -1,6 +1,7 @@
 import argparse
 from pathlib import Path
 
+import torch
 from mmlib.deterministic import set_deterministic
 from torch import nn
 from torchvision import datasets
@@ -11,8 +12,9 @@ from experiments.repeatability.args import add_shared_args
 from experiments.repeatability.util import save_output, MODELS
 
 
-def experiment_inference(model, data, loss_func, number_batches):
-    output = validate(model, data, loss_func, get_outputs=True, number_batches=number_batches)
+def experiment_inference(model, data, loss_func, args):
+    device = torch.device(args.device)
+    output = validate(model, data, loss_func, get_outputs=True, number_batches=args.number_batches, device=device)
 
     return output
 
@@ -29,7 +31,7 @@ def main(args):
         # make the execution deterministic
         set_deterministic()
         # generate output for inference
-        out = experiment_inference(model, imgnet_val_data, loss_func, args.number_batches)
+        out = experiment_inference(model, imgnet_val_data, loss_func, args)
         # save output to the output root to compare later
         save_output(args.tmp_output_root, mod_getter, out)
 

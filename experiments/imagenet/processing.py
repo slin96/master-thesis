@@ -13,17 +13,15 @@ from experiments.repeatability.util import get_device
 # Explanation for magic numbers: https://github.com/pytorch/vision/pull/1965
 
 
-def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_workers=1, use_gpu=False, gpu=None,
-                print_freq=1, get_outputs=False, number_batches=None):
-    # TODO check params for reproducibility
+def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_workers=1, device=None, print_freq=1,
+                get_outputs=False, number_batches=None):
+    device = get_device(device)
+
+    # TODO check params for reproducibility -> num workers
     train_loader = torch.utils.data.DataLoader(data, batch_size=batch_size, shuffle=True, num_workers=num_workers,
                                                pin_memory=True)
 
-    if use_gpu:
-        # load model on gpu
-        torch.cuda.set_device(gpu)
-        model = model.cuda(gpu)
-        loss_func = loss_func.cuda(gpu)
+    model.to(device)
 
     batch_time = AverageMeter('Time', ':6.3f')
     data_time = AverageMeter('Data', ':6.3f')
@@ -45,12 +43,8 @@ def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_w
         # measure data loading time
         data_time.update(time.time() - end)
 
-        if use_gpu:
-            # TODO check if blocking influences repeatability
-            images = images.cuda(gpu, non_blocking=True)
-        if torch.cuda.is_available():
-            # TODO check if blocking influences repeatability
-            target = target.cuda(gpu, non_blocking=True)
+        images = images.to(device)
+        target = target.to(device)
 
         # compute output
         output = model(images)
@@ -87,6 +81,7 @@ def train_epoch(model, data, loss_func, optimizer, epoch=0, batch_size=64, num_w
 def validate(model, data, loss_func, batch_size=64, num_workers=1, device=None, print_freq=1, get_outputs=False,
              number_batches=None):
     device = get_device(device)
+    # TODO check params for reproducibility -> num workers
 
     val_loader = torch.utils.data.DataLoader(data, batch_size=batch_size, shuffle=False, num_workers=num_workers,
                                              pin_memory=True)
