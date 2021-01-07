@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from mmlib.deterministic import deterministic
+from mmlib.deterministic import set_deterministic
 from torch import nn
 from torchvision import datasets
 
@@ -26,9 +26,11 @@ def main(args):
 
     for mod_getter in MODELS:
         model = mod_getter(pretrained=True)
-        params = [model, imgnet_val_data, args.number_batches]
-        out = deterministic(experiment_inference, f_args=params)
-
+        # make the execution deterministic
+        set_deterministic()
+        # generate output for inference
+        out = experiment_inference(model, imgnet_val_data, args.number_batches
+        # save output to the output root to compare later
         save_output(args.tmp_output_root, mod_getter, out)
 
 
