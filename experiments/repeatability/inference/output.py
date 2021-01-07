@@ -7,6 +7,7 @@ from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
 from experiments.imagenet.processing import validate
+from experiments.repeatability.args import add_shared_args
 from experiments.repeatability.util import save_output, MODELS
 
 
@@ -29,22 +30,16 @@ def main(args):
         # make the execution deterministic
         set_deterministic()
         # generate output for inference
-        out = experiment_inference(model, imgnet_val_data, args.number_batches
+        out = experiment_inference(model, imgnet_val_data, args.number_batches)
         # save output to the output root to compare later
         save_output(args.tmp_output_root, mod_getter, out)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script that generates and saves resulst of model inference')
-    parser.add_argument('--imagenet-root', help='imagenet root path for')
-    parser.add_argument('--tmp-output-root', help='dir where tmp output is written to')
-    parser.add_argument('--number-batches', type=int,
-                        help='the number of batches that should be included in the output')
-    parser.add_argument('--device', type=str, choices=['cpu', 'cuda'], help='the to execute on')
+    parser = argparse.ArgumentParser(description='Script that generates and saves results of model inference')
+    add_shared_args(parser)
 
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 
 if __name__ == '__main__':

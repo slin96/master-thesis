@@ -37,12 +37,12 @@ into five categories, we only name the most important ones here
     - for example the frameworks Tensorflow and Pytorch do not guarantee to 100% reproducible
     - CUDA does not guarantee reproducibility for all their routines/in all configurations
 - **Algorithm**
-  - the implemented algorithm can be not reproducible because it makes use of randomization
-  - examples in DL are:
-    - Random data augmentation
-    - Shuffle the dataset
-    - Random weight initialization
-    - Dropout Layers
+    - the implemented algorithm can be not reproducible because it makes use of randomization
+    - examples in DL are:
+        - Random data augmentation
+        - Shuffle the dataset
+        - Random weight initialization
+        - Dropout Layers
   
 
 
