@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 
 import torch
-from mmlib.deterministic import deterministic
+from mmlib.deterministic import set_deterministic
 from torch import nn
 from torchvision import datasets
 
@@ -28,11 +28,12 @@ def main(args):
 
     for mod_getter in MODELS:
         model = mod_getter(pretrained=True)
+        # make the execution deterministic
+        set_deterministic()
+        # generate output for training
         optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
-
-        params = [model, imgnet_val_data, optimizer, args.number_batches]
-        out = deterministic(experiment_training, f_args=params)
-
+        out = experiment_training(model, imgnet_val_data, optimizer, args.number_batches)
+        # save output to the output root to compare later
         save_output(args.tmp_output_root, mod_getter, out)
         save_model_weights(args.tmp_output_root, mod_getter, model)
 
