@@ -5,7 +5,7 @@ from torchvision import models
 
 MODEL_OUTPUT = 'model-{}-output'
 MODEL_WEIGHTS = 'model-{}-weights'
-MODELS = [models.alexnet, models.vgg19, models.resnet18, models.resnet50, models.resnet152]
+MODELS = [models.mobilenet_v2, models.googlenet, models.resnet18, models.resnet50, models.resnet152]
 
 
 def save_output(root, model_getter, output):
