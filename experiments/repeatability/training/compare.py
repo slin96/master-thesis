@@ -1,7 +1,9 @@
 import argparse
 
-from mmlib.model_equals import equals, imagenet_input
+from mmlib.helper import imagenet_input
+from mmlib.model_equals import equals
 
+from experiments.repeatability.args import add_compare_args
 from experiments.repeatability.inference.compare import compare_all_outputs
 from experiments.repeatability.util import MODELS, load_state_dict
 
@@ -37,9 +39,8 @@ def main(args):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Inference experiment script')
-    parser.add_argument('--input-root', help='root dir for model outputs')
-    parser.add_argument('--compare-to-root', help='root dir for outputs to compare against')
+    parser = argparse.ArgumentParser(description='Training experiment script')
+    add_compare_args(parser)
     args = parser.parse_args()
 
     return args
