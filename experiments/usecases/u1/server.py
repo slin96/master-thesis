@@ -19,12 +19,13 @@ models_dict = {MOBILENET_V2: models.mobilenet_v2, GOOGLENET: models.googlenet, R
 def main(args):
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset
-    init_model = initial_train()
+    init_model = initial_train(models_dict[args.model])
     # save the initially trained model and get info (id, filepath, size, ...) back
     # TODO probably we also have to store the model code or somehow reference, could also pickle the hole model
-    saved_info = mmlib.save.save_model(init_model)
+    # saved_info = mmlib.save.save_model(init_model)
     # inform that a new model is available in the DB ready to use
-    inform(saved_info, receiver)
+    # inform(saved_info, receiver)
+    print('server done')
 
 
 def parse_args():
