@@ -1,28 +1,32 @@
 import argparse
 
 from mmlib.log import use_model
-from mmlib.recover import recover_model
+from mmlib.save import SaveService
+from mmlib.util import extract_mongo_id
 
-from experiments.usecases.shared import listen, add_connection_arguments
+from experiments.usecases.shared import listen, add_connection_arguments, add_tmp_dir_path
 
 
 def main(args):
     # wait for new model to be ready
-    model_info = listen((args.node_ip, args.node_port), react_to_new_model)
-    # as soon as new model is available
-    recovered_model = recover_model(model_info)
-    # use recovered model
-    use_model(recovered_model)
+    listen((args.node_ip, args.node_port), react_to_new_model)
 
 
 def react_to_new_model(msg):
     print(msg)
+    model_id = extract_mongo_id(msg)
+    # as soon as new model is available
+    save_service = SaveService(args.tmp_dir)
+    recovered_model = save_service.recover_model(model_id)
+    # use recovered model
+    use_model(recovered_model)
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling the node for usecase 1')
 
     add_connection_arguments(parser)
+    add_tmp_dir_path(parser)
 
     args = parser.parse_args()
 

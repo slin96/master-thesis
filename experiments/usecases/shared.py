@@ -23,12 +23,15 @@ def add_connection_arguments(parser):
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
 
 
+def add_tmp_dir_path(parser):
+    parser.add_argument('--tmp_dir', help='The directory to write tmp files to')
+
+
 def inform(message, sender, receiver):
     # socket.SOCK_DGRAM use UDP
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.bind(sender)
-    feedback = sock.sendto(message, receiver)
-    print(feedback)
+    sock.sendto(message, receiver)
 
 
 def listen(receiver, callback):
