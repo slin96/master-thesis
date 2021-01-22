@@ -16,7 +16,7 @@ def react_to_new_model(msg):
     print(msg)
     model_id = extract_mongo_id(msg)
     # as soon as new model is available
-    save_service = RecoverService(args.tmp_dir, args.server_ip)
+    save_service = RecoverService(args.tmp_dir, args.mongo_ip)
     recovered_model = save_service.recover_model(model_id)
     # use recovered model
     use_model(recovered_model)

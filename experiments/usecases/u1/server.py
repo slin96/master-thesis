@@ -8,7 +8,7 @@ from experiments.usecases.shared import *
 # to run this make sure mongoDB is running:
 # docker run --rm --name mongo-test -it -p 27017:27017 -d  mongo:latest
 def main(args):
-    save_service = SaveService(args.tmp_dir, args.server_ip)
+    save_service = SaveService(args.tmp_dir, args.mongo_ip)
 
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset

@@ -32,10 +32,11 @@ def initial_train(model_ref):
 
 
 def add_connection_arguments(parser):
-    parser.add_argument('--server_ip', help='The server ip address', default=SERVER_IP)
+    parser.add_argument('--server_ip', help='The server ip or hostname', default=SERVER_IP)
     parser.add_argument('--server_port', help='The server port', default=SERVER_PORT)
-    parser.add_argument('--node_ip', help='The node ip address', default=NODE_IP)
+    parser.add_argument('--node_ip', help='The node ip or hostname', default=NODE_IP)
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
+    parser.add_argument('--mongo_ip', help='The ip or hostname for the mongoDB.', default=NODE_PORT)
 
 
 def add_tmp_dir_path(parser):
