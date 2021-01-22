@@ -1,7 +1,7 @@
 import argparse
 
 from mmlib.log import use_model
-from mmlib.save import SaveService
+from mmlib.save import RecoverService
 from mmlib.util import extract_mongo_id
 
 from experiments.usecases.shared import listen, add_connection_arguments, add_tmp_dir_path
@@ -16,7 +16,7 @@ def react_to_new_model(msg):
     print(msg)
     model_id = extract_mongo_id(msg)
     # as soon as new model is available
-    save_service = SaveService(args.tmp_dir)
+    save_service = RecoverService(args.tmp_dir)
     recovered_model = save_service.recover_model(model_id)
     # use recovered model
     use_model(recovered_model)
