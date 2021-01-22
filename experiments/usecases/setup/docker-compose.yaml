@@ -1,0 +1,40 @@
+version: '3.1'
+
+services:
+
+  mongo-db:
+    image: mongo:4.4.3
+    container_name: mongo-db
+    command: mongod
+    networks:
+      experiment-net:
+
+
+  server-container:
+    image: pytorch/pytorch:1.7.1-cuda11.0-cudnn8-runtime
+    container_name: server-container
+    volumes:
+      - ${SHARED_MOUNTED_DIR}:/shared
+      - ${SERVER_MOUNTED_DIR}:/server
+    environment:
+      PYTHONPATH: /server
+    command: sh -c "pip install /shared/mmlib-0.0.1-py3-none-any.whl && tail -F anything"
+    networks:
+      experiment-net:
+
+
+  node-container:
+    image: pytorch/pytorch:1.7.1-cuda11.0-cudnn8-runtime
+    container_name: node-container
+    volumes:
+      - ${SHARED_MOUNTED_DIR}:/shared
+      - ${NODE_MOUNTED_DIR}:/node
+    environment:
+      PYTHONPATH: /node
+    command: sh -c "pip install /shared/mmlib-0.0.1-py3-none-any.whl && tail -F anything"
+    networks:
+      experiment-net:
+
+
+networks:
+  experiment-net:
