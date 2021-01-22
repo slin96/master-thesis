@@ -1,5 +1,7 @@
 import socket
 
+from torchvision import models
+
 MSG_LEN = 1024
 
 SERVER_IP = "127.0.0.1"
@@ -9,6 +11,15 @@ NODE_IP = "127.0.0.1"
 NODE_PORT = 18197
 
 ENCODING = 'utf-8'
+
+MOBILENET_V2 = "mobilenet_v2"
+GOOGLENET = "googlenet"
+RESNET_18 = "resnet18"
+RESNET_50 = "resnet50"
+RESNET_152 = "resnet152"
+
+models_dict = {MOBILENET_V2: models.mobilenet_v2, GOOGLENET: models.googlenet, RESNET_18: models.resnet18,
+               RESNET_50: models.resnet50, RESNET_152: models.resnet152}
 
 
 def initial_train(model_ref):
