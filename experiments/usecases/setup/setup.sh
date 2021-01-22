@@ -6,4 +6,4 @@ export $(cat .env | sed 's/#.*//g' | xargs)
 
 docker-compose up -d
 
-sleep 2
+sleep 3
