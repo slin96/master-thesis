@@ -26,7 +26,7 @@ def main(args):
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling the server for usecase 1')
     parser.add_argument('--model', help='The model to use for the run',
-                        choices=[MOBILENET_V2, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
+                        choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
     parser.add_argument('--model_code', help='The path to the code defining the model')
     parser.add_argument('--import_root', help='The root path for imports')
 

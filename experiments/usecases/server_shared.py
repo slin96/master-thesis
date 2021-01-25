@@ -6,13 +6,13 @@ from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
 
-MOBILENET_V2 = "mobilenet_v2"
+MOBILENET = "mobilenet"
 GOOGLENET = "googlenet"
 RESNET_18 = "resnet18"
 RESNET_50 = "resnet50"
 RESNET_152 = "resnet152"
 
-models_dict = {MOBILENET_V2: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
+models_dict = {MOBILENET: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
                RESNET_152: resnet152}
 
 
