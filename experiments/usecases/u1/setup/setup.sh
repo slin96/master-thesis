@@ -2,6 +2,19 @@
 
 cd "$(dirname "$0")"
 
+while getopts l: flag
+do
+    case "${flag}" in
+        l) MMLIB=${OPTARG};;
+    esac
+done
+
+# mandatory arguments
+if [ ! "$MMLIB" ]; then
+  echo "argument -l must be provided to specify the path for the mmlib .whl file"
+  exit 1
+fi
+
 if test -f .env;
 then
 
