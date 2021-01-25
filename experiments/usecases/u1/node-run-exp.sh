@@ -2,8 +2,6 @@
 
 cd "$(dirname "$0")"
 
-export $(cat .env | sed 's/#.*//g' | xargs)
-
 # install mmlib
 pip install /shared/mmlib-0.0.1-py3-none-any.whl
 
