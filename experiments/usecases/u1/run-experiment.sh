@@ -13,3 +13,5 @@ docker exec node-container sh /node/experiments/usecases/u1/node-run-exp.sh > no
 
 # cleanup docker containers
 sh ../setup/cleanup.sh
+
+
