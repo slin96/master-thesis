@@ -31,8 +31,7 @@ then
   mkdir -p $SERVER_MOUNTED_DIR/experiments
   mkdir -p $NODE_MOUNTED_DIR/experiments
   echo "copy to shared directory"
-  # TODO automatically build mmlib
-  # TODO copy mmlib to shared
+  cp $MMLIB $SHARED_MOUNTED_DIR
   echo "copy to node directory"
   cp -r ../../../usecases $NODE_MOUNTED_DIR/experiments
   echo "copy to server directory"
