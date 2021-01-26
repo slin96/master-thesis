@@ -24,6 +24,9 @@ then
   # create shared folders
   echo "create mounted directories"
   mkdir -p $SHARED_MOUNTED_DIR
+  mkdir -p $SHARED_MOUNTED_DIR/logs/baseline
+  mkdir -p $SHARED_MOUNTED_DIR/logs/advanced1
+  mkdir -p $SHARED_MOUNTED_DIR/logs/advanced2
   mkdir -p $SERVER_MOUNTED_DIR
   mkdir -p NODE_MOUNTED_DIR
   echo "copy files to mounted directories"
