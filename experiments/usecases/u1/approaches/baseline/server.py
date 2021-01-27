@@ -1,6 +1,6 @@
 import argparse
 
-from mmlib.save import SaveService
+from mmlib.save import FileSystemMongoSaveService
 
 from experiments.usecases.server_shared import *
 from experiments.usecases.shared import *
@@ -11,7 +11,7 @@ from experiments.usecases.shared import *
 
 
 def main(args):
-    save_service = SaveService(args.tmp_dir, args.mongo_ip)
+    save_service = FileSystemMongoSaveService(args.tmp_dir, args.mongo_ip)
 
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset

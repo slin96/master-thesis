@@ -2,7 +2,7 @@ import unittest
 
 from mmlib.deterministic import set_deterministic
 from mmlib.helper import imagenet_input
-from mmlib.model_equals import equals
+from mmlib.model_equal import equal
 from torchvision import models
 
 from experiments.models.googlenet import googlenet
@@ -38,7 +38,7 @@ class TestCopiedModels(unittest.TestCase):
         local_net = m1(pretrained=True)
         lib_net = m2(pretrained=True)
 
-        self.assertTrue(equals(local_net, lib_net, imagenet_input))
+        self.assertTrue(equal(local_net, lib_net, imagenet_input))
 
     def _test_initialized_equals(self, m1, m2):
         set_deterministic()
@@ -47,4 +47,4 @@ class TestCopiedModels(unittest.TestCase):
         set_deterministic()
         lib_net = m2()
 
-        self.assertTrue(equals(local_net, lib_net, imagenet_input))
+        self.assertTrue(equal(local_net, lib_net, imagenet_input))
