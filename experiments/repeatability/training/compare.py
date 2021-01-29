@@ -1,7 +1,7 @@
 import argparse
 
+from mmlib.equal import model_equal
 from mmlib.helper import imagenet_input
-from mmlib.model_equal import equal
 
 from experiments.repeatability.args import add_compare_args
 from experiments.repeatability.inference.compare import compare_all_outputs
@@ -21,7 +21,7 @@ def compare_all_models(args):
         mod1 = load_model(mod_getter, args.input_root)
         mod2 = load_model(mod_getter, args.compare_to_root)
 
-        if not equal(mod1, mod2, imagenet_input):
+        if not model_equal(mod1, mod2, imagenet_input):
             return False
 
     return True
