@@ -1,6 +1,7 @@
 import os
 
 import torch
+from mmlib.deterministic import set_deterministic
 from mmlib.helper import imagenet_input
 
 SERVER_IP = "127.0.0.1"
@@ -26,9 +27,12 @@ def add_paths(parser):
 
 
 def save_compare_info(recovered_model, container, log_dir):
+    state_dict_path = os.path.join(log_dir, '{}-model-state-dict'.format(container))
+    torch.save(recovered_model.state_dict(), state_dict_path)
+
+    # we have to make the input and computation deterministic to make the models comparable
+    set_deterministic()
     dummy_input = imagenet_input()
     dummy_output = recovered_model(dummy_input)
     output_path = os.path.join(log_dir, '{}-model-output'.format(container))
     torch.save(dummy_output, output_path)
-    state_dict_path = os.path.join(log_dir, '{}-model-state-dict'.format(container))
-    torch.save(recovered_model.state_dict, state_dict_path)

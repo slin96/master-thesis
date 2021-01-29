@@ -36,5 +36,18 @@ services:
       experiment-net:
 
 
+  eval-container:
+    image: pytorch/pytorch:1.7.1-cuda11.0-cudnn8-runtime
+    container_name: eval-container
+    volumes:
+      - ${SHARED_MOUNTED_DIR}:/shared
+      - ${EVAL_MOUNTED_DIR}:/eval
+    environment:
+      PYTHONPATH: /eval
+    command: sh -c "tail -F anything"
+    networks:
+      experiment-net:
+
+
 networks:
   experiment-net:

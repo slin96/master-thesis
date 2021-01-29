@@ -36,6 +36,9 @@ echo "run experiment code for node and server container"
 docker exec server-container sh /server/experiments/usecases/u1/server-run-exp.sh -m $MODEL -a $APPROACH > server-log.log &
 docker exec node-container sh /node/experiments/usecases/u1/node-run-exp.sh -a $APPROACH > node-log.log
 
+echo "eval results"
+docker exec eval-container sh /eval/experiments/usecases/u1/eval-run-exp.sh -a $APPROACH > eval-log.log
+
 echo "experiments done - cleanup docker containers"
 sh ./setup/cleanup.sh
 
