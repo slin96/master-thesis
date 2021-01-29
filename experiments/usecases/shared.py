@@ -15,5 +15,6 @@ def add_connection_arguments(parser):
     parser.add_argument('--mongo_ip', help='The ip or hostname for the mongoDB.', default=NODE_PORT)
 
 
-def add_tmp_dir_path(parser):
+def add_paths(parser):
     parser.add_argument('--tmp_dir', help='The directory to write tmp files to')
+    parser.add_argument('--log_dir', help='The directory to write log files to')

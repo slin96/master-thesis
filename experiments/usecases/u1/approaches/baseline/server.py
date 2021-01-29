@@ -31,7 +31,7 @@ def parse_args():
     parser.add_argument('--import_root', help='The root path for imports')
 
     add_connection_arguments(parser)
-    add_tmp_dir_path(parser)
+    add_paths(parser)
 
     args = parser.parse_args()
 

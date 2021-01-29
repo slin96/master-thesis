@@ -4,7 +4,7 @@ from mmlib.log import use_model
 from mmlib.recover import FileSystemMongoRecoverService
 
 from experiments.usecases.node_shared import listen
-from experiments.usecases.shared import add_connection_arguments, add_tmp_dir_path
+from experiments.usecases.shared import add_connection_arguments, add_paths
 
 
 def main(args):
@@ -26,7 +26,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling the node for usecase 1')
 
     add_connection_arguments(parser)
-    add_tmp_dir_path(parser)
+    add_paths(parser)
 
     args = parser.parse_args()
 
