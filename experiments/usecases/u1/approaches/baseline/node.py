@@ -4,10 +4,14 @@ from mmlib.log import use_model
 from mmlib.recover import FileSystemMongoRecoverService
 
 from experiments.usecases.node_shared import listen
-from experiments.usecases.shared import add_connection_arguments, add_paths
+from experiments.usecases.shared import add_connection_arguments, add_paths, save_compare_info
+
+global_args = None
 
 
 def main(args):
+    global global_args
+    global_args = args
     # wait for new model to be ready
     listen((args.node_ip, args.node_port), react_to_new_model)
 
@@ -20,6 +24,9 @@ def react_to_new_model(msg):
     recovered_model = save_service.recover_model(model_id)
     # use recovered model
     use_model(recovered_model)
+
+    # save state_dict and output to compare restored model
+    save_compare_info(recovered_model, 'node', args.log_dir)
 
 
 def parse_args():

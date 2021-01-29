@@ -20,6 +20,10 @@ def main(args):
     model_id = save_service.save_model(args.model, init_model, args.model_code, args.import_root)
     # inform that a new model is available in the DB ready to use
     inform(bytes(str(model_id), encoding=ENCODING), (args.server_ip, args.server_port), (args.node_ip, args.node_port))
+
+    # save state_dict and output to compare restored model
+    save_compare_info(init_model, 'server', args.log_dir)
+
     print('server done')
 
 

@@ -1,8 +1,8 @@
 import unittest
 
 from mmlib.deterministic import set_deterministic
-from mmlib.helper import imagenet_input
 from mmlib.equal import model_equal
+from mmlib.helper import imagenet_input
 from torchvision import models
 
 from experiments.models.googlenet import googlenet

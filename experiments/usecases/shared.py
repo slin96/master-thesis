@@ -1,3 +1,8 @@
+import os
+
+import torch
+from mmlib.helper import imagenet_input
+
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 18196
 
@@ -18,3 +23,12 @@ def add_connection_arguments(parser):
 def add_paths(parser):
     parser.add_argument('--tmp_dir', help='The directory to write tmp files to')
     parser.add_argument('--log_dir', help='The directory to write log files to')
+
+
+def save_compare_info(recovered_model, container, log_dir):
+    dummy_input = imagenet_input()
+    dummy_output = recovered_model(dummy_input)
+    output_path = os.path.join(log_dir, '{}-model-output'.format(container))
+    torch.save(dummy_output, output_path)
+    state_dict_path = os.path.join(log_dir, '{}-model-state-dict'.format(container))
+    torch.save(recovered_model.state_dict, state_dict_path)
