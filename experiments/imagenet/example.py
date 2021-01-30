@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from torch.backends import cudnn
 from torchvision import datasets
 from torchvision.models import resnet18
 

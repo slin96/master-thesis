@@ -103,20 +103,25 @@ Was the validation set used to train the models?
 
  ```json
 annotation{
-"id"            : int,
-"image_id"      : int,
-"category_id"   : int,
-"segmentation"  : RLE or [polygon],
-"area"          : float,
-"bbox"          : [x,y,width,height],
-"iscrowd"       : 0 or 1,
+  "id": int,
+  "image_id": int,
+  "category_id": int,
+  "segmentation": RLE
+  or [
+  polygon
+],
+"area": float,
+"bbox": [x, y, width, height],
+"iscrowd": 0 or 1,
 }
 
-categories[{
-"id"            : int,
-"name"          : str,
+categories[
+{
+"id": int,
+"name": str,
 "supercategory" : str,
-}]
+}
+]
 ```
 
 ## Customized COCO dataset
