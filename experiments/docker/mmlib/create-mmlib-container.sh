@@ -15,7 +15,9 @@ if [ ! "$MMLIB" ]; then
   exit 1
 fi
 
-# copy mm lib to local directory, is used in Dockerfile
+# copy mmlib to local directory, is used in Dockerfile
+# remove old version if exists
+rm mmlib-0.0.1-py3-none-any.whl
 cp $MMLIB .
 
 # build docker container mmlib
