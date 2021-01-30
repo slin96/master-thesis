@@ -23,7 +23,7 @@ def react_to_new_model(msg):
     save_service = FileSystemMongoRecoverService(args.tmp_dir, args.mongo_ip)
     recovered_model = save_service.recover_model(model_id)
     # use recovered model
-    use_model(recovered_model)
+    use_model(model_id)
 
     # save state_dict and output to compare restored model
     save_compare_info(recovered_model, 'node', args.log_dir)

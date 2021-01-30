@@ -33,6 +33,7 @@ def save_compare_info(recovered_model, container, log_dir):
     # we have to make the input and computation deterministic to make the models comparable
     set_deterministic()
     dummy_input = imagenet_input()
+    recovered_model.eval()
     dummy_output = recovered_model(dummy_input)
     output_path = os.path.join(log_dir, '{}-model-output'.format(container))
     torch.save(dummy_output, output_path)
