@@ -6,7 +6,12 @@ from mmlib.equal import blackbox_model_equal, whitebox_model_equal, model_equal
 from mmlib.helper import imagenet_input, imagenet_target
 from mmlib.probe import probe_training, ProbeInfo
 from torch import nn
-from torchvision.models import resnet152, resnet50, resnet18, googlenet, mobilenet_v2
+
+from experiments.models.googlenet import googlenet
+from experiments.models.mobilenet import mobilenet_v2
+from experiments.models.resnet152 import resnet152
+from experiments.models.resnet18 import resnet18
+from experiments.models.resnet50 import resnet50
 
 
 def deterministic_backward_compare(model_class, device, forward_indices=None):
