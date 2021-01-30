@@ -45,7 +45,10 @@ then
   echo "copy to eval directory"
   cp -r ../../../usecases $EVAL_MOUNTED_DIR/experiments
 
+  # create mmlib docker container
+  sh ../../../docker/mmlib/create-mmlib-container.sh -l $MMLIB
 
+  # setup all containers
   docker-compose up -d
 
   sleep 3
