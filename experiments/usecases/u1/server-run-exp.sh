@@ -24,9 +24,6 @@ echo "used MODEL: $MODEL_NAME";
 
 cd "$(dirname "$0")"
 
-# install mmlib
-pip install /shared/mmlib-0.0.1-py3-none-any.whl
-
 # wait for node to be ready for listening
 sleep 3
 
