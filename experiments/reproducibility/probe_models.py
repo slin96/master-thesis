@@ -1,5 +1,3 @@
-import argparse
-
 import torch
 from mmlib.deterministic import set_deterministic
 from mmlib.equal import blackbox_model_equal, whitebox_model_equal, model_equal
