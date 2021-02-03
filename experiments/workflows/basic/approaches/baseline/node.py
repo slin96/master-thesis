@@ -7,6 +7,8 @@ from experiments.workflows.node_shared import listen
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info
 
 global_args = None
+# TODO remove
+global_counter = 0
 
 
 def main(args):
@@ -17,6 +19,8 @@ def main(args):
 
 
 def react_to_new_model(msg):
+    global global_counter
+    global_counter += 1
     print(msg)
     model_id = msg[0].decode("utf-8")
     # as soon as new model is available
@@ -25,8 +29,13 @@ def react_to_new_model(msg):
     # use recovered model
     use_model(model_id)
 
-    # save state_dict and output to compare restored model
-    save_compare_info(recovered_model, 'node', args.log_dir)
+    # NOT TIMED save state_dict and output to compare restored model
+    save_compare_info(recovered_model, 'node', model_id, args.log_dir)
+
+    # go back to listen state
+    # TODO use other method
+    if global_counter < 2:
+        listen((args.node_ip, args.node_port), react_to_new_model)
 
 
 def parse_args():

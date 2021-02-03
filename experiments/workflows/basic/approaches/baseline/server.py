@@ -1,4 +1,5 @@
 import argparse
+from time import sleep
 
 from mmlib.save import FileSystemMongoSaveService
 
@@ -16,19 +17,40 @@ def main(args):
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset
     init_model = initial_train(models_dict[args.model])
-    # save the initially trained model and get info (id, filepath, size, ...) back
-    model_id = save_service.save_model(args.model, init_model, args.model_code, args.import_root)
-    # inform that a new model is available in the DB ready to use
-    inform(bytes(str(model_id), encoding=ENCODING), (args.server_ip, args.server_port), (args.node_ip, args.node_port))
+    # save the initially trained model
+    init_model_id = save_service.save_model(args.model, init_model, args.model_code, args.import_root)
 
-    # save state_dict and output to compare restored model
-    save_compare_info(init_model, 'server', args.log_dir)
+    # NOT TIMED: save state_dict and output to compare restored model
+    save_compare_info(init_model, 'server', init_model_id, args.log_dir)
+
+    # inform that a new model is available in the DB ready to use
+    inform(bytes(str(init_model_id), encoding=ENCODING), (args.server_ip, args.server_port),
+           (args.node_ip, args.node_port))
+
+    print('informed about init model')
+    # NOT TIMED: wait some time
+    sleep(2)
+
+    # update model
+    updated_model = update_model()
+    # save the updated model
+    updated_model_name = args.model + '-updated'
+    updated_model_id = save_service.save_model(updated_model_name, updated_model, args.model_code, args.import_root)
+
+    # NOT TIMED: save state_dict and output to compare restored model
+    save_compare_info(updated_model, 'server', updated_model_id, args.log_dir)
+
+    # inform that a new model is available in the DB ready to use
+    inform(bytes(str(updated_model_id), encoding=ENCODING), (args.server_ip, args.server_port),
+           (args.node_ip, args.node_port))
+
+    print('informed about updated model')
 
     print('server done')
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script modeling the server for usecase 1')
+    parser = argparse.ArgumentParser(description='Script modeling server for basic workflow using baseline approach')
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
     parser.add_argument('--model_code', help='The path to the code defining the model')

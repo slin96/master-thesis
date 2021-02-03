@@ -18,6 +18,10 @@ def add_connection_arguments(parser):
     parser.add_argument('--server_port', help='The server port', default=SERVER_PORT)
     parser.add_argument('--node_ip', help='The node ip or hostname', default=NODE_IP)
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
+    add_mongo_ip(parser)
+
+
+def add_mongo_ip(parser):
     parser.add_argument('--mongo_ip', help='The ip or hostname for the mongoDB.', default=NODE_PORT)
 
 
@@ -26,14 +30,14 @@ def add_paths(parser):
     parser.add_argument('--log_dir', help='The directory to write log files to')
 
 
-def save_compare_info(recovered_model, container, log_dir):
-    state_dict_path = os.path.join(log_dir, '{}-model-state-dict'.format(container))
-    torch.save(recovered_model.state_dict(), state_dict_path)
+def save_compare_info(model, container, model_id, log_dir):
+    state_dict_path = os.path.join(log_dir, '{}-{}-state-dict'.format(container, model_id))
+    torch.save(model.state_dict(), state_dict_path)
 
     # we have to make the input and computation deterministic to make the models comparable
     set_deterministic()
     dummy_input = imagenet_input()
-    recovered_model.eval()
-    dummy_output = recovered_model(dummy_input)
-    output_path = os.path.join(log_dir, '{}-model-output'.format(container))
+    model.eval()
+    dummy_output = model(dummy_input)
+    output_path = os.path.join(log_dir, '{}-{}-output'.format(container, model_id))
     torch.save(dummy_output, output_path)

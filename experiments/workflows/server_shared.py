@@ -21,6 +21,11 @@ def initial_train(model_ref):
     return model_ref(pretrained=True)
 
 
+def update_model():
+    # TODO to implement
+    # for now return resnet18 for testing
+    return resnet18(pretrained=True)
+
 def inform(message, sender, receiver):
     # socket.SOCK_DGRAM use UDP
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

@@ -15,4 +15,4 @@ fi
 
 cd "$(dirname "$0")"
 
-python /eval/experiments/workflows/basic/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-eval.log
+python /eval/experiments/workflows/basic/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH --tmp_dir /shared --mongo_ip mongo-db > /shared/logs/$APPROACH/python-eval.log
