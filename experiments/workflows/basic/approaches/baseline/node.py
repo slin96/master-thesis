@@ -24,8 +24,8 @@ def react_to_new_model(msg):
     last = json_msg[LAST]
 
     # as soon as new model is available
-    recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
-    recovered_model = recover_service.recover_model(model_id)
+    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    recovered_model = save_recover_service.recover_model(model_id)
     # use recovered model
     use_model(model_id)
 
@@ -37,12 +37,19 @@ def react_to_new_model(msg):
         listen((args.node_ip, args.node_port), react_to_new_model)
     else:
         # if there are no updates coming anymore from server switch to update locally
-        # update_model_locally(recovered_model, model_id)
-        pass
+        update_model_locally(recovered_model, model_id)
 
 
-def update_model_locally(model, model_id):
+def update_model_locally(model, base_model_id):
     locally_trained_model = update_model(model)
+
+    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    model_id = save_recover_service.save_version(locally_trained_model, base_model_id)
+
+    # NOT TIMED save state_dict and output to compare restored model
+    save_compare_info(locally_trained_model, 'node', model_id, args.log_dir)
+
+    # TODO inform server
 
 
 def parse_args():
