@@ -3,8 +3,9 @@ import json
 
 from mmlib.log import use_model
 from mmlib.recover import FileSystemMongoRecoverService
+from mmlib.save import FileSystemMongoSaveService
 
-from experiments.workflows.node_shared import listen
+from experiments.workflows.node_shared import listen, update_model
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, MODEL_ID, LAST
 
 global_args = None
@@ -24,8 +25,8 @@ def react_to_new_model(msg):
     last = json_msg[LAST]
 
     # as soon as new model is available
-    save_service = FileSystemMongoRecoverService(args.tmp_dir, args.mongo_ip)
-    recovered_model = save_service.recover_model(model_id)
+    recover_service = FileSystemMongoRecoverService(args.tmp_dir, args.mongo_ip)
+    recovered_model = recover_service.recover_model(model_id)
     # use recovered model
     use_model(model_id)
 
@@ -35,6 +36,15 @@ def react_to_new_model(msg):
     # go back to listen state id there is another message expected
     if not last:
         listen((args.node_ip, args.node_port), react_to_new_model)
+    else:
+        # if there are no updates coming anymore from server switch to update locally
+        update_model_locally(recovered_model, model_id)
+
+
+def update_model_locally(model, model_id):
+    locally_trained_model = update_model(model)
+
+
 
 
 def parse_args():

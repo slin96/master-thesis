@@ -13,3 +13,8 @@ def listen(receiver, callback):
     callback(received)
     sock.detach()
     sock.close()
+
+
+def update_model(model):
+    # TODO to implement
+    return model
