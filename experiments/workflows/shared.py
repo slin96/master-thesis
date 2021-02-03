@@ -11,6 +11,8 @@ NODE_IP = "127.0.0.1"
 NODE_PORT = 18197
 
 ENCODING = 'utf-8'
+MODEL_ID = 'model_id'
+LAST = 'last'
 
 
 def add_connection_arguments(parser):

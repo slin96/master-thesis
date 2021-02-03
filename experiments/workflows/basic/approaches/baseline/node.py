@@ -1,14 +1,13 @@
 import argparse
+import json
 
 from mmlib.log import use_model
 from mmlib.recover import FileSystemMongoRecoverService
 
 from experiments.workflows.node_shared import listen
-from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info
+from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, MODEL_ID, LAST
 
 global_args = None
-# TODO remove
-global_counter = 0
 
 
 def main(args):
@@ -19,10 +18,11 @@ def main(args):
 
 
 def react_to_new_model(msg):
-    global global_counter
-    global_counter += 1
     print(msg)
-    model_id = msg[0].decode("utf-8")
+    json_msg = json.loads(msg[0].decode("utf-8"))
+    model_id = json_msg[MODEL_ID]
+    last = json_msg[LAST]
+
     # as soon as new model is available
     save_service = FileSystemMongoRecoverService(args.tmp_dir, args.mongo_ip)
     recovered_model = save_service.recover_model(model_id)
@@ -32,14 +32,13 @@ def react_to_new_model(msg):
     # NOT TIMED save state_dict and output to compare restored model
     save_compare_info(recovered_model, 'node', model_id, args.log_dir)
 
-    # go back to listen state
-    # TODO use other method
-    if global_counter < 2:
+    # go back to listen state id there is another message expected
+    if not last:
         listen((args.node_ip, args.node_port), react_to_new_model)
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script modeling the node for usecase 1')
+    parser = argparse.ArgumentParser(description='Script modeling the node')
 
     add_connection_arguments(parser)
     add_paths(parser)

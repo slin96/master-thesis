@@ -24,7 +24,8 @@ def main(args):
     save_compare_info(init_model, 'server', init_model_id, args.log_dir)
 
     # inform that a new model is available in the DB ready to use
-    inform(bytes(str(init_model_id), encoding=ENCODING), (args.server_ip, args.server_port),
+    message = generate_message(init_model_id, False)
+    inform(message, (args.server_ip, args.server_port),
            (args.node_ip, args.node_port))
 
     print('informed about init model')
@@ -41,8 +42,8 @@ def main(args):
     save_compare_info(updated_model, 'server', updated_model_id, args.log_dir)
 
     # inform that a new model is available in the DB ready to use
-    inform(bytes(str(updated_model_id), encoding=ENCODING), (args.server_ip, args.server_port),
-           (args.node_ip, args.node_port))
+    message = generate_message(updated_model_id, True)
+    inform(message, (args.server_ip, args.server_port), (args.node_ip, args.node_port))
 
     print('informed about updated model')
 
