@@ -74,11 +74,7 @@ class Timer:
         elapsed = 0
         for i in range(0, len(self._time_points), 2):
             start = self._time_points[i]
-            stop = self._time_points[i+1]
+            stop = self._time_points[i + 1]
             elapsed += stop - start
 
         return elapsed
-
-
-
-

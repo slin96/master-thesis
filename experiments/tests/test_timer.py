@@ -1,7 +1,7 @@
 import unittest
 from time import sleep
 
-from experiments.measure.Timer import Timer
+from experiments.measure.timer import Timer
 
 
 class TestCopiedModels(unittest.TestCase):
@@ -76,4 +76,3 @@ class TestCopiedModels(unittest.TestCase):
             timer.pause()
 
             timer.time_elapsed()
-
