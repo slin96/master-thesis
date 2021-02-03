@@ -1,11 +1,10 @@
 import argparse
 
-from mmlib.equal import model_equal
-from mmlib.helper import imagenet_input
-
 from experiments.repeatability.args import add_compare_args
 from experiments.repeatability.inference.compare import compare_all_outputs
 from experiments.repeatability.util import MODELS, load_state_dict
+from mmlib.equal import model_equal
+from mmlib.helper import imagenet_input
 
 
 def load_model(mod_getter, root_dir):

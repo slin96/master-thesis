@@ -1,7 +1,6 @@
 import argparse
 
 import torch
-
 from experiments.repeatability.args import add_compare_args
 from experiments.repeatability.util import MODELS, get_output
 

@@ -2,14 +2,14 @@ import argparse
 from pathlib import Path
 
 import torch
+from experiments.repeatability.args import add_shared_args
+from experiments.repeatability.util import save_output, MODELS
 from mmlib.deterministic import set_deterministic
 from torch import nn
 from torchvision import datasets
 
 from experiments.imagenet.imagenet_utils import inference_transforms
 from experiments.imagenet.processing import validate
-from experiments.repeatability.args import add_shared_args
-from experiments.repeatability.util import save_output, MODELS
 
 
 def experiment_inference(model, data, loss_func, args):
