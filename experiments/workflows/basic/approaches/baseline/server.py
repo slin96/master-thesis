@@ -1,7 +1,7 @@
 import argparse
 from time import sleep
 
-from mmlib.save import FileSystemMongoSaveService
+from mmlib.save import FileSystemMongoSaveRecoverService
 
 from experiments.workflows.server_shared import *
 from experiments.workflows.shared import *
@@ -12,7 +12,7 @@ from experiments.workflows.shared import *
 
 
 def main(args):
-    save_service = FileSystemMongoSaveService(args.tmp_dir, args.mongo_ip)
+    save_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
 
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset

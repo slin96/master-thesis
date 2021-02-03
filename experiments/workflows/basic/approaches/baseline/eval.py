@@ -3,7 +3,7 @@ import os
 
 import torch
 from mmlib.equal import tensor_equal, state_dict_equal
-from mmlib.save import FileSystemMongoSaveService
+from mmlib.save import FileSystemMongoSaveRecoverService
 
 from experiments.workflows.shared import add_paths, add_mongo_ip
 
@@ -13,7 +13,7 @@ version_strings = ['init', 'updated']
 
 
 def main(args):
-    save_service = FileSystemMongoSaveService(args.tmp_dir, args.mongo_ip)
+    save_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
     model_ids = save_service.saved_model_ids()
 
     print(model_ids)
