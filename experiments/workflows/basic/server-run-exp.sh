@@ -27,4 +27,4 @@ cd "$(dirname "$0")"
 # wait for node to be ready for listening
 sleep 3
 
-python /server/experiments/workflows/u1/approaches/$APPROACH/server.py --model $MODEL_NAME --tmp_dir /shared --model_code /server/experiments/models/$MODEL_CODE --import_root /server --mongo_ip mongo-db --server_ip server-container --node_ip node-container --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-server.log
+python /server/experiments/workflows/basic/approaches/$APPROACH/server.py --model $MODEL_NAME --tmp_dir /shared --model_code /server/experiments/models/$MODEL_CODE --import_root /server --mongo_ip mongo-db --server_ip server-container --node_ip node-container --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-server.log
