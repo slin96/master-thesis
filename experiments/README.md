@@ -1,7 +1,7 @@
 # Experiments
 
-- The experiments are structured in three usecases
-    - u1, u2, 3
+- The experiments are structured in workflows
+    - basic-workflow, ... (to be added)
 - We implement three different approaches
     - baseline, advanced1, advanced2
 - Our experiments can be run with five different models
@@ -15,7 +15,7 @@
 
 ### Preparation
 
-- Navigate into the usecase's directory, for example: experiments/usecases/u1
+- Navigate into the usecase's directory, for example: experiments/workflows/u1
 - Create a copy of the file `setup/.env-template` and save it under `setup/.env`
 - Set the fields in the newly created files (the paths you specify will be created)
     - SHARED_MOUNTED_DIR - The dir that will be mounted in all containers.

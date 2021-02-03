@@ -4,7 +4,7 @@ import os
 import torch
 from mmlib.equal import tensor_equal, state_dict_equal
 
-from experiments.usecases.shared import add_paths
+from experiments.workflows.shared import add_paths
 
 global_args = None
 

@@ -2,8 +2,8 @@ import argparse
 
 from mmlib.save import FileSystemMongoSaveService
 
-from experiments.usecases.server_shared import *
-from experiments.usecases.shared import *
+from experiments.workflows.server_shared import *
+from experiments.workflows.shared import *
 
 
 # to run this make sure mongoDB is running:

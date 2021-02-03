@@ -15,4 +15,4 @@ fi
 
 cd "$(dirname "$0")"
 
-python /eval/experiments/usecases/u1/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-eval.log
+python /eval/experiments/workflows/u1/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-eval.log

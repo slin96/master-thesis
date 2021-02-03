@@ -3,8 +3,8 @@ import argparse
 from mmlib.log import use_model
 from mmlib.recover import FileSystemMongoRecoverService
 
-from experiments.usecases.node_shared import listen
-from experiments.usecases.shared import add_connection_arguments, add_paths, save_compare_info
+from experiments.workflows.node_shared import listen
+from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info
 
 global_args = None
 

@@ -38,12 +38,12 @@ then
   echo "copy to shared directory"
   cp $MMLIB $SHARED_MOUNTED_DIR
   echo "copy to node directory"
-  cp -r ../../../usecases $NODE_MOUNTED_DIR/experiments
+  cp -r ../../../workflows $NODE_MOUNTED_DIR/experiments
   echo "copy to server directory"
-  cp -r ../../../usecases $SERVER_MOUNTED_DIR/experiments
+  cp -r ../../../workflows $SERVER_MOUNTED_DIR/experiments
   cp -r ../../../models $SERVER_MOUNTED_DIR/experiments
   echo "copy to eval directory"
-  cp -r ../../../usecases $EVAL_MOUNTED_DIR/experiments
+  cp -r ../../../workflows $EVAL_MOUNTED_DIR/experiments
 
   # create mmlib docker container
   sh ../../../docker/mmlib/create-mmlib-container.sh -l $MMLIB
