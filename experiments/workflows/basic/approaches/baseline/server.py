@@ -33,7 +33,7 @@ def main(args):
     sleep(2)
 
     # update model
-    updated_model = update_model()
+    updated_model = update_model(init_model)
     # save the updated model
     updated_model_name = args.model + '-updated'
     updated_model_id = save_service.save_model(updated_model_name, updated_model, args.model_code, args.import_root)

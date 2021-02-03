@@ -23,10 +23,9 @@ def initial_train(model_ref):
     return model_ref(pretrained=True)
 
 
-def update_model():
+def update_model(model):
     # TODO to implement
-    # for now return resnet18 for testing
-    return resnet18(pretrained=True)
+    return model
 
 
 def generate_message(model_id, last_message):
