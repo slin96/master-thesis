@@ -50,10 +50,7 @@ def save_compare_info(model, container, model_id, log_dir):
 
 
 def listen(receiver, callback):
-    # socket.SOCK_DGRAM use UDP
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    # allow to reuse the socket address
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock = reusable_udp_socket()
     sock.bind(receiver)
     received = sock.recvfrom(MSG_LEN)
     callback(received)
@@ -61,9 +58,16 @@ def listen(receiver, callback):
     sock.close()
 
 
-def inform(message, sender, receiver):
+def reusable_udp_socket():
     # socket.SOCK_DGRAM use UDP
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # allow to reuse the socket address
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    return sock
+
+
+def inform(message, sender, receiver):
+    sock = reusable_udp_socket()
     sock.bind(sender)
     sock.sendto(message, receiver)
 

@@ -5,7 +5,7 @@ from mmlib.save import FileSystemMongoSaveRecoverService
 
 from experiments.workflows.node_shared import update_model
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, listen, \
-    extract_fields
+    extract_fields, generate_message, inform
 
 global_args = None
 
@@ -47,7 +47,9 @@ def update_model_locally(model, base_model_id):
     # NOT TIMED save state_dict and output to compare restored model
     save_compare_info(locally_trained_model, 'node', model_id, args.log_dir)
 
-    # TODO inform server
+    # inform that a new model is available in the DB ready to use
+    message = generate_message(model_id, True)
+    inform(message, (args.node_ip, args.node_port), (args.server_ip, args.server_port))
 
 
 def parse_args():
