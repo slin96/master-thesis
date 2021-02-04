@@ -1,11 +1,11 @@
 import argparse
-import json
 
 from mmlib.log import use_model
 from mmlib.save import FileSystemMongoSaveRecoverService
 
-from experiments.workflows.node_shared import listen, update_model
-from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, MODEL_ID, LAST
+from experiments.workflows.node_shared import update_model
+from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, listen, \
+    extract_fields
 
 global_args = None
 
@@ -19,9 +19,7 @@ def main(args):
 
 def react_to_new_model(msg):
     print(msg)
-    json_msg = json.loads(msg[0].decode("utf-8"))
-    model_id = json_msg[MODEL_ID]
-    last = json_msg[LAST]
+    last, model_id = extract_fields(msg)
 
     # as soon as new model is available
     save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)

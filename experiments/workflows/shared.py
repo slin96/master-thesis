@@ -1,4 +1,6 @@
+import json
 import os
+import socket
 
 import torch
 from mmlib.deterministic import set_deterministic
@@ -13,6 +15,8 @@ NODE_PORT = 18197
 ENCODING = 'utf-8'
 MODEL_ID = 'model_id'
 LAST = 'last'
+
+MSG_LEN = 1024
 
 
 def add_connection_arguments(parser):
@@ -43,3 +47,35 @@ def save_compare_info(model, container, model_id, log_dir):
     dummy_output = model(dummy_input)
     output_path = os.path.join(log_dir, '{}-{}-output'.format(container, model_id))
     torch.save(dummy_output, output_path)
+
+
+def listen(receiver, callback):
+    # socket.SOCK_DGRAM use UDP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # allow to reuse the socket address
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(receiver)
+    received = sock.recvfrom(MSG_LEN)
+    callback(received)
+    sock.detach()
+    sock.close()
+
+
+def extract_fields(msg):
+    json_msg = json.loads(msg[0].decode("utf-8"))
+    last = json_msg[LAST]
+    model_id = json_msg[MODEL_ID]
+    return last, model_id
+
+
+def generate_message(model_id, last_message):
+    msg_json = {MODEL_ID: model_id, LAST: last_message}
+    msg_string = json.dumps(msg_json)
+    return bytes(msg_string, encoding=ENCODING)
+
+
+def inform(message, sender, receiver):
+    # socket.SOCK_DGRAM use UDP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind(sender)
+    sock.sendto(message, receiver)
