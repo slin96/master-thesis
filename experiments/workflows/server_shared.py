@@ -1,5 +1,3 @@
-import socket
-
 from experiments.models.googlenet import googlenet
 from experiments.models.mobilenet import mobilenet_v2
 from experiments.models.resnet152 import resnet152
@@ -21,8 +19,6 @@ def initial_train(model_ref):
     return model_ref(pretrained=True)
 
 
-def inform(message, sender, receiver):
-    # socket.SOCK_DGRAM use UDP
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(sender)
-    sock.sendto(message, receiver)
+def update_model(model):
+    # TODO to implement
+    return model

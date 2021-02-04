@@ -7,9 +7,6 @@ do
     esac
 done
 
-
-echo "used model: $MODEL";
-
 # mandatory arguments
 if [ ! "$APPROACH" ]; then
   echo "argument -a must be provided to specify the approach"
@@ -18,4 +15,4 @@ fi
 
 cd "$(dirname "$0")"
 
-python /node/experiments/usecases/u1/approaches/$APPROACH/node.py --tmp_dir /shared --mongo_ip mongo-db --server_ip server-container --node_ip node-container --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-node.log
+python /eval/experiments/workflows/basic/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH --tmp_dir /shared --mongo_ip mongo-db > /shared/logs/$APPROACH/python-eval.log

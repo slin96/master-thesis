@@ -6,7 +6,7 @@ do
         a) APPROACH=${OPTARG};;
     esac
 done
-
+‚
 # mandatory arguments
 if [ ! "$APPROACH" ]; then
   echo "argument -a must be provided to specify the approach"
@@ -15,4 +15,4 @@ fi
 
 cd "$(dirname "$0")"
 
-python /eval/experiments/usecases/u1/approaches/$APPROACH/eval.py --tmp_dir /shared --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-eval.log
+python /node/experiments/workflows/basic/approaches/$APPROACH/node.py --tmp_dir /shared --mongo_ip mongo-db --server_ip server-container --node_ip node-container --log_dir /shared/logs/$APPROACH > /shared/logs/$APPROACH/python-node.log
