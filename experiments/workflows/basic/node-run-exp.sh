@@ -6,10 +6,7 @@ do
         a) APPROACH=${OPTARG};;
     esac
 done
-
-
-echo "used model: $MODEL";
-
+‚
 # mandatory arguments
 if [ ! "$APPROACH" ]; then
   echo "argument -a must be provided to specify the approach"

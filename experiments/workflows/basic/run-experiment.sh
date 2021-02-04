@@ -33,11 +33,11 @@ echo "setup mounted volumes and start docker containers"
 sh ./setup/setup.sh -l $MMLIB
 
 echo "run experiment code for node and server container"
-docker exec server-container sh /server/experiments/workflows/basic/server-run-exp.sh -m $MODEL -a $APPROACH > server-log.log &
-docker exec node-container sh /node/experiments/workflows/basic/node-run-exp.sh -a $APPROACH > node-log.log
+docker exec server-container sh /server/experiments/workflows/basic/server-run-exp.sh -m $MODEL -a $APPROACH&
+docker exec node-container sh /node/experiments/workflows/basic/node-run-exp.sh -a $APPROACH
 
 echo "eval results"
-docker exec eval-container sh /eval/experiments/workflows/basic/eval-run-exp.sh -a $APPROACH > eval-log.log
+docker exec eval-container sh /eval/experiments/workflows/basic/eval-run-exp.sh -a $APPROACH
 
 echo "experiments done - cleanup docker containers"
 sh ./setup/cleanup.sh
