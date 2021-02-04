@@ -61,6 +61,13 @@ def listen(receiver, callback):
     sock.close()
 
 
+def inform(message, sender, receiver):
+    # socket.SOCK_DGRAM use UDP
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind(sender)
+    sock.sendto(message, receiver)
+
+
 def extract_fields(msg):
     json_msg = json.loads(msg[0].decode("utf-8"))
     last = json_msg[LAST]
@@ -72,10 +79,3 @@ def generate_message(model_id, last_message):
     msg_json = {MODEL_ID: model_id, LAST: last_message}
     msg_string = json.dumps(msg_json)
     return bytes(msg_string, encoding=ENCODING)
-
-
-def inform(message, sender, receiver):
-    # socket.SOCK_DGRAM use UDP
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.bind(sender)
-    sock.sendto(message, receiver)
