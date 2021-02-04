@@ -7,12 +7,8 @@ from experiments.workflows.node_shared import update_model
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, listen, \
     extract_fields, generate_message, inform
 
-global_args = None
-
 
 def main(args):
-    global global_args
-    global_args = args
     # wait for new model to be ready
     listen((args.node_ip, args.node_port), react_to_new_model)
 
