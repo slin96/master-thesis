@@ -28,7 +28,7 @@ class EventTimer:
         :param event_name: The name of the event to time
         """
         if event_name in self.events:
-            raise Exception('event already exists')
+            raise Exception('event \'{}\' already exists'.format(event_name))
 
         t = time.time()
         event = StartStopEvent(start=t)
@@ -40,7 +40,7 @@ class EventTimer:
         :param event_name: The name of the event to time
         """
         if event_name not in self.events:
-            raise Exception('event does not exist')
+            raise Exception('event \'{}\' does not exist'.format(event_name))
 
         t = time.time()
         self.events[event_name].stop = t
@@ -61,7 +61,7 @@ class EventTimer:
         :param event_name: The name for the point event.
         """
         if event_name in self.events:
-            raise Exception('event already exist')
+            raise Exception('event \'{}\' already exists'.format(event_name))
 
         self.events[event_name] = PointEvent(time.time())
 
@@ -94,5 +94,20 @@ class EventTimer:
             return normalized
         else:
             return sorted_times
+
+    def get_elapsed_times(self) -> [(str, float)]:
+        """
+        For all StartStopEvents calculate the elapsed time and return it in a list.
+        :return: The time elapsed for all StartStopEvents in seconds.
+        """
+        result = []
+
+        for event_name, event in self.events.items():
+            if isinstance(event, StartStopEvent):
+                elapsed = self.time_elapsed(event_name)
+                result.append((event_name, elapsed))
+
+        return result
+
 
 

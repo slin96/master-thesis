@@ -3,10 +3,13 @@ import argparse
 from mmlib.log import use_model
 from mmlib.save import FileSystemMongoSaveRecoverService
 
+from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.node_shared import update_model
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, listen, \
     extract_fields, generate_message, inform
 
+node_timer = EventTimer()
+recover_counter = 0
 
 def main(args):
     # wait for new model to be ready
@@ -16,13 +19,21 @@ def main(args):
 def react_to_new_model(msg):
     print(msg)
     last, model_id = extract_fields(msg)
+    global node_timer, recover_counter
 
     # as soon as new model is available
     save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+
+    # time recover
+    time_name = 'recover-{}'.format(recover_counter)
+    recover_counter += 1
+    node_timer.start_event(time_name)
     recovered_model = save_recover_service.recover_model(model_id)
+    node_timer.stop_event(time_name)
+    # -------------------------------------
+
     # use recovered model
     use_model(model_id)
-
     # NOT TIMED save state_dict and output to compare restored model
     save_compare_info(recovered_model, 'node', model_id, args.log_dir)
 
@@ -38,7 +49,14 @@ def update_model_locally(model, base_model_id):
     locally_trained_model = update_model(model)
 
     save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+
+    # time save process
+    # -------------------------------------
+    time_name = 'save_model'
+    node_timer.start_event(time_name)
     model_id = save_recover_service.save_version(locally_trained_model, base_model_id)
+    node_timer.stop_event(time_name)
+    # -------------------------------------
 
     # NOT TIMED save state_dict and output to compare restored model
     save_compare_info(locally_trained_model, 'node', model_id, args.log_dir)
@@ -46,6 +64,9 @@ def update_model_locally(model, base_model_id):
     # inform that a new model is available in the DB ready to use
     message = generate_message(model_id, True)
     inform(message, (args.node_ip, args.node_port), (args.server_ip, args.server_port))
+
+    print(node_timer.get_time_line())
+    print(node_timer.get_elapsed_times())
 
 
 def parse_args():

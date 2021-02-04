@@ -6,7 +6,7 @@ do
         a) APPROACH=${OPTARG};;
     esac
 done
-‚
+
 # mandatory arguments
 if [ ! "$APPROACH" ]; then
   echo "argument -a must be provided to specify the approach"
