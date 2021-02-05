@@ -41,6 +41,21 @@ def check(args, model_id):
     print('state_dict_equal: {}'.format(state_dict_eq))
     print()
 
+    # storage consumption
+    sizes = measure_storage_consumption(args)
+    print(sizes)
+
+
+def measure_storage_consumption(args):
+    result = []
+    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    model_ids = save_recover_service.saved_model_ids()
+    for model_id in model_ids:
+        save_size = save_recover_service.model_save_size(model_id)
+        result.append((model_id, save_size))
+
+    return result
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script for evaluating')
