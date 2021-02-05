@@ -295,10 +295,10 @@
 
 ### Hidden Technical Debt in Machine Learning Systems
 
-- lists several possible fields for technical debt and how to mitigate 
+- lists several possible fields for technical debt and how to mitigate
 - among other categories discusses also reproducibility debt
-  - reproducibility is task that is "made difficult by randomized algorithms, non-determinism inherited in parallel
-    learning, reliance on initial conditions, and interactions with the external world." 
+    - reproducibility is task that is "made difficult by randomized algorithms, non-determinism inherited in parallel
+      learning, reliance on initial conditions, and interactions with the external world."
 - [pdf](./hidden-dept/tech-debt.pdf)
 
 ## Reviewed (not too relevant)
