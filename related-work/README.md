@@ -116,6 +116,7 @@
 - Taverna
 
 ### Software engineering viewpoint
+
 - [Challenges in the deployment and operation of ML](#Challenges-in-the-deployment-and-operation-of-ML)
 - A TensorFlow-Based Production-Scale Machine Learning Platform
 - Hidden technical debt in machine learning systems
@@ -285,8 +286,9 @@
 - [further notes and blog saved as pdf](./reproducibility-in-ml)
 
 ### Challenges in the deployment and operation of ML
+
 - literature overview of challenges in the deployment and operation of ML
-- good graphical overview and classification 
+- good graphical overview and classification
 - compare finding by science with interviews of people working in industry
 - main graphic see [here](./interview-challenges/figure-3.png)
 
