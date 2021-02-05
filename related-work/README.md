@@ -116,7 +116,7 @@
 - Taverna
 
 ### Software engineering viewpoint
-
+- [Challenges in the deployment and operation of ML](#Challenges-in-the-deployment-and-operation-of-ML)
 - A TensorFlow-Based Production-Scale Machine Learning Platform
 - Hidden technical debt in machine learning systems
 - Versioning for end-to-end machine learning pipelines
