@@ -172,7 +172,7 @@
 - discuss a selection of ML use cases
 - **overview of conceptual, engineering, and data-processing related challenges**
 - point out future research directions
-- [notes](./challanges/README.md)
+- [notes](./challenges/README.md)
 
 ### ModelDB
 
