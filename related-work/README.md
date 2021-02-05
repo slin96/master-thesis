@@ -288,8 +288,8 @@
 ### Challenges in the deployment and operation of ML
 
 - literature overview of challenges in the deployment and operation of ML
-- good graphical overview and classification
-- compare finding by science with interviews of people working in industry
+- good graphical overview and classification of challenges
+- compare findings by science with interviews of people working in industry
 - main graphic see [here](./interview-challenges/figure-3.png)
 
 ## Reviewed (not too relevant)
