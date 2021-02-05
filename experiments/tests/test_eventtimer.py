@@ -2,7 +2,6 @@ import unittest
 from time import sleep
 
 from experiments.measure.eventtimer import EventTimer
-from experiments.measure.timer import Timer
 
 TEST_EVENT = 'test_event'
 TEST_EVENT_2 = 'test_event_2'

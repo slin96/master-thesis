@@ -55,7 +55,7 @@ class EventTimer:
 
         return elapsed
 
-    def point_event(self, event_name:str):
+    def point_event(self, event_name: str):
         """
         Created a point event with a given name.
         :param event_name: The name for the point event.
@@ -108,6 +108,3 @@ class EventTimer:
                 result.append((event_name, elapsed))
 
         return result
-
-
-
