@@ -8,6 +8,8 @@ from experiments.workflows.node_shared import update_model
 from experiments.workflows.shared import add_connection_arguments, add_paths, save_compare_info, listen, \
     extract_fields, generate_message, inform
 
+NODE = 'node'
+
 node_timer = EventTimer()
 recover_counter = 0
 
@@ -35,7 +37,7 @@ def react_to_new_model(msg):
     # use recovered model
     use_model(model_id)
     # NOT TIMED save state_dict and output to compare restored model
-    save_compare_info(recovered_model, 'node', model_id, args.log_dir)
+    save_compare_info(recovered_model, NODE, model_id, args.log_dir)
 
     # go back to listen state id there is another message expected
     if not last:
@@ -59,7 +61,7 @@ def update_model_locally(model, base_model_id):
     # -------------------------------------
 
     # NOT TIMED save state_dict and output to compare restored model
-    save_compare_info(locally_trained_model, 'node', model_id, args.log_dir)
+    save_compare_info(locally_trained_model, NODE, model_id, args.log_dir)
 
     # inform that a new model is available in the DB ready to use
     message = generate_message(model_id, True)
