@@ -117,6 +117,7 @@
 
 ### Software engineering viewpoint
 
+- [Challenges in the deployment and operation of ML](#Challenges-in-the-deployment-and-operation-of-ML)
 - A TensorFlow-Based Production-Scale Machine Learning Platform
 - Hidden technical debt in machine learning systems
 - Versioning for end-to-end machine learning pipelines
@@ -283,6 +284,13 @@
 - Implementation in Tensorflow and Kubernetes
 - Not very scientifically written but good overview and good references
 - [further notes and blog saved as pdf](./reproducibility-in-ml)
+
+### Challenges in the deployment and operation of ML
+
+- literature overview of challenges in the deployment and operation of ML
+- good graphical overview and classification of challenges
+- compare findings by science with interviews of people working in industry
+- main graphic see [here](./interview-challenges/figure-3.png)
 
 ## Reviewed (not too relevant)
 
