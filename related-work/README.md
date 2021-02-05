@@ -118,6 +118,7 @@
 ### Software engineering viewpoint
 
 - [Challenges in the deployment and operation of ML](#Challenges-in-the-deployment-and-operation-of-ML)
+- [Hidden Technical Debt in Machine Learning Systems](#Hidden-Technical-Debt-in-Machine-Learning-Systems)
 - A TensorFlow-Based Production-Scale Machine Learning Platform
 - Hidden technical debt in machine learning systems
 - Versioning for end-to-end machine learning pipelines
@@ -291,6 +292,14 @@
 - good graphical overview and classification of challenges
 - compare findings by science with interviews of people working in industry
 - main graphic see [here](./interview-challenges/figure-3.png)
+
+### Hidden Technical Debt in Machine Learning Systems
+
+- lists several possible fields for technical debt and how to mitigate 
+- among other categories discusses also reproducibility debt
+  - reproducibility is task that is "made difficult by randomized algorithms, non-determinism inherited in parallel
+    learning, reliance on initial conditions, and interactions with the external world." 
+- [pdf](./hidden-dept/tech-debt.pdf)
 
 ## Reviewed (not too relevant)
 
