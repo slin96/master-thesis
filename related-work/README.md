@@ -284,6 +284,12 @@
 - Not very scientifically written but good overview and good references
 - [further notes and blog saved as pdf](./reproducibility-in-ml)
 
+### Challenges in the deployment and operation of ML
+- literature overview of challenges in the deployment and operation of ML
+- good graphical overview and classification 
+- compare finding by science with interviews of people working in industry
+- main graphic see [here](./interview-challenges/figure-3.png)
+
 ## Reviewed (not too relevant)
 
 ### Online Model Management via Temporally Biased Sampling
