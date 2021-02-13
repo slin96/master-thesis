@@ -162,7 +162,7 @@
 ### Automatically Tracking Metadata and Provenance of Machine Learning Experiments
 
 - **mainly interesting: presented [schema](https://github.com/awslabs/ml-experiments-schema)**
-- lightweight system to extract, store and manage metadata and prove- nance information of common artifacts in machine
+- lightweight system to extract, store and manage metadata and provenance information of common artifacts in machine
   learning (ML) experiments
 - tracking: datasets, models, predictions, evaluations and training runs
 - [notes](./tracking-meta/README.md)
