@@ -17,7 +17,6 @@
     - declarability: store metadata of artifacts but not code that produces them -> authors advice: use git
     - immutability: metadata entries are only written once -> ruling out consistency problems
 - Entities
-    - *TrainingRun* only mutable entity
     - **Datset-Metadata**
         - stores metadata for dataset
         - stores fields like name and version
@@ -27,7 +26,7 @@
         - hyperparameters as extra entity
         - describe the transformation of the data by a graph of Transform entities
             - **do not store parameters only pointers**
-    - **TrainingRun**
+    - **TrainingRun** (only mutable entity)
         - only mutable entity
         - tracks live execution (e.g. training loss)
     - **Prediction-Metadata**
