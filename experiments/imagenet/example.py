@@ -14,22 +14,22 @@ def main(args):
     loss_func = nn.CrossEntropyLoss()
 
     print('load imagenet data, if zip has to be unpacked this can take a while ...')
-    imgnet_val_data = datasets.ImageNet(args.imagenet_root, 'val', transform=inference_transforms)
+    imagenet_val_data = datasets.ImageNet(args.imagenet_root, 'val', transform=inference_transforms)
     coco_val_data = CustomCoco(args.coco_root, args.coco_annotations, transform=inference_transforms)
     print('done loading data')
 
     # because train data is to big for local machine, and because we just want to see if code runs -> use val split
-    imgenet_train_data = datasets.ImageNet(args.imagenet_root, 'val', transform=train_transforms)
+    imagenet_train_data = datasets.ImageNet(args.imagenet_root, 'val', transform=train_transforms)
     coco_train_data = CustomCoco(args.coco_root, args.coco_annotations, transform=train_transforms)
 
     model = resnet18(pretrained=True)
     optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
 
     print('imagenet train')
-    img_train_output = train_epoch(model, imgenet_train_data, loss_func, optimizer, get_outputs=True,
+    img_train_output = train_epoch(model, imagenet_train_data, loss_func, optimizer, get_outputs=True,
                                    number_batches=args.num_epochs)
     print('imagenet val')
-    img_val_output = validate(model, imgnet_val_data, loss_func, get_outputs=True, number_batches=args.num_epochs)
+    img_val_output = validate(model, imagenet_val_data, loss_func, get_outputs=True, number_batches=args.num_epochs)
 
     model = resnet18(pretrained=True)
     optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
