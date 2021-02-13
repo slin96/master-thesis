@@ -26,7 +26,7 @@
         - hyperparameters as extra entity
         - describe the transformation of the data by a graph of Transform entities
             - **do not store parameters only pointers**
-    - **TrainingRun** (only mutable entity)
+    - **TrainingRun**
         - only mutable entity
         - tracks live execution (e.g. training loss)
     - **Prediction-Metadata**
