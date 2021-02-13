@@ -1,8 +1,8 @@
 import time
 
 import torch
-from experiments.repeatability.util import get_device
 from torch.utils.data import DataLoader
+from util.helper import get_device
 
 from experiments.imagenet.imagenet_utils import AverageMeter, ProgressMeter, accuracy
 
