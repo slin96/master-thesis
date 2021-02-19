@@ -1,7 +1,8 @@
 import argparse
 
 from mmlib.log import use_model
-from mmlib.save import FileSystemMongoSaveRecoverService
+from mmlib.persistence import FileSystemMongoPS
+from mmlib.save import SimpleSaveRecoverService
 
 from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.node_shared import update_model
@@ -25,7 +26,8 @@ def react_to_new_model(msg):
     global node_timer, recover_counter
 
     # as soon as new model is available
-    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    save_recover_service = SimpleSaveRecoverService(pers_service)
 
     # time recover
     time_name = 'recover-{}'.format(recover_counter)
@@ -51,7 +53,8 @@ def react_to_new_model(msg):
 def update_model_locally(model, base_model_id):
     locally_trained_model = update_model(model)
 
-    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    save_recover_service = SimpleSaveRecoverService(pers_service)
 
     # time save process
     # -------------------------------------

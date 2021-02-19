@@ -1,15 +1,16 @@
 import argparse
-from time import sleep
 
 from mmlib.log import use_model
-from mmlib.save import FileSystemMongoSaveRecoverService
+from mmlib.persistence import FileSystemMongoPS
+from mmlib.save import SimpleSaveRecoverService
+from util.mongo import MongoService
 
 from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.server_shared import *
 from experiments.workflows.shared import *
+
 # to run this make sure mongoDB is running:
 # docker run --rm --name mongo-test -it -p 27017:27017 -d  mongo:latest
-from experiments.workflows.shared import generate_message, inform
 
 SERVER = 'server'
 
@@ -17,55 +18,63 @@ server_timer = EventTimer()
 
 
 def main(args):
-    save_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    print("test mongo")
+    m_s = MongoService(args.mongo_ip, 'mmlib')
+    test_dict = {'test': 'test'}
+    mongo_id = m_s.save_dict(test_dict, collection='test')
+    print('id')
+    print(mongo_id)
 
-    print('model used: {}'.format(args.model))
-    # initially train the model in full dataset
-    init_model = initial_train(models_dict[args.model])
-
-    # time save the initial model
-    time_name = 'save-initial'
-    server_timer.start_event(time_name)
-    # save the initially trained model
-    init_model_id = save_service.save_model(args.model, init_model, args.model_code, args.import_root)
-    server_timer.stop_event(time_name)
-    # -------------------------------------
-
-    # NOT TIMED: save state_dict and output to compare restored model
-    save_compare_info(init_model, SERVER, init_model_id, args.log_dir)
-
-    # inform that a new model is available in the DB ready to use
-    message = generate_message(init_model_id, False)
-    inform(message, (args.server_ip, args.server_port),
-           (args.node_ip, args.node_port))
-
-    print('informed about init model')
-    # NOT TIMED: wait some time
-    sleep(2)
-
-    # update model
-    updated_model = update_model(init_model)
-    # save the updated model
-    updated_model_name = args.model + '-updated'
-
-    # time save the updated model
-    time_name = 'save-updated'
-    server_timer.start_event(time_name)
-    updated_model_id = save_service.save_model(updated_model_name, updated_model, args.model_code, args.import_root)
-    server_timer.stop_event(time_name)
-    # -------------------------------------
-
-    # NOT TIMED: save state_dict and output to compare restored model
-    save_compare_info(updated_model, SERVER, updated_model_id, args.log_dir)
-
-    # inform that a new model is available in the DB ready to use
-    message = generate_message(updated_model_id, True)
-    inform(message, (args.server_ip, args.server_port), (args.node_ip, args.node_port))
-
-    print('informed about updated model')
-
-    print('server done, waiting for node updates')
-    listen((args.server_ip, args.server_port), react_to_new_model)
+    # pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    # save_service = SimpleSaveRecoverService(pers_service)
+    #
+    # print('model used: {}'.format(args.model))
+    # # initially train the model in full dataset
+    # init_model = initial_train(models_dict[args.model])
+    #
+    # # time save the initial model
+    # time_name = 'save-initial'
+    # server_timer.start_event(time_name)
+    # # save the initially trained model
+    # init_model_id = save_service.save_model(init_model, args.model_code, models_dict[args.model].__name__)
+    # server_timer.stop_event(time_name)
+    # # -------------------------------------
+    #
+    # # NOT TIMED: save state_dict and output to compare restored model
+    # save_compare_info(init_model, SERVER, init_model_id, args.log_dir)
+    #
+    # # inform that a new model is available in the DB ready to use
+    # message = generate_message(init_model_id, False)
+    # inform(message, (args.server_ip, args.server_port),
+    #        (args.node_ip, args.node_port))
+    #
+    # print('informed about init model')
+    # # NOT TIMED: wait some time
+    # sleep(2)
+    #
+    # # update model
+    # updated_model = update_model(init_model)
+    # # save the updated model
+    # updated_model_name = args.model + '-updated'
+    #
+    # # time save the updated model
+    # time_name = 'save-updated'
+    # server_timer.start_event(time_name)
+    # updated_model_id = save_service.save_model(updated_model_name, updated_model, args.model_code, args.import_root)
+    # server_timer.stop_event(time_name)
+    # # -------------------------------------
+    #
+    # # NOT TIMED: save state_dict and output to compare restored model
+    # save_compare_info(updated_model, SERVER, updated_model_id, args.log_dir)
+    #
+    # # inform that a new model is available in the DB ready to use
+    # message = generate_message(updated_model_id, True)
+    # inform(message, (args.server_ip, args.server_port), (args.node_ip, args.node_port))
+    #
+    # print('informed about updated model')
+    #
+    # print('server done, waiting for node updates')
+    # listen((args.server_ip, args.server_port), react_to_new_model)
 
 
 def react_to_new_model(msg):
@@ -73,7 +82,8 @@ def react_to_new_model(msg):
     last, model_id = extract_fields(msg)
 
     # as soon as new model is available
-    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    save_recover_service = SimpleSaveRecoverService(pers_service)
 
     # time save the updated model
     time_name = 'recover-model'
