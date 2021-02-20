@@ -1,17 +1,20 @@
 # Automatically Tracking Metadata and Provenance of Machine Learning Experiments
 
-### Abstract 
+### Abstract
+
 - lightweight system to extract, store and manage metadata and provenance information
 - as basis for comparability and repeatability:
     - track lineage of artifacts
     - automatically extract metadata (e.g. datasets, models, predictions, evaluations and training runs)
 
 ### Architecture
+
 - experiment metadata is stored in document database
 - bigger files (e.g. serialized data/weights) stored in a distributed filesystem
 - clients communicate via REST API
 
 ### Data Model
+
 - major challenge: trade-off between generality and interpretability of the schema
 - Schema Design [1]
     - declarability: store metadata of artifacts but not code that produces them -> authors advice: use git

@@ -42,8 +42,9 @@
     - Also files, such as stored models are stored under `SHARED_MOUNTED_DIR/logs/<APPROACH>/`
 - The results and logs are evaluated by the eval container
     - the result of the evaluation is logged under `SHARED_MOUNTED_DIR/logs/<APPROACH>/python-eval.log`
-  
+
 ### Troubleshooting
+
 - at some point we ran into the problem, that the docker container for the mongoDB is crashing right after start
-  - using `docker ps -a` it said *Exited(100)*
-  - we were able to fix this by pruning all docker volumes with the command `docker volumes prune`
+    - using `docker ps -a` it said *Exited(100)*
+    - we were able to fix this by pruning all docker volumes with the command `docker volumes prune`
