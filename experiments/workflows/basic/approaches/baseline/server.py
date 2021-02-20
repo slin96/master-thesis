@@ -2,14 +2,15 @@ import argparse
 from time import sleep
 
 from mmlib.log import use_model
-from mmlib.save import FileSystemMongoSaveRecoverService
+from mmlib.persistence import FileSystemMongoPS
+from mmlib.save import SimpleSaveRecoverService
 
 from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.server_shared import *
 from experiments.workflows.shared import *
+
 # to run this make sure mongoDB is running:
 # docker run --rm --name mongo-test -it -p 27017:27017 -d  mongo:latest
-from experiments.workflows.shared import generate_message, inform
 
 SERVER = 'server'
 
@@ -17,7 +18,8 @@ server_timer = EventTimer()
 
 
 def main(args):
-    save_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    save_service = SimpleSaveRecoverService(pers_service)
 
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset
@@ -27,7 +29,7 @@ def main(args):
     time_name = 'save-initial'
     server_timer.start_event(time_name)
     # save the initially trained model
-    init_model_id = save_service.save_model(args.model, init_model, args.model_code, args.import_root)
+    init_model_id = save_service.save_model(init_model, args.model_code, models_dict[args.model].__name__)
     server_timer.stop_event(time_name)
     # -------------------------------------
 
@@ -46,12 +48,11 @@ def main(args):
     # update model
     updated_model = update_model(init_model)
     # save the updated model
-    updated_model_name = args.model + '-updated'
 
     # time save the updated model
     time_name = 'save-updated'
     server_timer.start_event(time_name)
-    updated_model_id = save_service.save_model(updated_model_name, updated_model, args.model_code, args.import_root)
+    updated_model_id = save_service.save_model(updated_model, args.model_code, models_dict[args.model].__name__)
     server_timer.stop_event(time_name)
     # -------------------------------------
 
@@ -73,7 +74,8 @@ def react_to_new_model(msg):
     last, model_id = extract_fields(msg)
 
     # as soon as new model is available
-    save_recover_service = FileSystemMongoSaveRecoverService(args.tmp_dir, args.mongo_ip)
+    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
+    save_recover_service = SimpleSaveRecoverService(pers_service)
 
     # time save the updated model
     time_name = 'recover-model'
