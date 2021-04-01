@@ -4,7 +4,7 @@ import socket
 
 import torch
 from mmlib.deterministic import set_deterministic
-from mmlib.helper import imagenet_input
+from util.dummy_data import imagenet_input
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 18196
