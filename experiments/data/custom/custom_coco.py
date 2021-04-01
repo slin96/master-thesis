@@ -54,8 +54,8 @@ class CustomCoco(VisionDataset):
                  transforms: Optional[Callable] = None,
                  ) -> None:
         super(CustomCoco, self).__init__(root, transforms, transform, target_transform)
-        self.images_path = os.path.join(self.root, IMAGES)
-        self.ann_file = os.path.join(self.root, ann_file)
+        self.images_path = os.path.abspath(os.path.join(self.root, IMAGES))
+        self.ann_file = os.path.abspath(os.path.join(self.root, ann_file))
 
         if id_subset_json:
             self.included_ids = _included_ids(id_subset_json)
