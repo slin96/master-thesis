@@ -3,8 +3,8 @@ import os
 
 import torch
 from mmlib.equal import tensor_equal, state_dict_equal
-from mmlib.persistence import FileSystemMongoPS
-from mmlib.save import SimpleSaveRecoverService
+from mmlib.persistence import MongoDictPersistenceService, FileSystemPersistenceService
+from mmlib.save import BaselineSaveService
 
 from experiments.workflows.shared import add_paths, add_mongo_ip
 
@@ -14,10 +14,11 @@ version_strings = ['init', 'updated']
 
 
 def main(args):
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_service = SimpleSaveRecoverService(pers_service)
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
-    model_ids = save_service.saved_model_ids()
+    model_ids = save_service.all_model_ids()
 
     print(model_ids)
 
@@ -51,9 +52,11 @@ def check(args, model_id):
 
 def measure_storage_consumption(args):
     result = []
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_service = SimpleSaveRecoverService(pers_service)
-    model_ids = save_service.saved_model_ids()
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
+
+    model_ids = save_service.all_model_ids()
     for model_id in model_ids:
         save_size = save_service.model_save_size(model_id)
         result.append((model_id, save_size))

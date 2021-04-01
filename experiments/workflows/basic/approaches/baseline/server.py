@@ -2,8 +2,9 @@ import argparse
 from time import sleep
 
 from mmlib.log import use_model
-from mmlib.persistence import FileSystemMongoPS
-from mmlib.save import SimpleSaveRecoverService
+from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
+from mmlib.save import BaselineSaveService
+from schema.save_info_builder import ModelSaveInfoBuilder
 
 from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.server_shared import *
@@ -18,8 +19,9 @@ server_timer = EventTimer()
 
 
 def main(args):
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_service = SimpleSaveRecoverService(pers_service)
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
     print('model used: {}'.format(args.model))
     # initially train the model in full dataset
@@ -29,7 +31,10 @@ def main(args):
     time_name = 'save-initial'
     server_timer.start_event(time_name)
     # save the initially trained model
-    init_model_id = save_service.save_model(init_model, args.model_code, models_dict[args.model].__name__)
+    save_info_builder = ModelSaveInfoBuilder()
+    save_info_builder.add_model_info(init_model, args.model_code, models_dict[args.model].__name__)
+    save_info = save_info_builder.build()
+    init_model_id = save_service.save_model(save_info)
     server_timer.stop_event(time_name)
     # -------------------------------------
 
@@ -52,7 +57,11 @@ def main(args):
     # time save the updated model
     time_name = 'save-updated'
     server_timer.start_event(time_name)
-    updated_model_id = save_service.save_model(updated_model, args.model_code, models_dict[args.model].__name__)
+    save_info_builder = ModelSaveInfoBuilder()
+    save_info_builder.add_model_info(updated_model, args.model_code, models_dict[args.model].__name__,
+                                     base_model_id=init_model_id)
+    save_info = save_info_builder.build()
+    updated_model_id = save_service.save_model(save_info)
     server_timer.stop_event(time_name)
     # -------------------------------------
 
@@ -74,13 +83,15 @@ def react_to_new_model(msg):
     last, model_id = extract_fields(msg)
 
     # as soon as new model is available
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_recover_service = SimpleSaveRecoverService(pers_service)
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
     # time save the updated model
     time_name = 'recover-model'
     server_timer.start_event(time_name)
-    recovered_model = save_recover_service.recover_model(model_id)
+    recovered_model_info = save_service.recover_model(model_id)
+    recovered_model = recovered_model_info.model
     server_timer.stop_event(time_name)
     # -------------------------------------
 

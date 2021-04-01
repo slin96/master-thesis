@@ -1,8 +1,9 @@
 import argparse
 
 from mmlib.log import use_model
-from mmlib.persistence import FileSystemMongoPS
-from mmlib.save import SimpleSaveRecoverService
+from mmlib.persistence import MongoDictPersistenceService, FileSystemPersistenceService
+from mmlib.save import BaselineSaveService
+from schema.save_info_builder import ModelSaveInfoBuilder
 
 from experiments.measure.eventtimer import EventTimer
 from experiments.workflows.node_shared import update_model
@@ -26,19 +27,21 @@ def react_to_new_model(msg):
     global node_timer, recover_counter
 
     # as soon as new model is available
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_recover_service = SimpleSaveRecoverService(pers_service)
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
     # time recover
     time_name = 'recover-{}'.format(recover_counter)
     recover_counter += 1
     node_timer.start_event(time_name)
-    recovered_model = save_recover_service.recover_model(model_id)
+    recovered_model_info = save_service.recover_model(model_id)
     node_timer.stop_event(time_name)
     # -------------------------------------
 
     # use recovered model
     use_model(model_id)
+    recovered_model = recovered_model_info.model
     # NOT TIMED save state_dict and output to compare restored model
     save_compare_info(recovered_model, NODE, model_id, args.log_dir)
 
@@ -53,14 +56,18 @@ def react_to_new_model(msg):
 def update_model_locally(model, base_model_id):
     locally_trained_model = update_model(model)
 
-    pers_service = FileSystemMongoPS(args.tmp_dir, host=args.mongo_ip)
-    save_recover_service = SimpleSaveRecoverService(pers_service)
+    dict_pers_service = MongoDictPersistenceService(host=args.mongo_ip)
+    file_pers_service = FileSystemPersistenceService(args.tmp_dir)
+    save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
     # time save process
     # -------------------------------------
     time_name = 'save_model'
     node_timer.start_event(time_name)
-    model_id = save_recover_service.save_version(locally_trained_model, base_model_id)
+    save_version_info_builder = ModelSaveInfoBuilder()
+    save_version_info_builder.add_model_info(locally_trained_model, base_model_id=base_model_id)
+    save_version_info = save_version_info_builder.build()
+    model_id = save_service.save_model(save_version_info)
     node_timer.stop_event(time_name)
     # -------------------------------------
 
