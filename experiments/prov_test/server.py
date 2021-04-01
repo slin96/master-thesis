@@ -1,7 +1,8 @@
 import argparse
+import os
 
 import torch
-from mmlib.constants import CURRENT_DATA_ROOT
+from mmlib.constants import CURRENT_DATA_ROOT, MMLIB_CONFIG
 from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.recover_validation import RecoverValidationService
@@ -17,13 +18,15 @@ from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
 from experiments.prov_test.imagenet.imagenet_train import ImagenetTrainService
 from experiments.workflows.server_shared import MOBILENET, RESNET_18, RESNET_50, RESNET_152
-from experiments.workflows.shared import inform, generate_message, add_mongo_ip
+from experiments.workflows.shared import inform, generate_message, add_connection_arguments
 
 MODEL_PATH = '../models/{}.py'
 MODEL_LIST = [resnet18, resnet50, resnet152, mobilenet]
 
 
 def main(args):
+    os.environ[MMLIB_CONFIG] = args.config_file
+
     file_pers_service = FileSystemPersistenceService(args.tmp_dir)
     dict_pers_service = MongoDictPersistenceService(args.mongo_ip)
     provenance_save_service = ProvenanceSaveService(file_pers_service, dict_pers_service)
@@ -119,13 +122,14 @@ def add_imagenet_prov_state_dict(train_service, model, args):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script modeling server for basic workflow using baseline approach')
+    parser = argparse.ArgumentParser(description='Script modeling server')
     parser.add_argument('--model_name', help='The model to use for the run'
                         , choices=[MOBILENET, RESNET_18, RESNET_50, RESNET_152]
                         )
     parser.add_argument('--tmp_dir', help='The directory to write tmp files to')
     parser.add_argument('--data_path', help='The directory where the train data can be found')
-    add_mongo_ip(parser)
+    parser.add_argument('--config_file', help='The path to the config file')
+    add_connection_arguments(parser)
 
     args = parser.parse_args()
 
