@@ -1,3 +1,4 @@
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -74,6 +75,7 @@ def media_values(extracted_data):
 
 
 def plot_compare(non_deterministic_data_path, deterministic_data_path, save_to):
+    matplotlib.rcParams.update({'font.size': 12})
     fig = plt.figure(figsize=(10, 5))
     x_labels = ['batch', 'load data', 'to device', 'forward', 'backward']
     non_deterministic = list(map(ns2s, media_values(extract_data(non_deterministic_data_path))))
@@ -93,5 +95,7 @@ def plot_compare(non_deterministic_data_path, deterministic_data_path, save_to):
 
 
 if __name__ == '__main__':
+
+
     plot_compare(non_deterministic_data_path='dummy-out.txt', deterministic_data_path='dummy-out.txt',
                  save_to='dummy-plot.png')
