@@ -78,7 +78,6 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
     log_time(START, LOAD_DATA, epoch, 0)
     for i, (images, target) in enumerate(train_loader):
         log_time(STOP, LOAD_DATA, epoch, i)
-        log_time(START, BATCH, epoch, i)
 
         log_time(START, TO_DEVICE, epoch, i)
         images = images.to(device)
@@ -98,7 +97,6 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
         optimizer.step()
         log_time(STOP, BACKWARD_PATH, epoch, i)
 
-        log_time(STOP, BATCH, epoch, i)
         if not in_number_of_batches(i, number_batches):
             break
 
