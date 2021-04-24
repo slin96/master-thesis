@@ -10,6 +10,8 @@ from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resn
 from experiments.data.custom.custom_coco import TrainCustomCoco
 from experiments.imagenet.processing import in_number_of_batches
 
+TO_DEVICE = 'to_device'
+
 BACKWARD_PATH = 'backward_path'
 FORWARD_PATH = 'forward_path'
 BATCH = 'batch'
@@ -78,10 +80,10 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
         log_time(STOP, LOAD_DATA, epoch, i)
         log_time(START, BATCH, epoch, i)
 
-        log_time(START, 'to_device', epoch, i)
+        log_time(START, TO_DEVICE, epoch, i)
         images = images.to(device)
         target = target.to(device)
-        log_time(STOP, 'to_device', epoch, i)
+        log_time(STOP, TO_DEVICE, epoch, i)
 
         log_time(START, FORWARD_PATH, epoch, i)
         # compute output
