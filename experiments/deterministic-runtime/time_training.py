@@ -10,11 +10,12 @@ from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resn
 from experiments.data.custom.custom_coco import TrainCustomCoco
 from experiments.imagenet.processing import in_number_of_batches
 
+
 TO_DEVICE = 'to_device'
 
 BACKWARD_PATH = 'backward_path'
 FORWARD_PATH = 'forward_path'
-BATCH = 'batch'
+BATCH = 'batch-time'
 LOAD_DATA = 'load_data'
 STOP = 'STOP'
 EPOCH = 'epoch'
@@ -76,6 +77,8 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
     model.train()
 
     log_time(START, LOAD_DATA, epoch, 0)
+    log_time(START, BATCH, epoch, 0)
+
     for i, (images, target) in enumerate(train_loader):
         log_time(STOP, LOAD_DATA, epoch, i)
 
@@ -101,6 +104,8 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
             break
 
         log_time(START, LOAD_DATA, epoch, i + 1)
+        log_time(STOP, BATCH, epoch, i)
+        log_time(START, BATCH, epoch, i + 1)
 
 
 def parse_args():
