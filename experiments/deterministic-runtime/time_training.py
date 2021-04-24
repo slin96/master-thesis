@@ -98,10 +98,10 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
         optimizer.step()
         log_time(STOP, BACKWARD_PATH, epoch, i)
 
+        log_time(STOP, BATCH, epoch, i)
         if not in_number_of_batches(i, number_batches):
             break
 
-        log_time(STOP, BATCH, epoch, i)
         log_time(START, LOAD_DATA, epoch, i + 1)
 
 
