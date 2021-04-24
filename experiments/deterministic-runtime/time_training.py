@@ -11,17 +11,11 @@ from experiments.data.custom.custom_coco import TrainCustomCoco
 from experiments.imagenet.processing import in_number_of_batches
 
 BACKWARD_PATH = 'backward_path'
-
 FORWARD_PATH = 'forward_path'
-
 BATCH = 'batch'
-
 LOAD_DATA = 'load_data'
-
 STOP = 'STOP'
-
 EPOCH = 'epoch'
-
 START = 'START'
 
 MOBILENET = "mobilenet"
@@ -107,7 +101,7 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
             break
 
         log_time(STOP, BATCH, epoch, i)
-        log_time(START, LOAD_DATA, epoch, i+1)
+        log_time(START, LOAD_DATA, epoch, i + 1)
 
 
 def parse_args():
