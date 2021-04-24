@@ -63,8 +63,7 @@ def main(args):
 
     for epoch in range(args.num_epochs):
         log_time(START, EPOCH, epoch)
-        # TODO number of batches back to None
-        train_epoch(model, coco_train_data, loss_func, optimizer, device, number_batches=2, epoch=epoch)
+        train_epoch(model, coco_train_data, loss_func, optimizer, device, epoch=epoch)
         log_time(STOP, EPOCH, epoch)
 
 
