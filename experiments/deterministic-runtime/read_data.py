@@ -12,9 +12,9 @@ def get_key_and_time(line):
     return key, time
 
 
-def to_data_frame():
+def to_data_frame(data_file):
     data = {}
-    with open('dummy-out.txt') as f:
+    with open(data_file) as f:
         lines = f.readlines()
         for line in lines:
             if 'START' in line or 'STOP' in line:
@@ -32,10 +32,30 @@ def to_data_frame():
                     assert diff_ > 0
                     data[key].append(diff_)
 
+        # remove timestamps with no stop (should just be one load data event per epoch)
+        for key in list(data.keys()):
+            if len(data[key]) < 3:
+                del data[key]
+
     return pd.DataFrame.from_dict(data, orient='index', columns=['start', 'stop', 'diff'])
 
 
+def extract_data(data_file):
+    data_frame = to_data_frame(data_file)
+    epochs = data_frame.filter(like='epoch,', axis=0)
+    load_data = data_frame.filter(like='load_data', axis=0)
+    to_device = data_frame.filter(like='to_device', axis=0)
+    forward_path = data_frame.filter(like='forward_path', axis=0)
+    backward_path = data_frame.filter(like='backward_path', axis=0)
+
+    return epochs, load_data, to_device, forward_path, backward_path
+
+
 if __name__ == '__main__':
-    data_frame = to_data_frame()
-    print(data_frame)
-    print('test')
+    epochs, load_data, to_device, forward_path, backward_path = extract_data('dummy-out.txt')
+
+    print(epochs)
+    print(load_data)
+    print(to_device)
+    print(forward_path)
+    print(backward_path)
