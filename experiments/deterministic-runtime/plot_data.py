@@ -77,9 +77,9 @@ def media_values(extracted_data):
 def plot_compare(non_deterministic_data_path, deterministic_data_path, save_to):
     matplotlib.rcParams.update({'font.size': 12})
     fig = plt.figure(figsize=(10, 5))
-    x_labels = ['batch', 'load data', 'to device', 'forward', 'backward']
-    non_deterministic = list(map(ns2s, media_values(extract_data(non_deterministic_data_path))))
-    deterministic = list(map(ns2s, media_values(extract_data(deterministic_data_path))))
+    x_labels = ['batch', 'load data', 'to device', 'forward', 'backward'][2:]
+    non_deterministic = list(map(ns2s, media_values(extract_data(non_deterministic_data_path))))[2:]
+    deterministic = list(map(ns2s, media_values(extract_data(deterministic_data_path))))[2:]
     ind = np.arange(len(x_labels))  # the x locations for the groups
     width = 0.4  # the width of the bars
     fig = plt.figure()
@@ -97,5 +97,5 @@ def plot_compare(non_deterministic_data_path, deterministic_data_path, save_to):
 if __name__ == '__main__':
 
 
-    plot_compare(non_deterministic_data_path='dummy-out.txt', deterministic_data_path='dummy-out.txt',
+    plot_compare(non_deterministic_data_path='/Users/nils/Studium/master-thesis/repo/experiments/deterministic-runtime/results/non-deterministic-resnet.txt', deterministic_data_path='/Users/nils/Studium/master-thesis/repo/experiments/deterministic-runtime/results/deterministic-resnet.txt',
                  save_to='dummy-plot.png')
