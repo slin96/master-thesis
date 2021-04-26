@@ -443,7 +443,6 @@ if __name__ == '__main__':
         deterministic_backward_compare(model, device, forward_indices=forward_indices, dterm=False)
         print()
 
-
         print('model: {}'.format(model.__name__))
         deterministic_backward_compare(model, device, forward_indices=forward_indices, dterm=True)
         print()
