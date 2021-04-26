@@ -1,24 +1,24 @@
 # Deterministic Execution Experiment
 
-This experiment gives insights in how much slower a deterministic training is in comparison to a non-deterministic
-execution.
+This experiment investigates what effect an enforced deterministic execution of a training routine has in terms of 
+runtime.
 
 ## Setup
-- in order run the *pytorch* and *torchvision* must be installed
+- in order to run the experiment *pytorch* and *torchvision* have to be installed
   - for example: `conda install pytorch=1.7.1 torchvision cudatoolkit=11.0 -c pytorch`
-- also *mmlib* need to be installed 
+- also *mmlib* needs to be installed 
   - for instructions see https://github.com/slin96/mmlib
 - finally set the pythonpath
   - `export PYTHONPATH="<PATH-TO-REPO-ROOT>"`
 
 ## Run Experiment
 - the experiment code is defined in `time_training.py`
-- it should be executed executing the following command: 
+- for our experiemnt we use two different parametrizations 
   - **non-deterministic:**`python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> > <LOG-FILE>`
   - **deterministic:**`python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> > <LOG-FILE> --deterministic t`
   
 ## Environment
-- the script to produce the results stored under `./results` were executed in the following environment:
+- all our experiments that lead to the results in `./results` were executed in the following environment:
   - torch_version='1.7.1'
   - torchvision='0.8.2'
   - cuda_compiled_version='11.0'
