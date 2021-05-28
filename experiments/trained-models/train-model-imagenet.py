@@ -54,9 +54,8 @@ def main(args):
     print('Pytorch Environment info')
     print(torch.utils.collect_env.get_env_info())
 
-    if args.deterministic:
-        print("Use mmlib set_deterministic()")
-        set_deterministic()
+    print("Use mmlib set_deterministic()")
+    set_deterministic()
 
     print('load imagenet data, if zip has to be unpacked this can take a while ...')
     # For this experiment we train on the validation data
@@ -127,11 +126,12 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
 def parse_args():
     parser = argparse.ArgumentParser(description='Script to measure the time used for training a model')
     parser.add_argument('--num-epochs', type=int, help='the number of epochs')
-    parser.add_argument('--coco-root', type=str, help='root directory for the coco data')
-    parser.add_argument('--coco-annotations', type=str, help='path to the coco_meta.json file')
+    parser.add_argument('--save-root', type=str, help='the root directory to save snapshots')
+    parser.add_argument('--workers', type=int, help='the number fo workers to use for data loading')
+    parser.add_argument('--imagenet-root', type=str,
+                        help='root dir for the imagenet data, should contain the .tar files for the dataset to load')
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
-    parser.add_argument('--deterministic', help='Indicates if we set the deterministic flag or not', type=bool)
 
     args = parser.parse_args()
 
