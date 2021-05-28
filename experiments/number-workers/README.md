@@ -69,6 +69,7 @@
         --num-batches 3 ```
 
 #### Results
+- for the results see the jupyter notebook [here](./reproducible.ipynb)
   
 #### Environment
 
