@@ -9,7 +9,7 @@ from torch.utils.collect_env import get_pretty_env_info
 from torchvision import datasets
 from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resnet152
 
-from experiments.data.custom.custom_coco import train_transforms
+from experiments.imagenet.imagenet_utils import train_transforms
 from experiments.imagenet.processing import in_number_of_batches
 
 TO_DEVICE = 'to_device'
@@ -65,7 +65,8 @@ def main(args):
 
     # specify the model to use and load it to the device (GPU or CPU)
     model_class = MODELS_DICT[args.model]
-    model = model_class()
+    model = model_class(pretrained=True)
+    torch.save(model.state_dict(), os.path.join(args.save_root, 'init-model.pt'))
     device = get_device()
     model.to(device)
     # specify the loss function and optimizer
@@ -81,7 +82,8 @@ def main(args):
             torch.save(optimizer.state_dict(), os.path.join(args.save_root, optimizer_name))
 
         log_time(START, EPOCH, epoch)
-        train_epoch(model, imagenet_val_data, loss_func, optimizer, device, epoch=epoch, num_workers=args.workers)
+        train_epoch(model, imagenet_val_data, loss_func, optimizer, device, epoch=epoch, num_workers=args.workers,
+                    number_batches=args.num_batches)
         log_time(STOP, EPOCH, epoch)
 
 
@@ -126,8 +128,11 @@ def train_epoch(model, data, loss_func, optimizer, device, batch_size=64, num_wo
 def parse_args():
     parser = argparse.ArgumentParser(description='Script to measure the time used for training a model')
     parser.add_argument('--num-epochs', type=int, help='the number of epochs')
+    parser.add_argument('--num-batches', type=int, required=False,
+                        help='the number of batches to train on -- usually None, just set to reduce training time')
     parser.add_argument('--save-root', type=str, help='the root directory to save snapshots')
     parser.add_argument('--workers', type=int, help='the number fo workers to use for data loading')
+    parser.add_argument('--save-freq', type=int, help='the frequency to log models with')
     parser.add_argument('--imagenet-root', type=str,
                         help='root dir for the imagenet data, should contain the .tar files for the dataset to load')
     parser.add_argument('--model', help='The model to use for the run',
