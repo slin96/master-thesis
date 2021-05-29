@@ -28,7 +28,7 @@
 
 #### Run Experiment
 
-- to perform the dummy training we use the script: `experiments/trained-models/train-model-imagenet.py`
+- to perform the dummy training we use the script: `experiments/train-models/train-model-imagenet.py`
 - for our experiment we use the four different paramatrizations
     - **0 workers, run 1**
         - ```
@@ -55,7 +55,33 @@
             --num-batches 10 
             > <LOCAL-ABS-PATH>/workers-0-run-2/out.txt 
           ```
-
+          
+    - **2 workers, run 1**
+        - ```
+            python train-model-imagenet.py
+            --num-epochs 3
+            --save-root <LOCAL-ABS-PATH>/workers-2-run-1
+            --workers 2
+            --save-freq 1
+            --imagenet-root <IMAGENET-PATH>
+            --model mobilenet
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-2-run-1/out.txt 
+          ```
+    
+    - **2 workers, run 2**
+        - ```
+            python train-model-imagenet.py
+            --num-epochs 3
+            --save-root <LOCAL-ABS-PATH>/workers-2-run-2
+            --workers 2
+            --save-freq 1
+            --imagenet-root <IMAGENET-PATH>
+            --model mobilenet
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-2-run-2/out.txt 
+          ```
+    
     - **5 workers, run 1**
         - ```
           python train-model-imagenet.py
@@ -84,7 +110,7 @@
 
 #### Results
 
-- for the results see the jupyter notebook [here](./reproducible.ipynb)
+- for the results see the jupyter notebook [here](workers-analysis.ipynb)
 
 #### Environment
 
