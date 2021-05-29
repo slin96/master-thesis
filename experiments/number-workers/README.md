@@ -32,46 +32,55 @@
 - for our experiment we use the four different paramatrizations
     - **0 workers, run 1**
         - ```
-      python train-model-imagenet.py
-        --num-epochs 3
-        --save-root <LOCAL-ABS-PATH>/workers-0-run-1
-        --workers 0
-        --save-freq 1
-        --imagenet-root <IMAGENET-PATH>
-        --model mobilenet
-        --num-batches 3 ```
+          python train-model-imagenet.py
+            --num-epochs 3 
+            --save-root <LOCAL-ABS-PATH>/workers-0-run-1 
+            --workers 0 
+            --save-freq 1
+            --imagenet-root /Users/nils/Studium/master-thesis/repo/tmp/imgnet 
+            --model mobilenet 
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-0-run-1/out.txt
+          ```
+
     - **0 workers, run 2**
         - ```
-      python train-model-imagenet.py
-        --num-epochs 3
-        --save-root <LOCAL-ABS-PATH>/workers-0-run-2
-        --workers 0
-        --save-freq 1
-        --imagenet-root <IMAGENET-PATH>
-        --model mobilenet
-        --num-batches 3 ```
+            python train-model-imagenet.py
+            --num-epochs 3
+            --save-root <LOCAL-ABS-PATH>/workers-0-run-2
+            --workers 0
+            --save-freq 1
+            --imagenet-root <IMAGENET-PATH>
+            --model mobilenet
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-0-run-2/out.txt 
+          ```
 
     - **5 workers, run 1**
         - ```
-      python train-model-imagenet.py
-        --num-epochs 3
-        --save-root <LOCAL-ABS-PATH>/workers-5-run-1
-        --workers 5
-        --save-freq 1
-        --imagenet-root <IMAGENET-PATH>
-        --model mobilenet
-        --num-batches 3 ```
+          python train-model-imagenet.py
+            --num-epochs 3
+            --save-root <LOCAL-ABS-PATH>/workers-5-run-1
+            --workers 5
+            --save-freq 1
+            --imagenet-root <IMAGENET-PATH>
+            --model mobilenet
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-5-run-1/out.txt
+          ```
 
     - **5 workers, run 2**
         - ```
-      python train-model-imagenet.py
-        --num-epochs 3
-        --save-root <LOCAL-ABS-PATH>/workers-5-run-2
-        --workers 5
-        --save-freq 1
-        --imagenet-root <IMAGENET-PATH>
-        --model mobilenet
-        --num-batches 3 ```
+          python train-model-imagenet.py
+            --num-epochs 3
+            --save-root <LOCAL-ABS-PATH>/workers-5-run-2
+            --workers 5
+            --save-freq 1
+            --imagenet-root <IMAGENET-PATH>
+            --model mobilenet
+            --num-batches 10 
+            > <LOCAL-ABS-PATH>/workers-5-run-2/out.txt 
+          ```
 
 #### Results
 
@@ -79,12 +88,12 @@
 
 #### Environment
 
-- TODO
-- Pytorch Environment info SystemEnv(torch_version='1.7.1', is_debug_build='False', cuda_compiled_version=None,
-  gcc_version=None, clang_version='12.0.0 (clang-1200.0.32.28)', cmake_version=None, os='macOS 10.15.7 (x86_64)',
-  python_version='3.8 (64-bit runtime)', is_cuda_available='False', cuda_runtime_version=None,
-  nvidia_driver_version=None, nvidia_gpu_models=None, cudnn_version=None, pip_version='pip3',
-  pip_packages='numpy==1.19.5\ntorch==1.7.1\ntorchsummary==1.5.1\ntorchvision==0.8.2', conda_packages=None,
-  hip_compiled_version='N/A', hip_runtime_version='N/A', miopen_runtime_version='N/A')
-  Use mmlib set_deterministic()
+- torch_version='1.7.1'
+- macOS 10.15.7 (x86_64)
+- 2,8 GHz Quad-Core Intel Core i7
+- 16 GB RAM
+  
+
+
+
 
