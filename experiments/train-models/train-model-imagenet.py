@@ -9,6 +9,7 @@ from torch.utils.collect_env import get_pretty_env_info
 from torchvision import datasets
 from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resnet152
 
+from experiments.data.custom.custom_coco import TrainCustomCoco
 from experiments.imagenet.imagenet_utils import train_transforms
 from experiments.imagenet.processing import in_number_of_batches
 
@@ -57,11 +58,16 @@ def main(args):
     print("Use mmlib set_deterministic()")
     set_deterministic()
 
-    print('load imagenet data, if zip has to be unpacked this can take a while ...')
-    # For this experiment we train on the validation data
-    # For details see thesis
-    imagenet_val_data = datasets.ImageNet(args.imagenet_root, 'val', transform=train_transforms)
-    print('done loading data')
+    if args.imagenet_root:
+        print('load imagenet data, if zip has to be unpacked this can take a while ...')
+        # For this experiment we train on the validation data
+        # For details see thesis
+        data = datasets.ImageNet(args.imagenet_root, 'val', transform=train_transforms)
+        print('done loading data')
+    elif args.coco_root:
+        print('load coco data')
+        data = TrainCustomCoco(root=args.coco_root, id_subset_json=args.coco_category_json,
+                               num_samples=args.coco_num_samples)
 
     # specify the model to use and load it to the device (GPU or CPU)
     model_class = MODELS_DICT[args.model]
@@ -82,7 +88,7 @@ def main(args):
             torch.save(optimizer.state_dict(), os.path.join(args.save_root, optimizer_name))
 
         log_time(START, EPOCH, epoch)
-        train_epoch(model, imagenet_val_data, loss_func, optimizer, device, epoch=epoch, num_workers=args.workers,
+        train_epoch(model, data, loss_func, optimizer, device, epoch=epoch, num_workers=args.workers,
                     number_batches=args.num_batches)
         log_time(STOP, EPOCH, epoch)
 
@@ -133,8 +139,13 @@ def parse_args():
     parser.add_argument('--save-root', type=str, help='the root directory to save snapshots')
     parser.add_argument('--workers', type=int, help='the number fo workers to use for data loading')
     parser.add_argument('--save-freq', type=int, help='the frequency to log models with')
-    parser.add_argument('--imagenet-root', type=str,
+    parser.add_argument('--imagenet-root', type=str, required=False,
                         help='root dir for the imagenet data, should contain the .tar files for the dataset to load')
+    parser.add_argument('--coco-root', type=str, required=False, help='root dir for the unpacked custom coco data')
+    parser.add_argument('--coco-category-json', type=str, required=False,
+                        help='A Json containing only the categories to include')
+    parser.add_argument('--coco-num-samples', type=int, required=False,
+                        help='The number of samples that should be included in the dataset')
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
 
