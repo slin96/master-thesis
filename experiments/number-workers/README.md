@@ -37,7 +37,7 @@
             --save-root <LOCAL-ABS-PATH>/workers-0-run-1 
             --workers 0 
             --save-freq 1
-            --imagenet-root /Users/nils/Studium/master-thesis/repo/tmp/imgnet 
+            --imagenet-root <IMAGENET-PATH>
             --model mobilenet 
             --num-batches 10 
             > <LOCAL-ABS-PATH>/workers-0-run-1/out.txt
