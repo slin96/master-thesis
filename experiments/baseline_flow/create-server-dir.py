@@ -7,7 +7,8 @@ EXPERIMENTS = os.path.join(SERVER, 'experiments')
 BASELINE_FLOW = os.path.join(EXPERIMENTS, 'baseline_flow')
 
 if __name__ == '__main__':
-    shutil.rmtree(SERVER)
+    if os.path.isdir(SERVER):
+        shutil.rmtree(SERVER)
 
     os.mkdir(SERVER)
     os.mkdir(EXPERIMENTS)

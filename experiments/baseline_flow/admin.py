@@ -37,15 +37,17 @@ def start_over(msg):
     global repeat
 
     if repeat > 0:
-        print('start')
+        print('start over')
         repeat -= 1
 
         stop_db()
         start_db()
 
+        print('db ready')
         msg = generate_message(text='ready')
         inform(msg, socket, server_connection)
 
+        print('listen for server to be done')
         listen(sock=socket, callback=start_over)
 
 

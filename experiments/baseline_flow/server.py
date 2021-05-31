@@ -32,30 +32,23 @@ class ServerState:
 
 
 server_state: ServerState = None
+global_args = None
 
 
 def main(args):
-    global server_state
+    global server_state, global_args
+    global_args = args
     server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, args.admin_ip,
                                args.admin_port)
 
-    print('wait for DB to be ready')
-    listen(sock=server_state.socket, callback=db_ready)
+    use_case_1()
 
-
-def db_ready(msg):
-    print('db ready')
-    msg = generate_message(text='done')
-    inform(msg, server_state.socket, server_state.admin_address)
-    listen(sock=server_state.socket, callback=db_ready)
-    # print('start use case 1')
-    # use_case_1()
-    #
-    # print('wait for node ...')
-    # listen(sock=server_state.socket, callback=use_case_3)
+    print('wait for node ...')
+    listen(sock=server_state.socket, callback=use_case_3)
 
 
 def use_case_1():
+    print('use case 1')
     # TODO parametrize model
     model = mobilenet_v2(pretrained=True)
     init_model_id = save_model(model, server_state.save_service)
@@ -70,12 +63,12 @@ def _inform_node_about_model(init_model_id):
 
 
 def use_case_3(msg):
-    print('received message')
+    print('use case 3')
     print(msg)
     text, model_id = extract_fields(msg)
     server_state.saved_model_ids.append(model_id)
     if 'done' in text:
-        inform('done', server_state.socket, server_state.admin_address)
+        print('DONE')
     elif 'last' in text:
         # if this is the last message that will reach from the node for now U2 is finished
         # we transition to U2 and the server send an updated model
@@ -86,6 +79,7 @@ def use_case_3(msg):
 
 
 def use_case_2():
+    print('use case 2')
     # TODO implement loading new model
     model = mobilenet_v2(pretrained=True)
     model_id = save_model(model, server_state.save_service)

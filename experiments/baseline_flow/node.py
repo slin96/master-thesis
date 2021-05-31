@@ -53,14 +53,17 @@ def _react_to_new_model(msg):
 
 
 def use_case_1(msg):
+    print('use case 1')
     _react_to_new_model(msg)
 
 
 def use_case_2(msg):
+    print('use case 2')
     _react_to_new_model(msg)
 
 
 def use_case_3(last_time=False, done=False):
+    print('use case 3')
     # model training model by loading it from checkpoint
     # TODO somehow specify what model to load
     model = load_model()
@@ -88,7 +91,7 @@ def next_state():
     elif node_sate.state_description == 'U3_1':
         if node_sate.u3_counter < node_sate.u3_repeat:
             node_sate.u3_counter += 1
-            use_case_3(node_sate.u3_counter == node_sate.u3_repeat)
+            use_case_3(last_time=node_sate.u3_counter == node_sate.u3_repeat)
         else:
             node_sate.state_description = 'U2'
             node_sate.u3_counter = 0
@@ -100,11 +103,9 @@ def next_state():
     elif node_sate.state_description == 'U3_2':
         if node_sate.u3_counter < node_sate.u3_repeat:
             node_sate.u3_counter += 1
-            use_case_3(node_sate.u3_counter == node_sate.u3_repeat)
+            use_case_3(done=node_sate.u3_counter == node_sate.u3_repeat)
         else:
             print('DONE')
-            print('RESTART')
-            main(global_args)
 
 
 def load_model():
