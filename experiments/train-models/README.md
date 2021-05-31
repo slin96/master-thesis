@@ -9,7 +9,7 @@
 - finally set the pythonpath
     - `export PYTHONPATH="<PATH-TO-REPO-ROOT>"`
 
-## Training on Imagenet Validation data
+## Training
 
 - we trained the models using `train-model-imagenet.py`, with:
     - workers: 0
