@@ -4,10 +4,12 @@ import socket
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
 
-SERVER_IP = "127.0.0.1"
+LOCAL_HOST = "127.0.0.1"
+
+SERVER_IP = LOCAL_HOST
 SERVER_PORT = 18196
 
-NODE_IP = "127.0.0.1"
+NODE_IP = LOCAL_HOST
 NODE_PORT = 18197
 
 ENCODING = 'utf-8'
@@ -26,7 +28,7 @@ def add_connection_arguments(parser):
 
 
 def add_mongo_ip(parser):
-    parser.add_argument('--mongo_host', help='The ip or hostname for the mongoDB.', default=NODE_PORT)
+    parser.add_argument('--mongo_host', help='The ip or hostname for the mongoDB.', default=LOCAL_HOST)
 
 
 def add_paths(parser):

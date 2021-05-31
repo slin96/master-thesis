@@ -11,7 +11,7 @@ save_service = None
 
 def main(args):
     # initialize a service to save files
-    abs_tmp_path = os.path.abspath(args.file_system_path)
+    abs_tmp_path = os.path.abspath(args.tmp_dir)
     file_pers_service = FileSystemPersistenceService(abs_tmp_path)
 
     # initialize service to store dictionaries (JSON),
