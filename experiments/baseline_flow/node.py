@@ -42,7 +42,7 @@ def load_model():
     return mobilenet_v2(pretrained=True)
 
 
-def train_and_save_model():
+def train_and_save_model(last=False):
     global save_service
 
     # model training model by loading it from checkpoint
@@ -53,15 +53,17 @@ def train_and_save_model():
     model_id = save_model(model, save_service)
 
     # notify server
-    message = generate_message(model_id, False)
+    message = generate_message(model_id, last)
     inform(message, socket, (args.server_ip, args.server_port))
 
     next_state()
 
 
 def next_state():
-    global state
-    global counter
+    global state, counter
+
+    print('CURRENT STATE: {}'.format(state))
+
     if state == 'U1':
         state = 'U3_1'
         counter += 1
@@ -69,9 +71,21 @@ def next_state():
     elif state == 'U3_1':
         if counter < U3_REPEAT:
             counter += 1
-            train_and_save_model()
+            train_and_save_model(last=(counter==U3_REPEAT))
         else:
             state = 'U2'
+            counter = 0
+            listen(sock=socket, callback=react_to_new_model)
+    elif state == 'U2':
+        state = 'U3_2'
+        counter += 1
+        train_and_save_model()
+    elif state == 'U3_2':
+        if counter < U3_REPEAT:
+            counter += 1
+            train_and_save_model(last=(counter==U3_REPEAT))
+        else:
+            print('DONE')
 
 
 def react_to_new_model(msg):
