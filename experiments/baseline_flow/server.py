@@ -68,7 +68,7 @@ def use_case_3(msg):
     text, model_id = extract_fields(msg)
     server_state.saved_model_ids.append(model_id)
     if 'done' in text:
-        print('DONE')
+        use_case_4()
     elif 'last' in text:
         # if this is the last message that will reach from the node for now U2 is finished
         # we transition to U2 and the server send an updated model
@@ -89,6 +89,14 @@ def use_case_2():
 
     print('wait for node ...')
     listen(sock=server_state.socket, callback=use_case_3)
+
+
+def use_case_4():
+    print('use case 4')
+    for model_id in server_state.saved_model_ids:
+        print('recover: {}'.format(model_id))
+        server_state.save_service.recover_model(model_id, execute_checks=True)
+    print('DONE')
 
 
 def parse_args():

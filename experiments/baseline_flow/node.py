@@ -36,7 +36,7 @@ global_args = None
 
 def main(args):
     global node_sate, global_args
-    node_sate = NodeState(5, args.node_ip, args.node_port)
+    node_sate = NodeState(2, args.node_ip, args.node_port)
     global_args = args
 
     # U1- node: listen for models to be in DB
