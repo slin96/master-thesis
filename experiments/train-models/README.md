@@ -11,63 +11,6 @@
 
 ## Training on Imagenet Validation data
 
-
-- **mobilenet**
-    - ```
-      python train-model-imagenet.py
-        --num-epochs 51
-        --save-root <PATH> 
-        --workers 0 
-        --save-freq 2
-        --imagenet-root <IMAGENET-PATH>
-        --model mobilenet 
-        > <PATH>/out.txt
-      ```
-      
-- **resnet18**
-    - ```
-      python train-model-imagenet.py
-        --num-epochs 51
-        --save-root <PATH> 
-        --workers 0 
-        --save-freq 2
-        --imagenet-root <IMAGENET-PATH>
-        --model resnet18 
-        > <PATH>/out.txt
-      ```
-      
-- **resnet50**
-    - ```
-      python train-model-imagenet.py
-        --num-epochs 51
-        --save-root <PATH> 
-        --workers 0 
-        --save-freq 2
-        --imagenet-root <IMAGENET-PATH>
-        --model resnet50 
-        > <PATH>/out.txt
-      ```
-      
-- **resnet152**
-    - ```
-      python train-model-imagenet.py
-        --num-epochs 51
-        --save-root <PATH> 
-        --workers 0 
-        --save-freq 2
-        --imagenet-root <IMAGENET-PATH>
-        --model resnet152 
-        > <PATH>/out.txt
-      ```
-      
-- **googlenet**
-    - ```
-      python train-model-imagenet.py
-        --num-epochs 51
-        --save-root <PATH> 
-        --workers 0 
-        --save-freq 2
-        --imagenet-root <IMAGENET-PATH>
-        --model googlenet 
-        > <PATH>/out.txt
-      ```
+- we trained the models using `train-model-imagenet.py`, with:
+    - workers: 0
+    - save-freq 2
