@@ -52,6 +52,7 @@ class CustomCoco(VisionDataset):
                  transform: Optional[Callable] = None,
                  target_transform: Optional[Callable] = None,
                  transforms: Optional[Callable] = None,
+                 num_samples: int = None
                  ) -> None:
         super(CustomCoco, self).__init__(root, transforms, transform, target_transform)
         self.images_path = os.path.join(self.root, IMAGES)
@@ -70,6 +71,14 @@ class CustomCoco(VisionDataset):
                 coco_cat = e[COCO_CATEGORY_ID]
                 if coco_cat in self.included_ids:
                     self._items.append(e)
+
+        if num_samples is not None:
+            if len(self._items) >= num_samples:
+                self._items.sort(key=lambda x: x[COCO_IMAGE_ID])
+                self._items = self._items[:num_samples]
+                assert len(self._items) == num_samples
+            else:
+                raise ValueError('The given num_samples is higher than the available number of samples')
 
     def __getitem__(self, index: int) -> Any:
         item = self._items[index]
@@ -91,14 +100,16 @@ class CustomCoco(VisionDataset):
 class InferenceCustomCoco(CustomCoco):
 
     def __init__(self, root: str, ann_file: str = COCO_META_JSON, id_subset_json: str = None,
-                 target_transform: Optional[Callable] = None, transforms: Optional[Callable] = None):
+                 target_transform: Optional[Callable] = None, transforms: Optional[Callable] = None,
+                 num_samples: int = None):
         transform = inference_transforms
-        super().__init__(root, ann_file, id_subset_json, transform, target_transform, transforms)
+        super().__init__(root, ann_file, id_subset_json, transform, target_transform, transforms, num_samples)
 
 
 class TrainCustomCoco(CustomCoco):
 
     def __init__(self, root: str, ann_file: str = COCO_META_JSON, id_subset_json: str = None,
-                 target_transform: Optional[Callable] = None, transforms: Optional[Callable] = None):
+                 target_transform: Optional[Callable] = None, transforms: Optional[Callable] = None,
+                 num_samples: int = None):
         transform = train_transforms
-        super().__init__(root, ann_file, id_subset_json, transform, target_transform, transforms)
+        super().__init__(root, ann_file, id_subset_json, transform, target_transform, transforms, num_samples)
