@@ -77,7 +77,11 @@ def main(args):
     model.to(device)
     # specify the loss function and optimizer
     loss_func = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
+    if args.momentum:
+        optimizer = torch.optim.SGD(model.parameters(), 1e-4, momentum=0.9, weight_decay=1e-4)
+    else:
+        optimizer = torch.optim.SGD(model.parameters(), 1e-4, weight_decay=1e-4)
+
 
     for epoch in range(args.num_epochs):
         if epoch % args.save_freq == 0:
@@ -146,6 +150,8 @@ def parse_args():
                         help='A Json containing only the categories to include')
     parser.add_argument('--coco-num-samples', type=int, required=False,
                         help='The number of samples that should be included in the dataset')
+    parser.add_argument('--momentum', type=bool, required=False, default=False,
+                        help='If we want to use a momentum base optimizer or not')
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
 
