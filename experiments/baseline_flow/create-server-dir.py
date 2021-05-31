@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     files_to_copy = [
         (os.path.join(FILE_PATH, './server.py'), os.path.join(BASELINE_FLOW, './server.py')),
-        (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './node.py')),
+        (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './shared.py')),
     ]
 
     dirs_to_copy = [
