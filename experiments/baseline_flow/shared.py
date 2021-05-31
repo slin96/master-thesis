@@ -12,19 +12,30 @@ SERVER_PORT = 18196
 NODE_IP = LOCAL_HOST
 NODE_PORT = 18197
 
+ADMIN_IP = LOCAL_HOST
+ADMIN_PORT = 18198
+
 ENCODING = 'utf-8'
 MODEL_ID = 'model_id'
-LAST = 'last'
+TEXT = 'TEXT'
+NEW_MODEL = 'new model'
 
 MSG_LEN = 1024
 
 
-def add_connection_arguments(parser):
+def add_server_connection_arguments(parser):
     parser.add_argument('--server_ip', help='The server ip or hostname', default=SERVER_IP)
     parser.add_argument('--server_port', help='The server port', default=SERVER_PORT)
+
+
+def add_node_connection_arguments(parser):
     parser.add_argument('--node_ip', help='The node ip or hostname', default=NODE_IP)
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
-    add_mongo_ip(parser)
+
+
+def add_admin_connection_arguments(parser):
+    parser.add_argument('--admin_ip', help='The db ip or hostname', default=NODE_IP)
+    parser.add_argument('--admin_port', help='The db port', default=NODE_PORT)
 
 
 def add_mongo_ip(parser):
@@ -53,23 +64,6 @@ def recover_model(model_id, save_service):
     return restored_model_info.model
 
 
-# def listen(receiver, callback):
-#     print('listen start')
-#     sock = reusable_udp_socket()
-#     try:
-#         sock.bind(receiver)
-#     except OSError:
-#         sock.detach()
-#         sock.close()
-#         print('sleep')
-#         time.sleep(1)
-#         listen(receiver, callback)
-#     received = sock.recvfrom(MSG_LEN)
-#     sock.detach()
-#     sock.close()
-#     callback(received)
-#     print('listen end')
-
 def listen(sock, callback):
     received = sock.recvfrom(MSG_LEN)
     callback(received)
@@ -84,29 +78,17 @@ def reusable_udp_socket():
 
 
 def inform(message, sock, receiver):
-    print('inform start')
     sock.sendto(message, receiver)
-    print('inform end')
-
-
-# def inform(message, sender, receiver):
-#     print('inform start')
-#     sock = reusable_udp_socket()
-#     sock.bind(sender)
-#     sock.sendto(message, receiver)
-#     sock.detach()
-#     sock.close()
-#     print('inform end')
 
 
 def extract_fields(msg):
     json_msg = json.loads(msg[0].decode("utf-8"))
-    last = json_msg[LAST]
+    text = json_msg[TEXT]
     model_id = json_msg[MODEL_ID]
-    return last, model_id
+    return text, model_id
 
 
-def generate_message(model_id, last_message):
-    msg_json = {MODEL_ID: model_id, LAST: last_message}
+def generate_message(model_id=None, text=None):
+    msg_json = {MODEL_ID: model_id, TEXT: text}
     msg_string = json.dumps(msg_json)
     return bytes(msg_string, encoding=ENCODING)
