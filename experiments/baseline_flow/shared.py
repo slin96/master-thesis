@@ -53,13 +53,26 @@ def recover_model(model_id, save_service):
     return restored_model_info.model
 
 
-def listen(receiver, callback):
-    sock = reusable_udp_socket()
-    sock.bind(receiver)
+# def listen(receiver, callback):
+#     print('listen start')
+#     sock = reusable_udp_socket()
+#     try:
+#         sock.bind(receiver)
+#     except OSError:
+#         sock.detach()
+#         sock.close()
+#         print('sleep')
+#         time.sleep(1)
+#         listen(receiver, callback)
+#     received = sock.recvfrom(MSG_LEN)
+#     sock.detach()
+#     sock.close()
+#     callback(received)
+#     print('listen end')
+
+def listen(sock, callback):
     received = sock.recvfrom(MSG_LEN)
     callback(received)
-    sock.detach()
-    sock.close()
 
 
 def reusable_udp_socket():
@@ -70,10 +83,20 @@ def reusable_udp_socket():
     return sock
 
 
-def inform(message, sender, receiver):
-    sock = reusable_udp_socket()
-    sock.bind(sender)
+def inform(message, sock, receiver):
+    print('inform start')
     sock.sendto(message, receiver)
+    print('inform end')
+
+
+# def inform(message, sender, receiver):
+#     print('inform start')
+#     sock = reusable_udp_socket()
+#     sock.bind(sender)
+#     sock.sendto(message, receiver)
+#     sock.detach()
+#     sock.close()
+#     print('inform end')
 
 
 def extract_fields(msg):

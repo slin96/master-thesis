@@ -4,11 +4,18 @@ import os
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.save import BaselineSaveService
 
-from experiments.baseline_flow.shared import save_model, add_connection_arguments, add_paths, inform, generate_message
+from experiments.baseline_flow.shared import save_model, add_connection_arguments, add_paths, inform, generate_message, \
+    listen, reusable_udp_socket
 from experiments.models.mobilenet import mobilenet_v2
+
+socket = None
 
 
 def main(args):
+    global socket
+    socket = reusable_udp_socket()
+    socket.bind((args.server_ip, args.server_port))
+
     # initialize a service to save files
     abs_tmp_path = os.path.abspath(args.tmp_dir)
     file_pers_service = FileSystemPersistenceService(abs_tmp_path)
@@ -25,7 +32,16 @@ def main(args):
 
     # inform node about available_model
     message = generate_message(init_model_id, False)
-    inform(message, (args.server_ip, args.server_port), (args.node_ip, args.node_port))
+    inform(message, socket, (args.node_ip, args.node_port))
+
+    print('listen')
+    listen(sock=socket, callback=react_to_new_model)
+
+
+def react_to_new_model(msg):
+    print('informed about new model')
+    print(msg)
+    listen(sock=socket, callback=react_to_new_model)
 
 
 def parse_args():
