@@ -10,6 +10,10 @@ from experiments.baseline_flow.shared import save_model, add_paths, inform, gene
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
     add_model_snapshot_arg, log_event, START, STOP, U_3_1, U_4, U_2, U_3_2, U_1
 
+RECOVER_MODELS = 'recover_models'
+
+EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
+
 SAVE_MODEL = 'save_model'
 
 START_USECASE = 'start_usecase'
@@ -37,7 +41,7 @@ class ServerState:
         self.save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
         # list of all models that have been saved by the node or have been communicated to be available
-        self.saved_model_ids = []
+        self.saved_model_ids = {}
 
         self.state_description = U_1
         self.u3_counter = 0
@@ -61,11 +65,11 @@ def use_case_1():
     # load model from snapshot
     model = _load_model_snapshot(USE_CASE_1_PT)
 
-    log_event(START, SERVER, U_1, SAVE_MODEL)
+    log_event(START, SERVER, server_state.state_description, SAVE_MODEL)
     init_model_id = save_model(model, server_state.save_service)
-    log_event(STOP, SERVER, U_1, SAVE_MODEL)
+    log_event(STOP, SERVER, server_state.state_description, SAVE_MODEL)
 
-    server_state.saved_model_ids.append(init_model_id)
+    server_state.saved_model_ids[init_model_id] = server_state.state_description
 
     _inform_node_about_model(init_model_id)
 
@@ -87,20 +91,28 @@ def _inform_node_about_model(init_model_id):
 
 
 def use_case_3(msg):
-    print('use case 3')
+    log_event(START, SERVER, server_state.state_description, EXTRACT_NOTIFY_MESSAGE)
     print(msg)
     text, model_id = extract_fields(msg)
-    server_state.saved_model_ids.append(model_id)
+    state_with_counter = _state_with_counter()
+    server_state.saved_model_ids[model_id] = state_with_counter
+    log_event(STOP, SERVER, state_with_counter, EXTRACT_NOTIFY_MESSAGE)
 
     next_state(text)
 
 
+def _state_with_counter():
+    return '{}-{}'.format(server_state.state_description, server_state.u3_counter)
+
+
 def use_case_2():
-    print('use case 2')
     model = _load_model_snapshot(USE_CASE_2_PT)
 
+    log_event(START, SERVER, server_state.state_description, SAVE_MODEL)
     model_id = save_model(model, server_state.save_service)
-    server_state.saved_model_ids.append(model_id)
+    log_event(STOP, SERVER, server_state.state_description, SAVE_MODEL)
+
+    server_state.saved_model_ids[model_id] = server_state.state_description
 
     _inform_node_about_model(model_id)
 
@@ -108,11 +120,15 @@ def use_case_2():
 
 
 def use_case_4():
-    print('use case 4')
-    for model_id in server_state.saved_model_ids:
-        print('recover: {}'.format(model_id))
+    log_event(START, SERVER, server_state.state_description, RECOVER_MODELS)
+    for model_id in server_state.saved_model_ids.keys():
+        state_with_counter = _state_with_counter()
+        model_recover = 'recover-{}-{}'.format(state_with_counter, model_id)
+        log_event(START, SERVER, state_with_counter, model_recover)
         server_state.save_service.recover_model(model_id, execute_checks=True)
+        log_event(STOP, SERVER, state_with_counter, model_recover)
 
+    log_event(STOP, SERVER, server_state.state_description, RECOVER_MODELS)
     next_state()
 
 
