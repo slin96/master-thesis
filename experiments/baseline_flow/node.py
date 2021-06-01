@@ -117,6 +117,7 @@ def next_state():
 def _load_model_snapshot(state, counter):
     snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
     snapshot_path = os.path.join(node_sate.model_snapshots, snapshot_name)
+    print('load model: {}'.format(snapshot_path))
     state_dict = torch.load(snapshot_path)
     model: torch.nn.Module = node_sate.model_class()
     model.load_state_dict(state_dict)

@@ -15,11 +15,10 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, tmp_dir, mongo_host, ip, port, admin_ip, admin_port, model_class, model_snapshots):
+    def __init__(self, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
         # initialize a socket to communicate with otehr nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
-        self.admin_address = (admin_ip, admin_port)
 
         # initialize a service to save files
         abs_tmp_path = os.path.abspath(tmp_dir)
@@ -43,8 +42,8 @@ server_state: ServerState = None
 
 def main(args):
     global server_state
-    server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, args.admin_ip,
-                               args.admin_port, MODELS_DICT[args.model], args.model_snapshots)
+    server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, MODELS_DICT[args.model],
+                               args.model_snapshots)
 
     use_case_1()
 
@@ -65,6 +64,7 @@ def use_case_1():
 
 def _load_model_snapshot(snapshot_name):
     snapshot_path = os.path.join(server_state.model_snapshots, snapshot_name)
+    print('load model: {}'.format(snapshot_path))
     state_dict = torch.load(snapshot_path)
     model: torch.nn.Module = server_state.model_class()
     model.load_state_dict(state_dict)
