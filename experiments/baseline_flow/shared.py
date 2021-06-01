@@ -1,5 +1,6 @@
 import json
 import socket
+import time
 
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
@@ -33,6 +34,15 @@ GOOGLENET = "googlenet"
 RESNET_18 = "resnet18"
 RESNET_50 = "resnet50"
 RESNET_152 = "resnet152"
+
+START = 'START'
+STOP = 'STOP'
+
+U_1 = 'U-1'
+U_2 = 'U-2'
+U_3_1 = 'U-3-1'
+U_3_2 = 'U-3-2'
+U_4 = 'U-4'
 
 MODELS_DICT = {MOBILENET: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
                RESNET_152: resnet152}
@@ -77,6 +87,7 @@ def save_model(model, save_service):
     save_info_builder.add_model_info(model=model, env=env)
     save_info = save_info_builder.build()
 
+    # TODO log in mmlib
     model_id = save_service.save_model(save_info)
 
     return model_id
@@ -116,3 +127,8 @@ def generate_message(model_id=None, text=None):
     msg_json = {MODEL_ID: model_id, TEXT: text}
     msg_string = json.dumps(msg_json)
     return bytes(msg_string, encoding=ENCODING)
+
+
+def log_event(start_stop, role, use_case_id, event):
+    t = time.time_ns()
+    print('{};{};usecase-{};{};time.time_ns-{}'.format(start_stop, role, use_case_id, event, t))

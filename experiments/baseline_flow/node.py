@@ -7,12 +7,8 @@ from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg
+    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, U_3_2
 
-U_1 = '1'
-U_2 = '2'
-U_3_1 = '3-1'
-U_3_2 = '3-2'
 USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
 
@@ -115,6 +111,7 @@ def next_state():
 
 
 def _load_model_snapshot(state, counter):
+    state = state.replace('U-', '')
     snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
     snapshot_path = os.path.join(node_sate.model_snapshots, snapshot_name)
     print('load model: {}'.format(snapshot_path))

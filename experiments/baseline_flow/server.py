@@ -8,7 +8,15 @@ from mmlib.save import BaselineSaveService
 from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg
+    add_model_snapshot_arg, log_event, START, STOP, U_3_1, U_4, U_2, U_3_2
+
+SAVE_MODEL = 'save_model'
+
+START_USECASE = 'start_usecase'
+
+U_1 = 'U_1'
+
+SERVER = 'server'
 
 USE_CASE_1_PT = 'use-case-1.pt'
 USE_CASE_2_PT = 'use-case-2.pt'
@@ -33,6 +41,9 @@ class ServerState:
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = []
 
+        self.state_description = U_1
+        self.u3_counter = 0
+
         self.model_class = model_class
         self.model_snapshots = model_snapshots
 
@@ -47,19 +58,20 @@ def main(args):
 
     use_case_1()
 
-    print('wait for node ...')
-    listen(sock=server_state.socket, callback=use_case_3)
-
 
 def use_case_1():
-    print('use case 1')
     # load model from snapshot
     model = _load_model_snapshot(USE_CASE_1_PT)
 
+    log_event(START, SERVER, U_1, SAVE_MODEL)
     init_model_id = save_model(model, server_state.save_service)
+    log_event(STOP, SERVER, U_1, SAVE_MODEL)
+
     server_state.saved_model_ids.append(init_model_id)
 
     _inform_node_about_model(init_model_id)
+
+    next_state()
 
 
 def _load_model_snapshot(snapshot_name):
@@ -81,15 +93,8 @@ def use_case_3(msg):
     print(msg)
     text, model_id = extract_fields(msg)
     server_state.saved_model_ids.append(model_id)
-    if 'done' in text:
-        use_case_4()
-    elif 'last' in text:
-        # if this is the last message that will reach from the node for now U2 is finished
-        # we transition to U2 and the server send an updated model
-        print('send updated model')
-        use_case_2()
-    else:
-        listen(sock=server_state.socket, callback=use_case_3)
+
+    next_state(text)
 
 
 def use_case_2():
@@ -101,8 +106,7 @@ def use_case_2():
 
     _inform_node_about_model(model_id)
 
-    print('wait for node ...')
-    listen(sock=server_state.socket, callback=use_case_3)
+    next_state()
 
 
 def use_case_4():
@@ -110,7 +114,36 @@ def use_case_4():
     for model_id in server_state.saved_model_ids:
         print('recover: {}'.format(model_id))
         server_state.save_service.recover_model(model_id, execute_checks=True)
-    print('DONE')
+
+    next_state()
+
+
+def next_state(text=None):
+    if server_state.state_description == U_1:
+        server_state.state_description = U_3_1
+        server_state.u3_counter += 1
+        listen(sock=server_state.socket, callback=use_case_3)
+    elif server_state.state_description == U_3_1:
+        if 'last' in text:
+            server_state.state_description = U_2
+            server_state.u3_counter = 0
+            use_case_2()
+        else:
+            server_state.u3_counter += 1
+            listen(sock=server_state.socket, callback=use_case_3)
+    elif server_state.state_description == U_2:
+        server_state.state_description = U_3_2
+        server_state.u3_counter += 1
+        listen(sock=server_state.socket, callback=use_case_3)
+    elif server_state.state_description == U_3_2:
+        if 'done' in text:
+            server_state.state_description = U_4
+            use_case_4()
+        else:
+            server_state.u3_counter += 1
+            listen(sock=server_state.socket, callback=use_case_3)
+    elif server_state.state_description == U_4:
+        print('DONE')
 
 
 def parse_args():
