@@ -1,17 +1,23 @@
 import argparse
 import os
 
+import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT
-from experiments.models.mobilenet import mobilenet_v2
+    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg
+
+U_1 = '1'
+U_2 = '2'
+U_3_1 = '3-1'
+U_3_2 = '3-2'
+USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
 
 class NodeState:
-    def __init__(self, u3_repeat, ip, port):
+    def __init__(self, u3_repeat, ip, port, model_class, model_snapshots):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
@@ -25,21 +31,20 @@ class NodeState:
         # initialize baseline save service
         self.save_service = BaselineSaveService(file_pers_service, dict_pers_service)
 
-        self.state_description = 'U1'
+        self.state_description = U_1
         self.u3_repeat = u3_repeat
         self.u3_counter = 0
 
+        self.model_class = model_class
+        self.model_snapshots = model_snapshots
+
 
 node_sate: NodeState = None
-global_args = None
-model_class = None
 
 
 def main(args):
-    global node_sate, global_args, model_class
-    node_sate = NodeState(2, args.node_ip, args.node_port)
-    global_args = args
-    model_class = MODELS_DICT[args.model]
+    global node_sate
+    node_sate = NodeState(2, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_sate.socket, callback=use_case_1)
@@ -66,9 +71,8 @@ def use_case_2(msg):
 
 def use_case_3(last_time=False, done=False):
     print('use case 3')
-    # model training model by loading it from checkpoint
-    # TODO somehow specify what model to load
-    model = load_model()
+    # simulate model training by loading model from checkpoint
+    model = _load_model_snapshot(node_sate.state_description, node_sate.u3_counter)
 
     # save the model
     model_id = save_model(model, node_sate.save_service)
@@ -86,23 +90,23 @@ def use_case_3(last_time=False, done=False):
 
 
 def next_state():
-    if node_sate.state_description == 'U1':
-        node_sate.state_description = 'U3_1'
+    if node_sate.state_description == U_1:
+        node_sate.state_description = U_3_1
         node_sate.u3_counter += 1
         use_case_3()
-    elif node_sate.state_description == 'U3_1':
+    elif node_sate.state_description == U_3_1:
         if node_sate.u3_counter < node_sate.u3_repeat:
             node_sate.u3_counter += 1
             use_case_3(last_time=node_sate.u3_counter == node_sate.u3_repeat)
         else:
-            node_sate.state_description = 'U2'
+            node_sate.state_description = U_2
             node_sate.u3_counter = 0
             listen(sock=node_sate.socket, callback=use_case_2)
-    elif node_sate.state_description == 'U2':
-        node_sate.state_description = 'U3_2'
+    elif node_sate.state_description == U_2:
+        node_sate.state_description = U_3_2
         node_sate.u3_counter += 1
         use_case_3(node_sate.u3_counter == node_sate.u3_repeat)
-    elif node_sate.state_description == 'U3_2':
+    elif node_sate.state_description == U_3_2:
         if node_sate.u3_counter < node_sate.u3_repeat:
             node_sate.u3_counter += 1
             use_case_3(done=node_sate.u3_counter == node_sate.u3_repeat)
@@ -110,9 +114,13 @@ def next_state():
             print('DONE')
 
 
-def load_model():
-    # TODO
-    return model_class(pretrained=True)
+def _load_model_snapshot(state, counter):
+    snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
+    snapshot_path = os.path.join(node_sate.model_snapshots, snapshot_name)
+    state_dict = torch.load(snapshot_path)
+    model: torch.nn.Module = node_sate.model_class()
+    model.load_state_dict(state_dict)
+    return model
 
 
 def parse_args():
@@ -120,6 +128,7 @@ def parse_args():
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_model_arg(parser)
+    add_model_snapshot_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     _args = parser.parse_args()
