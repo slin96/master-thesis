@@ -19,5 +19,12 @@ if __name__ == '__main__':
         (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './shared.py'))
     ]
 
+    dirs_to_copy = [
+        (os.path.join(FILE_PATH, '../models'), os.path.join(EXPERIMENTS, 'models'))
+    ]
+
     for s, d in files_to_copy:
         shutil.copyfile(s, d)
+
+    for s, d in dirs_to_copy:
+        shutil.copytree(s, d)

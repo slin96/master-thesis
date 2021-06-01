@@ -4,6 +4,12 @@ import socket
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
 
+from experiments.models.googlenet import googlenet
+from experiments.models.mobilenet import mobilenet_v2
+from experiments.models.resnet152 import resnet152
+from experiments.models.resnet18 import resnet18
+from experiments.models.resnet50 import resnet50
+
 LOCAL_HOST = "127.0.0.1"
 
 SERVER_IP = LOCAL_HOST
@@ -21,6 +27,15 @@ TEXT = 'TEXT'
 NEW_MODEL = 'new model'
 
 MSG_LEN = 1024
+
+MOBILENET = "mobilenet"
+GOOGLENET = "googlenet"
+RESNET_18 = "resnet18"
+RESNET_50 = "resnet50"
+RESNET_152 = "resnet152"
+
+MODELS_DICT = {MOBILENET: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
+               RESNET_152: resnet152}
 
 
 def add_server_connection_arguments(parser):
@@ -45,6 +60,11 @@ def add_mongo_ip(parser):
 def add_paths(parser):
     parser.add_argument('--tmp_dir', help='The directory to write tmp files to')
     parser.add_argument('--log_dir', help='The directory to write log files to')
+
+
+def add_model_arg(parser):
+    parser.add_argument('--model', help='The model to use for the run',
+                        choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
 
 
 def save_model(model, save_service):

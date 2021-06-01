@@ -101,9 +101,7 @@ def use_case_4():
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling server for workflow using baseline appraoch')
-    # TODO make model configurable later
-    # parser.add_argument('--model', help='The model to use for the run',
-    #                     choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
+
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_admin_connection_arguments(parser)
