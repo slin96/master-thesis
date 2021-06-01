@@ -8,13 +8,11 @@ from mmlib.save import BaselineSaveService
 from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, log_event, START, STOP, U_3_1, U_4, U_2, U_3_2
+    add_model_snapshot_arg, log_event, START, STOP, U_3_1, U_4, U_2, U_3_2, U_1
 
 SAVE_MODEL = 'save_model'
 
 START_USECASE = 'start_usecase'
-
-U_1 = 'U_1'
 
 SERVER = 'server'
 
