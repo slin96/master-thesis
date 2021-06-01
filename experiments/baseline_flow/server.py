@@ -1,17 +1,21 @@
 import argparse
 import os
 
+import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_admin_connection_arguments, add_model_arg, MODELS_DICT
-from experiments.models.mobilenet import mobilenet_v2
+    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
+    add_model_snapshot_arg
+
+USE_CASE_1_PT = 'use-case-1.pt'
+USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, tmp_dir, mongo_host, ip, port, admin_ip, admin_port):
+    def __init__(self, tmp_dir, mongo_host, ip, port, admin_ip, admin_port, model_class, model_snapshots):
         # initialize a socket to communicate with otehr nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -30,18 +34,17 @@ class ServerState:
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = []
 
+        self.model_class = model_class
+        self.model_snapshots = model_snapshots
+
 
 server_state: ServerState = None
-global_args = None
-model_class = None
 
 
 def main(args):
-    global server_state, global_args, model_class
-    global_args = args
+    global server_state
     server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, args.admin_ip,
-                               args.admin_port)
-    model_class = MODELS_DICT[args.model]
+                               args.admin_port, MODELS_DICT[args.model], args.model_snapshots)
 
     use_case_1()
 
@@ -51,12 +54,21 @@ def main(args):
 
 def use_case_1():
     print('use case 1')
-    # TODO load model form file
-    model = model_class(pretrained=True)
+    # load model from snapshot
+    model = _load_model_snapshot(USE_CASE_1_PT)
+
     init_model_id = save_model(model, server_state.save_service)
     server_state.saved_model_ids.append(init_model_id)
 
     _inform_node_about_model(init_model_id)
+
+
+def _load_model_snapshot(snapshot_name):
+    snapshot_path = os.path.join(server_state.model_snapshots, snapshot_name)
+    state_dict = torch.load(snapshot_path)
+    model: torch.nn.Module = server_state.model_class()
+    model.load_state_dict(state_dict)
+    return model
 
 
 def _inform_node_about_model(init_model_id):
@@ -82,8 +94,8 @@ def use_case_3(msg):
 
 def use_case_2():
     print('use case 2')
-    # TODO load model here
-    model = model_class(pretrained=True)
+    model = _load_model_snapshot(USE_CASE_2_PT)
+
     model_id = save_model(model, server_state.save_service)
     server_state.saved_model_ids.append(model_id)
 
@@ -107,6 +119,7 @@ def parse_args():
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_model_arg(parser)
+    add_model_snapshot_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     _args = parser.parse_args()

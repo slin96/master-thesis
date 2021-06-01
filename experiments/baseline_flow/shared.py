@@ -67,6 +67,10 @@ def add_model_arg(parser):
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
 
 
+def add_model_snapshot_arg(parser):
+    parser.add_argument('--model_snapshots', help='The directory do find the model snapshots in', type=str)
+
+
 def save_model(model, save_service):
     save_info_builder = ModelSaveInfoBuilder()
     env = track_current_environment()
