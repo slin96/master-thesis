@@ -6,7 +6,7 @@ from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_admin_connection_arguments
+    add_node_connection_arguments, NEW_MODEL, add_admin_connection_arguments, add_model_arg, MODELS_DICT
 from experiments.models.mobilenet import mobilenet_v2
 
 
@@ -33,13 +33,15 @@ class ServerState:
 
 server_state: ServerState = None
 global_args = None
+model_class = None
 
 
 def main(args):
-    global server_state, global_args
+    global server_state, global_args, model_class
     global_args = args
     server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, args.admin_ip,
                                args.admin_port)
+    model_class = MODELS_DICT[args.model]
 
     use_case_1()
 
@@ -49,8 +51,8 @@ def main(args):
 
 def use_case_1():
     print('use case 1')
-    # TODO parametrize model
-    model = mobilenet_v2(pretrained=True)
+    # TODO load model form file
+    model = model_class(pretrained=True)
     init_model_id = save_model(model, server_state.save_service)
     server_state.saved_model_ids.append(init_model_id)
 
@@ -80,8 +82,8 @@ def use_case_3(msg):
 
 def use_case_2():
     print('use case 2')
-    # TODO implement loading new model
-    model = mobilenet_v2(pretrained=True)
+    # TODO load model here
+    model = model_class(pretrained=True)
     model_id = save_model(model, server_state.save_service)
     server_state.saved_model_ids.append(model_id)
 
@@ -104,7 +106,7 @@ def parse_args():
 
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
-    add_admin_connection_arguments(parser)
+    add_model_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     _args = parser.parse_args()

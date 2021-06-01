@@ -6,7 +6,7 @@ from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL
+    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT
 from experiments.models.mobilenet import mobilenet_v2
 
 
@@ -32,12 +32,14 @@ class NodeState:
 
 node_sate: NodeState = None
 global_args = None
+model_class = None
 
 
 def main(args):
-    global node_sate, global_args
+    global node_sate, global_args, model_class
     node_sate = NodeState(2, args.node_ip, args.node_port)
     global_args = args
+    model_class = MODELS_DICT[args.model]
 
     # U1- node: listen for models to be in DB
     listen(sock=node_sate.socket, callback=use_case_1)
@@ -110,13 +112,14 @@ def next_state():
 
 def load_model():
     # TODO
-    return mobilenet_v2(pretrained=True)
+    return model_class(pretrained=True)
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling node for workflow using baseline appraoch')
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
+    add_model_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     _args = parser.parse_args()
