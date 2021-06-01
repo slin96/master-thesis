@@ -38,11 +38,11 @@ RESNET_152 = "resnet152"
 START = 'START'
 STOP = 'STOP'
 
-U_1 = 'U-1'
-U_2 = 'U-2'
-U_3_1 = 'U-3-1'
-U_3_2 = 'U-3-2'
-U_4 = 'U-4'
+U_1 = 'U_1'
+U_2 = 'U_2'
+U_3_1 = 'U_3_1'
+U_3_2 = 'U_3_2'
+U_4 = 'U_4'
 
 MODELS_DICT = {MOBILENET: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
                RESNET_152: resnet152}

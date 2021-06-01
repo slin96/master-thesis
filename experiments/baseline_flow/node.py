@@ -111,7 +111,7 @@ def next_state():
 
 
 def _load_model_snapshot(state, counter):
-    state = state.replace('U-', '')
+    state = state.replace('U_', '').replace('_', '-')
     snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
     snapshot_path = os.path.join(node_sate.model_snapshots, snapshot_name)
     print('load model: {}'.format(snapshot_path))

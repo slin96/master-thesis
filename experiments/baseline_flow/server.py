@@ -102,7 +102,7 @@ def use_case_3(msg):
 
 
 def _state_with_counter():
-    return '{}-{}'.format(server_state.state_description, server_state.u3_counter)
+    return '{}_{}'.format(server_state.state_description, server_state.u3_counter)
 
 
 def use_case_2():
@@ -123,7 +123,7 @@ def use_case_4():
     log_event(START, SERVER, server_state.state_description, RECOVER_MODELS)
     for model_id in server_state.saved_model_ids.keys():
         state_with_counter = _state_with_counter()
-        model_recover = 'recover-{}-{}'.format(state_with_counter, model_id)
+        model_recover = 'recover-{}-{}'.format(server_state.saved_model_ids[model_id], model_id)
         log_event(START, SERVER, state_with_counter, model_recover)
         server_state.save_service.recover_model(model_id, execute_checks=True)
         log_event(STOP, SERVER, state_with_counter, model_recover)
