@@ -7,7 +7,14 @@ from mmlib.save import BaselineSaveService
 
 from experiments.baseline_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, U_3_2
+    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
+    U_3_2, log_event, START, STOP
+
+SAVE_MODEL = 'save_model'
+
+RECOVER_MODEL = 'recover_model'
+
+NODE = 'node'
 
 USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
@@ -47,31 +54,35 @@ def main(args):
 
 
 def _react_to_new_model(msg):
-    print('message received')
     print(msg)
+    log_event(START, NODE, node_sate.state_description, RECOVER_MODEL)
     text, model_id = extract_fields(msg)
     model = recover_model(model_id, node_sate.save_service)
     assert model is not None
+    log_event(STOP, NODE, node_sate.state_description, RECOVER_MODEL)
     next_state()
 
 
 def use_case_1(msg):
-    print('use case 1')
     _react_to_new_model(msg)
 
 
 def use_case_2(msg):
-    print('use case 2')
     _react_to_new_model(msg)
 
 
+def _state_with_counter():
+    return '{}_{}'.format(node_sate.state_description, node_sate.u3_counter)
+
+
 def use_case_3(last_time=False, done=False):
-    print('use case 3')
     # simulate model training by loading model from checkpoint
     model = _load_model_snapshot(node_sate.state_description, node_sate.u3_counter)
 
-    # save the model
+    state_w_counter = _state_with_counter()
+    log_event(START, NODE, state_w_counter, SAVE_MODEL)
     model_id = save_model(model, node_sate.save_service)
+    log_event(STOP, NODE, state_w_counter, SAVE_MODEL)
 
     # notify server
     text = NEW_MODEL

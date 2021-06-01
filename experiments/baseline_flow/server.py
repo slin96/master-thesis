@@ -26,7 +26,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 class ServerState:
     def __init__(self, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
-        # initialize a socket to communicate with otehr nodes
+        # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
