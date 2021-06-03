@@ -8,7 +8,7 @@ from mmlib.save import BaselineSaveService
 from experiments.baseline_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
-    U_3_2, log_event, START, STOP
+    U_3_2, log_start, log_stop
 
 SAVE_MODEL = 'save_model'
 
@@ -55,11 +55,11 @@ def main(args):
 
 def _react_to_new_model(msg):
     print(msg)
-    log_event(START, NODE, node_sate.state_description, RECOVER_MODEL)
+    log = log_start(NODE, node_sate.state_description, RECOVER_MODEL)
     text, model_id = extract_fields(msg)
     model = recover_model(model_id, node_sate.save_service)
     assert model is not None
-    log_event(STOP, NODE, node_sate.state_description, RECOVER_MODEL)
+    log_stop(log)
     next_state()
 
 
@@ -80,9 +80,9 @@ def use_case_3(last_time=False, done=False):
     model = _load_model_snapshot(node_sate.state_description, node_sate.u3_counter)
 
     state_w_counter = _state_with_counter()
-    log_event(START, NODE, state_w_counter, SAVE_MODEL)
+    log = log_start(NODE, state_w_counter, SAVE_MODEL)
     model_id = save_model(model, node_sate.save_service)
-    log_event(STOP, NODE, state_w_counter, SAVE_MODEL)
+    log_stop(log)
 
     # notify server
     text = NEW_MODEL

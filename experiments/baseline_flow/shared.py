@@ -1,6 +1,7 @@
 import json
 import socket
 import time
+import uuid
 
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
@@ -10,6 +11,10 @@ from experiments.models.mobilenet import mobilenet_v2
 from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
+
+TIME = 'time'
+
+START_STOP = 'start-stop'
 
 LOCAL_HOST = "127.0.0.1"
 
@@ -131,6 +136,29 @@ def generate_message(model_id=None, text=None):
     return bytes(msg_string, encoding=ENCODING)
 
 
-def log_event(start_stop, role, use_case_id, event):
+def log_start(role, use_case_id, event):
     t = time.time_ns()
-    print('{};{};usecase-{};{};time.time_ns-{}'.format(start_stop, role, use_case_id, event, t))
+    _id = uuid.uuid4()
+    log_dict = {
+        START_STOP: START,
+        '_id': str(_id),
+        'use_case': use_case_id,
+        'role': role,
+        'event': event,
+        TIME: t
+    }
+
+    print(json.dumps(log_dict))
+
+    return log_dict
+
+
+def log_stop(log_dict):
+    assert log_dict[START_STOP] == START
+
+    t = time.time_ns()
+
+    log_dict[START_STOP] = STOP
+    log_dict[TIME] = t
+
+    print(json.dumps(log_dict))
