@@ -83,6 +83,8 @@ def add_model_snapshot_arg(parser):
 
 def save_model(model, save_service):
     save_info_builder = ModelSaveInfoBuilder()
+    # TODO log time for env
+    # log
     env = track_current_environment()
     save_info_builder.add_model_info(model=model, env=env)
     save_info = save_info_builder.build()

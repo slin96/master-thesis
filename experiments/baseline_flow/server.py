@@ -38,7 +38,7 @@ class ServerState:
         dict_pers_service = MongoDictPersistenceService(host=mongo_host)
 
         # initialize baseline save service
-        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service)
+        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
 
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = {}

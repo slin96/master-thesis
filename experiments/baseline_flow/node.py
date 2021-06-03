@@ -32,7 +32,7 @@ class NodeState:
         dict_pers_service = MongoDictPersistenceService(host=args.mongo_host)
 
         # initialize baseline save service
-        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service)
+        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
 
         self.state_description = U_1
         self.u3_repeat = u3_repeat
@@ -133,7 +133,7 @@ def _load_model_snapshot(state, counter):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script modeling node for workflow using baseline appraoch')
+    parser = argparse.ArgumentParser(description='Script modeling node for workflow using baseline approach')
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_model_arg(parser)
