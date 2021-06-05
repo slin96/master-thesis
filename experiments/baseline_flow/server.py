@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 
 import torch
@@ -132,6 +133,12 @@ def use_case_4():
     next_state()
 
 
+def log_sizes():
+    for model_id in server_state.saved_model_ids.keys():
+        size_info = server_state.save_service.model_save_size(model_id)
+        print('size-info-{}-{}'.format(model_id, json.dumps(size_info)))
+
+
 def next_state(text=None):
     if server_state.state_description == U_1:
         server_state.state_description = U_3_1
@@ -157,6 +164,7 @@ def next_state(text=None):
             server_state.u3_counter += 1
             listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_4:
+        log_sizes()
         print('DONE')
 
 
