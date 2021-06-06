@@ -7,7 +7,7 @@ from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistence
 from experiments.evaluation_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
-    U_3_2, log_start, log_stop, add_approach, get_save_service
+    U_3_2, log_start, log_stop, add_approach, get_save_service, add_u3_count
 
 SAVE_MODEL = 'save_model'
 
@@ -46,7 +46,8 @@ node_sate: NodeState = None
 
 def main(args):
     global node_sate
-    node_sate = NodeState(args.approach, 2, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
+    node_sate = NodeState(
+        args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_sate.socket, callback=use_case_1)
@@ -140,6 +141,7 @@ def parse_args():
     add_paths(parser)
     add_mongo_ip(parser)
     add_approach(parser)
+    add_u3_count(parser)
     _args = parser.parse_args()
 
     return _args
