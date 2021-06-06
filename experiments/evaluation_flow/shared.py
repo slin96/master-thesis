@@ -3,6 +3,7 @@ import socket
 import time
 import uuid
 
+from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
 
@@ -12,8 +13,12 @@ from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
 
-TIME = 'time'
+BASELINE = 'baseline'
+PARAM_UPDATE = 'param_update'
+PARAM_UPDATE_IMPROVED = 'param_update_improved'
+PROVENANCE = 'provenance'
 
+TIME = 'time'
 START_STOP = 'start-stop'
 
 LOCAL_HOST = "127.0.0.1"
@@ -82,19 +87,45 @@ def add_model_arg(parser):
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
 
 
+def add_approach(parser):
+    parser.add_argument('--approach', help='The approach to use for the run', required=True,
+                        choices=[BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE])
+
+
 def add_model_snapshot_arg(parser):
     parser.add_argument('--model_snapshots', help='The directory do find the model snapshots in', type=str)
 
 
-def save_model(model, save_service):
+def add_u3_count(parser):
+    parser.add_argument('--u3_count', help='The amount of times u3 is repeated', type=int, required=True)
+
+
+def get_save_service(approach, dict_pers_service, file_pers_service):
+    result = None
+
+    # initialize save service
+    if approach == BASELINE:
+        result = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
+    elif approach == PARAM_UPDATE:
+        result = WeightUpdateSaveService(
+            file_pers_service, dict_pers_service, improved_version=False, logging=True)
+    elif approach == PARAM_UPDATE_IMPROVED:
+        result = WeightUpdateSaveService(
+            file_pers_service, dict_pers_service, improved_version=True, logging=True)
+    elif approach == PROVENANCE:
+        result = ProvenanceSaveService(file_pers_service, dict_pers_service, logging=True)
+    else:
+        raise NotImplementedError
+
+    return result
+
+
+def save_model(model, save_service, base_model_id=None):
     save_info_builder = ModelSaveInfoBuilder()
-    # TODO log time for env
-    # log
     env = track_current_environment()
-    save_info_builder.add_model_info(model=model, env=env)
+    save_info_builder.add_model_info(model=model, env=env, base_model_id=base_model_id)
     save_info = save_info_builder.build()
 
-    # TODO log in mmlib
     model_id = save_service.save_model(save_info)
 
     return model_id

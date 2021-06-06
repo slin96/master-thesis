@@ -4,21 +4,16 @@ import os
 
 import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from mmlib.save import BaselineSaveService
 
-from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
+from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop
+    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service
 
 RECOVER_MODELS = 'recover_models'
-
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
-
 SAVE_MODEL = 'save_model'
-
 START_USECASE = 'start_usecase'
-
 SERVER = 'server'
 
 USE_CASE_1_PT = 'use-case-1.pt'
@@ -26,7 +21,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -38,8 +33,7 @@ class ServerState:
         # initialize service to store dictionaries (JSON),
         dict_pers_service = MongoDictPersistenceService(host=mongo_host)
 
-        # initialize baseline save service
-        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
+        self.save_service = get_save_service(approach, dict_pers_service, file_pers_service)
 
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = {}
@@ -52,17 +46,20 @@ class ServerState:
 
 
 server_state: ServerState = None
+init_model_id = None
 
 
 def main(args):
     global server_state
-    server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, MODELS_DICT[args.model],
+    server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
+                               MODELS_DICT[args.model],
                                args.model_snapshots)
 
     use_case_1()
 
 
 def use_case_1():
+    global init_model_id
     # load model from snapshot
     model = _load_model_snapshot(USE_CASE_1_PT)
 
@@ -110,7 +107,7 @@ def use_case_2():
     model = _load_model_snapshot(USE_CASE_2_PT)
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
-    model_id = save_model(model, server_state.save_service)
+    model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
@@ -123,9 +120,8 @@ def use_case_2():
 def use_case_4():
     log = log_start(SERVER, server_state.state_description, RECOVER_MODELS)
     for model_id in server_state.saved_model_ids.keys():
-        state_with_counter = _state_with_counter()
         model_recover = 'recover-{}-{}'.format(server_state.saved_model_ids[model_id], model_id)
-        log_i = log_start(SERVER, state_with_counter, model_recover)
+        log_i = log_start(SERVER, server_state.state_description, model_recover)
         server_state.save_service.recover_model(model_id, execute_checks=True)
         log_stop(log_i)
 
@@ -177,6 +173,7 @@ def parse_args():
     add_model_snapshot_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
+    add_approach(parser)
     _args = parser.parse_args()
 
     return _args
