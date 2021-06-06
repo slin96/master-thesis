@@ -40,6 +40,8 @@ class NodeState:
         self.model_class = model_class
         self.model_snapshots = model_snapshots
 
+        self.last_model_id = None
+
 
 node_sate: NodeState = None
 
@@ -57,6 +59,7 @@ def _react_to_new_model(msg):
     print(msg)
     log = log_start(NODE, node_sate.state_description, RECOVER_MODEL)
     text, model_id = extract_fields(msg)
+    node_sate.last_model_id = model_id
     model = recover_model(model_id, node_sate.save_service)
     assert model is not None
     log_stop(log)
@@ -81,7 +84,8 @@ def use_case_3(last_time=False, done=False):
 
     state_w_counter = _state_with_counter()
     log = log_start(NODE, state_w_counter, SAVE_MODEL)
-    model_id = save_model(model, node_sate.save_service)
+    model_id = save_model(model, node_sate.save_service, base_model_id=node_sate.last_model_id)
+    node_sate.last_model_id = model_id
     log_stop(log)
 
     # notify server
