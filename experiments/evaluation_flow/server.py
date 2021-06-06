@@ -6,19 +6,15 @@ import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.save import BaselineSaveService
 
-from experiments.baseline_flow.shared import save_model, add_paths, inform, generate_message, \
+from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop
+    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach
 
 RECOVER_MODELS = 'recover_models'
-
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
-
 SAVE_MODEL = 'save_model'
-
 START_USECASE = 'start_usecase'
-
 SERVER = 'server'
 
 USE_CASE_1_PT = 'use-case-1.pt'
@@ -177,6 +173,7 @@ def parse_args():
     add_model_snapshot_arg(parser)
     add_paths(parser)
     add_mongo_ip(parser)
+    add_approach(parser)
     _args = parser.parse_args()
 
     return _args

@@ -12,8 +12,12 @@ from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
 
-TIME = 'time'
+BASELINE = 'baseline'
+PARAM_UPDATE = 'param_update'
+PARAM_UPDATE_IMPROVED = 'param_update_improved'
+PROVENANCE = 'provenance'
 
+TIME = 'time'
 START_STOP = 'start-stop'
 
 LOCAL_HOST = "127.0.0.1"
@@ -80,6 +84,11 @@ def add_paths(parser):
 def add_model_arg(parser):
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
+
+
+def add_approach(parser):
+    parser.add_argument('--approach', help='The approach to use for the run', required=True,
+                        choices=[BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE])
 
 
 def add_model_snapshot_arg(parser):
