@@ -4,12 +4,11 @@ import os
 
 import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from mmlib.save import BaselineSaveService
 
 from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach
+    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service
 
 RECOVER_MODELS = 'recover_models'
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
@@ -22,7 +21,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -34,8 +33,7 @@ class ServerState:
         # initialize service to store dictionaries (JSON),
         dict_pers_service = MongoDictPersistenceService(host=mongo_host)
 
-        # initialize baseline save service
-        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
+        self.save_service = get_save_service(approach, dict_pers_service, file_pers_service)
 
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = {}
@@ -52,7 +50,8 @@ server_state: ServerState = None
 
 def main(args):
     global server_state
-    server_state = ServerState(args.tmp_dir, args.mongo_host, args.server_ip, args.server_port, MODELS_DICT[args.model],
+    server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
+                               MODELS_DICT[args.model],
                                args.model_snapshots)
 
     use_case_1()

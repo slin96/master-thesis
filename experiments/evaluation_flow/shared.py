@@ -3,6 +3,7 @@ import socket
 import time
 import uuid
 
+from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
 from mmlib.track_env import track_current_environment
 from schema.save_info_builder import ModelSaveInfoBuilder
 
@@ -93,6 +94,30 @@ def add_approach(parser):
 
 def add_model_snapshot_arg(parser):
     parser.add_argument('--model_snapshots', help='The directory do find the model snapshots in', type=str)
+
+
+def add_u3_count(parser):
+    parser.add_argument('--u3_count', help='The amount of times u3 is repeated', type=int, required=True)
+
+
+def get_save_service(approach, dict_pers_service, file_pers_service):
+    result = None
+
+    # initialize save service
+    if approach == BASELINE:
+        result = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
+    elif approach == PARAM_UPDATE:
+        result = WeightUpdateSaveService(
+            file_pers_service, dict_pers_service, improved_version=False, logging=True)
+    elif approach == PARAM_UPDATE_IMPROVED:
+        result = WeightUpdateSaveService(
+            file_pers_service, dict_pers_service, improved_version=True, logging=True)
+    elif approach == PROVENANCE:
+        result = ProvenanceSaveService(file_pers_service, dict_pers_service, logging=True)
+    else:
+        raise NotImplementedError
+
+    return result
 
 
 def save_model(model, save_service):

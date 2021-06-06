@@ -3,12 +3,11 @@ import os
 
 import torch
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from mmlib.save import BaselineSaveService
 
 from experiments.evaluation_flow.shared import recover_model, listen, extract_fields, add_paths, \
     save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
-    U_3_2, log_start, log_stop, add_approach
+    U_3_2, log_start, log_stop, add_approach, get_save_service
 
 SAVE_MODEL = 'save_model'
 
@@ -20,7 +19,7 @@ USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
 
 class NodeState:
-    def __init__(self, u3_repeat, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
@@ -31,8 +30,8 @@ class NodeState:
         # initialize service to store dictionaries (JSON),
         dict_pers_service = MongoDictPersistenceService(host=args.mongo_host)
 
-        # initialize baseline save service
-        self.save_service = BaselineSaveService(file_pers_service, dict_pers_service, logging=True)
+        # initialize save service
+        self.save_service = get_save_service(approach, dict_pers_service, file_pers_service)
 
         self.state_description = U_1
         self.u3_repeat = u3_repeat
@@ -47,7 +46,7 @@ node_sate: NodeState = None
 
 def main(args):
     global node_sate
-    node_sate = NodeState(2, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
+    node_sate = NodeState(args.approach, 2, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_sate.socket, callback=use_case_1)
