@@ -46,6 +46,7 @@ class ServerState:
 
 
 server_state: ServerState = None
+init_model_id = None
 
 
 def main(args):
@@ -58,6 +59,7 @@ def main(args):
 
 
 def use_case_1():
+    global init_model_id
     # load model from snapshot
     model = _load_model_snapshot(USE_CASE_1_PT)
 
@@ -105,7 +107,7 @@ def use_case_2():
     model = _load_model_snapshot(USE_CASE_2_PT)
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
-    model_id = save_model(model, server_state.save_service)
+    model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
@@ -118,9 +120,8 @@ def use_case_2():
 def use_case_4():
     log = log_start(SERVER, server_state.state_description, RECOVER_MODELS)
     for model_id in server_state.saved_model_ids.keys():
-        state_with_counter = _state_with_counter()
         model_recover = 'recover-{}-{}'.format(server_state.saved_model_ids[model_id], model_id)
-        log_i = log_start(SERVER, state_with_counter, model_recover)
+        log_i = log_start(SERVER, server_state.state_description, model_recover)
         server_state.save_service.recover_model(model_id, execute_checks=True)
         log_stop(log_i)
 

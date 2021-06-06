@@ -120,10 +120,10 @@ def get_save_service(approach, dict_pers_service, file_pers_service):
     return result
 
 
-def save_model(model, save_service):
+def save_model(model, save_service, base_model_id=None):
     save_info_builder = ModelSaveInfoBuilder()
     env = track_current_environment()
-    save_info_builder.add_model_info(model=model, env=env)
+    save_info_builder.add_model_info(model=model, env=env, base_model_id=base_model_id)
     save_info = save_info_builder.build()
 
     model_id = save_service.save_model(save_info)
