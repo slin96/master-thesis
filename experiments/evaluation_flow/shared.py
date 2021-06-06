@@ -3,10 +3,19 @@ import socket
 import time
 import uuid
 
+from mmlib.constants import CURRENT_DATA_ROOT
+from mmlib.deterministic import set_deterministic
 from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
 from mmlib.track_env import track_current_environment
+from schema.file_reference import FileReference
+from schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
 from schema.save_info_builder import ModelSaveInfoBuilder
+from torch.utils.data import DataLoader
 
+from experiments.evaluation_flow.custom_coco import TrainCustomCoco
+from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
+from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
+    ImagenetTrainWrapper
 from experiments.models.googlenet import googlenet
 from experiments.models.mobilenet import mobilenet_v2
 from experiments.models.resnet152 import resnet152
@@ -131,6 +140,18 @@ def save_model(model, save_service, base_model_id=None):
     return model_id
 
 
+def save_provenance_model(save_service, base_model_id, prov_env, raw_data, train_kwargs, ts_wrapper):
+    save_info_builder = ModelSaveInfoBuilder()
+    save_info_builder.add_model_info(base_model_id=base_model_id, env=prov_env)
+    save_info_builder.add_prov_data(
+        raw_data_path=raw_data, train_kwargs=train_kwargs, train_service_wrapper=ts_wrapper)
+    save_info = save_info_builder.build()
+
+    model_id = save_service.save_model(save_info)
+
+    return model_id
+
+
 def recover_model(model_id, save_service):
     # turn execute checks on to validate that saved an recovered model are the same
     restored_model_info = save_service.recover_model(model_id, execute_checks=True)
@@ -193,3 +214,47 @@ def log_stop(log_dict):
     log_dict[TIME] = t
 
     print(json.dumps(log_dict))
+
+
+def get_dummy_train_kwargs():
+    return {'number_batches': 2}
+
+
+def dummy_train_service_wrapper(model):
+    imagenet_ts = ImagenetTrainService()
+
+    set_deterministic()
+
+    state_dict = {}
+
+    data_wrapper = TrainCustomCoco(raw_data)
+    state_dict[DATA] = RestorableObjectWrapper(
+        config_args={'root': CURRENT_DATA_ROOT},
+        instance=data_wrapper
+    )
+
+    data_loader_kwargs = {'batch_size': 5, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
+    dataloader = DataLoader(data_wrapper, **data_loader_kwargs)
+    state_dict[DATALOADER] = RestorableObjectWrapper(
+        import_cmd='from torch.utils.data import DataLoader',
+        init_args=data_loader_kwargs,
+        init_ref_type_args=['dataset'],
+        instance=dataloader
+    )
+
+    optimizer_kwargs = {'lr': 1e-4, 'weight_decay': 1e-4}
+    optimizer = ImagenetOptimizer(model.parameters(), **optimizer_kwargs)
+    state_dict[OPTIMIZER] = StateFileRestorableObjectWrapper(
+        code=FileReference('imagenet_optimizer.py'),
+        init_args=optimizer_kwargs,
+        init_ref_type_args=['params'],
+        instance=optimizer
+    )
+
+    # having created all the objects needed for imagenet training we can plug the state dict into the train servcie
+    imagenet_ts.state_objs = state_dict
+
+    # finally we wrap the train service in the corresponding wrapper
+    ts_wrapper = ImagenetTrainWrapper(instance=imagenet_ts)
+
+    return ts_wrapper
