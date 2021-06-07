@@ -213,7 +213,7 @@ def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
         instance=data_wrapper
     )
 
-    data_loader_kwargs = {'batch_size': 5, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
+    data_loader_kwargs = {'batch_size': 4, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
     dataloader = DataLoader(data_wrapper, **data_loader_kwargs)
     state_dict[DATALOADER] = RestorableObjectWrapper(
         import_cmd='from torch.utils.data import DataLoader',
