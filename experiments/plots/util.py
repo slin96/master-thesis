@@ -57,3 +57,18 @@ def total_storage_consumption(storage_info: dict):
             result += total_storage_consumption(v)
 
     return result
+
+
+def create_pie_chart_sizes_and_labels(storage_distribution):
+    labels = []
+    sizes = []
+    total_size = total_storage_consumption(storage_distribution)
+    for k, v in storage_distribution.items():
+        labels.append(k)
+        if isinstance(v, dict):
+            size = total_storage_consumption(v)
+        else:
+            size = v
+        sizes.append(size / total_size * 100)
+
+    return labels, sizes
