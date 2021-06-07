@@ -2,14 +2,18 @@ import argparse
 import os
 
 import torch
+from mmlib.constants import CURRENT_DATA_ROOT, MMLIB_CONFIG
+from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from mmlib.track_env import track_current_environment
+from schema.file_reference import FileReference
+from schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from torch.utils.data import DataLoader
 
-from experiments.evaluation_flow.shared import recover_model, listen, extract_fields, add_paths, \
-    save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
-    U_3_2, log_start, log_stop, add_approach, get_save_service, add_u3_count, PROVENANCE, save_provenance_model, \
-    get_dummy_train_kwargs, dummy_train_service_wrapper
+from experiments.evaluation_flow.custom_coco import TrainCustomCoco
+from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
+from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
+    ImagenetTrainWrapper
+from experiments.evaluation_flow.shared import *
 
 SAVE_MODEL = 'save_model'
 
@@ -21,7 +25,8 @@ USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
 
 class NodeState:
-    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots, training_data_path=None,
+                 config=None):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
@@ -46,14 +51,17 @@ class NodeState:
         self.last_model_id = None
         self.last_recovered_model = None
 
+        self.training_data_path = training_data_path
+        os.environ[MMLIB_CONFIG] = config
+
 
 node_state: NodeState = None
 
 
 def main(args):
     global node_state
-    node_state = NodeState(
-        args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
+    node_state = NodeState(args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model],
+                           args.model_snapshots, training_data_path=args.training_data_path, config=args.config)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_state.socket, callback=use_case_1)
@@ -64,6 +72,9 @@ def _react_to_new_model(msg):
     log = log_start(NODE, node_state.state_description, RECOVER_MODEL)
     text, model_id = extract_fields(msg)
     node_state.last_model_id = model_id
+    # if we use the provenance approach we only simulate the training, thus the saved and the recovered models will
+    # differ -> we deactivate the checks for this approach
+    execute_checks = not (node_state.approach == PROVENANCE)
     model = recover_model(model_id, node_state.save_service)
     assert model is not None
     node_state.last_recovered_model = model
@@ -86,19 +97,21 @@ def _state_with_counter():
 def use_case_3(last_time=False, done=False):
     state_w_counter = _state_with_counter()
     log = log_start(NODE, state_w_counter, SAVE_MODEL)
-    if node_state == PROVENANCE:
-        pass
+    model = _load_model_snapshot(node_state.state_description, node_state.u3_counter)
+    if node_state.approach == PROVENANCE:
+        ts_wrapper = dummy_custom_coco_train_service_wrapper(
+            node_state.last_recovered_model, node_state.training_data_path)
         model_id = save_provenance_model(
             save_service=node_state.save_service,
             base_model_id=node_state.last_model_id,
             train_kwargs=get_dummy_train_kwargs(),
             prov_env=track_current_environment(),
-            raw_data=None,
-            ts_wrapper=dummy_train_service_wrapper(node_state.last_recovered_model),
+            raw_data=node_state.training_data_path,
+            ts_wrapper=ts_wrapper,
+            model=model
         )
     else:
         # simulate model training by loading model from checkpoint
-        model = _load_model_snapshot(node_state.state_description, node_state.u3_counter)
         model_id = save_model(model, node_state.save_service, base_model_id=node_state.last_model_id)
 
     node_state.last_model_id = model_id
@@ -152,6 +165,48 @@ def _load_model_snapshot(state, counter):
     return model
 
 
+def get_dummy_train_kwargs():
+    return {'number_batches': 2}
+
+
+def dummy_custom_coco_train_service_wrapper(model, raw_data):
+    imagenet_ts = ImagenetTrainService()
+
+    set_deterministic()
+
+    state_dict = {}
+
+    data_wrapper = TrainCustomCoco(raw_data)
+    state_dict[DATA] = RestorableObjectWrapper(
+        config_args={'root': CURRENT_DATA_ROOT},
+        instance=data_wrapper
+    )
+
+    data_loader_kwargs = {'batch_size': 5, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
+    dataloader = DataLoader(data_wrapper, **data_loader_kwargs)
+    state_dict[DATALOADER] = RestorableObjectWrapper(
+        import_cmd='from torch.utils.data import DataLoader',
+        init_args=data_loader_kwargs,
+        init_ref_type_args=['dataset'],
+        instance=dataloader
+    )
+
+    optimizer_kwargs = {'lr': 1e-4, 'weight_decay': 1e-4}
+    optimizer = ImagenetOptimizer(model.parameters(), **optimizer_kwargs)
+    state_dict[OPTIMIZER] = StateFileRestorableObjectWrapper(
+        code=FileReference('imagenet_optimizer.py'),
+        init_args=optimizer_kwargs,
+        init_ref_type_args=['params'],
+        instance=optimizer
+    )
+
+    imagenet_ts.state_objs = state_dict
+
+    ts_wrapper = ImagenetTrainWrapper(instance=imagenet_ts)
+
+    return ts_wrapper
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling node for workflow using baseline approach')
     add_server_connection_arguments(parser)
@@ -162,6 +217,8 @@ def parse_args():
     add_mongo_ip(parser)
     add_approach(parser)
     add_u3_count(parser)
+    add_training_data_path(parser)
+    add_config(parser)
     _args = parser.parse_args()
 
     return _args

@@ -3,12 +3,14 @@ import json
 import os
 
 import torch
+from mmlib.constants import MMLIB_CONFIG
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 
 from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service
+    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
+    add_config, PROVENANCE
 
 RECOVER_MODELS = 'recover_models'
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
@@ -21,7 +23,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, config=None):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -34,6 +36,7 @@ class ServerState:
         dict_pers_service = MongoDictPersistenceService(host=mongo_host)
 
         self.save_service = get_save_service(approach, dict_pers_service, file_pers_service)
+        self.approach = approach
 
         # list of all models that have been saved by the node or have been communicated to be available
         self.saved_model_ids = {}
@@ -44,6 +47,8 @@ class ServerState:
         self.model_class = model_class
         self.model_snapshots = model_snapshots
 
+        os.environ[MMLIB_CONFIG] = config
+
 
 server_state: ServerState = None
 init_model_id = None
@@ -52,8 +57,7 @@ init_model_id = None
 def main(args):
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
-                               MODELS_DICT[args.model],
-                               args.model_snapshots)
+                               MODELS_DICT[args.model],args.model_snapshots, args.config)
 
     use_case_1()
 
@@ -122,7 +126,10 @@ def use_case_4():
     for model_id in server_state.saved_model_ids.keys():
         model_recover = 'recover-{}-{}'.format(server_state.saved_model_ids[model_id], model_id)
         log_i = log_start(SERVER, server_state.state_description, model_recover)
-        server_state.save_service.recover_model(model_id, execute_checks=True)
+        # if we use the provenance approach we only simulate the training, thus the saved and the recovered models will
+        # differ -> we deactivate the checks for this approach
+        execute_checks = not (server_state.approach == PROVENANCE)
+        server_state.save_service.recover_model(model_id, execute_checks=execute_checks)
         log_stop(log_i)
 
     log_stop(log)
@@ -142,9 +149,12 @@ def next_state(text=None):
         listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_3_1:
         if 'last' in text:
-            server_state.state_description = U_2
-            server_state.u3_counter = 0
-            use_case_2()
+            # server_state.state_description = U_2
+            # server_state.u3_counter = 0
+            # use_case_2()
+            # TODO fix me: just for testing
+            server_state.state_description = U_4
+            use_case_4()
         else:
             server_state.u3_counter += 1
             listen(sock=server_state.socket, callback=use_case_3)
@@ -174,6 +184,7 @@ def parse_args():
     add_paths(parser)
     add_mongo_ip(parser)
     add_approach(parser)
+    add_config(parser)
     _args = parser.parse_args()
 
     return _args
