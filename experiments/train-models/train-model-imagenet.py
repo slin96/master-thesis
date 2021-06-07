@@ -82,7 +82,6 @@ def main(args):
     else:
         optimizer = torch.optim.SGD(model.parameters(), 1e-4, weight_decay=1e-4)
 
-
     for epoch in range(args.num_epochs):
         if epoch % args.save_freq == 0:
             model_name = MODEL_SAVE_TEMPLATE.format(args.model, epoch, IMAGENET_VAL)

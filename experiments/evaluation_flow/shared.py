@@ -5,7 +5,7 @@ import uuid
 
 from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
 from mmlib.track_env import track_current_environment
-from schema.save_info_builder import ModelSaveInfoBuilder
+from mmlib.schema.save_info_builder import ModelSaveInfoBuilder
 
 from experiments.models.googlenet import googlenet
 from experiments.models.mobilenet import mobilenet_v2
