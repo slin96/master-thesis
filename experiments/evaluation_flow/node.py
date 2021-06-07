@@ -2,12 +2,18 @@ import argparse
 import os
 
 import torch
+from mmlib.constants import CURRENT_DATA_ROOT, MMLIB_CONFIG
+from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
+from schema.file_reference import FileReference
+from schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from torch.utils.data import DataLoader
 
-from experiments.evaluation_flow.shared import recover_model, listen, extract_fields, add_paths, \
-    save_model, generate_message, inform, reusable_udp_socket, add_mongo_ip, add_server_connection_arguments, \
-    add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, add_model_snapshot_arg, U_1, U_3_1, U_2, \
-    U_3_2, log_start, log_stop, add_approach, get_save_service, add_u3_count
+from experiments.evaluation_flow.custom_coco import TrainCustomCoco
+from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
+from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
+    ImagenetTrainWrapper
+from experiments.evaluation_flow.shared import *
 
 SAVE_MODEL = 'save_model'
 
@@ -19,7 +25,8 @@ USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
 
 
 class NodeState:
-    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots):
+    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots, training_data_path=None,
+                 config=None):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
@@ -32,6 +39,7 @@ class NodeState:
 
         # initialize save service
         self.save_service = get_save_service(approach, dict_pers_service, file_pers_service)
+        self.approach = args.approach
 
         self.state_description = U_1
         self.u3_repeat = u3_repeat
@@ -41,27 +49,35 @@ class NodeState:
         self.model_snapshots = model_snapshots
 
         self.last_model_id = None
+        self.last_recovered_model = None
+
+        self.training_data_path = training_data_path
+        os.environ[MMLIB_CONFIG] = config
 
 
-node_sate: NodeState = None
+node_state: NodeState = None
 
 
 def main(args):
-    global node_sate
-    node_sate = NodeState(
-        args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model], args.model_snapshots)
+    global node_state
+    node_state = NodeState(args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model],
+                           args.model_snapshots, training_data_path=args.training_data_path, config=args.config)
 
     # U1- node: listen for models to be in DB
-    listen(sock=node_sate.socket, callback=use_case_1)
+    listen(sock=node_state.socket, callback=use_case_1)
 
 
 def _react_to_new_model(msg):
     print(msg)
-    log = log_start(NODE, node_sate.state_description, RECOVER_MODEL)
+    log = log_start(NODE, node_state.state_description, RECOVER_MODEL)
     text, model_id = extract_fields(msg)
-    node_sate.last_model_id = model_id
-    model = recover_model(model_id, node_sate.save_service)
+    node_state.last_model_id = model_id
+    # if we use the provenance approach we only simulate the training, thus the saved and the recovered models will
+    # differ -> we deactivate the checks for this approach
+    execute_checks = not (node_state.approach == PROVENANCE)
+    model = recover_model(model_id, node_state.save_service, execute_checks=execute_checks)
     assert model is not None
+    node_state.last_recovered_model = model
     log_stop(log)
     next_state()
 
@@ -75,17 +91,31 @@ def use_case_2(msg):
 
 
 def _state_with_counter():
-    return '{}_{}'.format(node_sate.state_description, node_sate.u3_counter)
+    return '{}_{}'.format(node_state.state_description, node_state.u3_counter)
 
 
 def use_case_3(last_time=False, done=False):
-    # simulate model training by loading model from checkpoint
-    model = _load_model_snapshot(node_sate.state_description, node_sate.u3_counter)
-
     state_w_counter = _state_with_counter()
+    model = _load_model_snapshot(node_state.state_description, node_state.u3_counter)
+
     log = log_start(NODE, state_w_counter, SAVE_MODEL)
-    model_id = save_model(model, node_sate.save_service, base_model_id=node_sate.last_model_id)
-    node_sate.last_model_id = model_id
+    if node_state.approach == PROVENANCE:
+        ts_wrapper = dummy_custom_coco_train_service_wrapper(
+            node_state.last_recovered_model, node_state.training_data_path)
+        model_id = save_provenance_model(
+            save_service=node_state.save_service,
+            base_model_id=node_state.last_model_id,
+            train_kwargs=get_dummy_train_kwargs(),
+            prov_env=track_current_environment(),
+            raw_data=node_state.training_data_path,
+            ts_wrapper=ts_wrapper,
+            model=model
+        )
+    else:
+        # simulate model training by loading model from checkpoint
+        model_id = save_model(model, node_state.save_service, base_model_id=node_state.last_model_id)
+
+    node_state.last_model_id = model_id
     log_stop(log)
 
     # notify server
@@ -95,32 +125,32 @@ def use_case_3(last_time=False, done=False):
     if done:
         text = 'done'
     message = generate_message(model_id=model_id, text=text)
-    inform(message, node_sate.socket, (args.server_ip, args.server_port))
+    inform(message, node_state.socket, (args.server_ip, args.server_port))
 
     next_state()
 
 
 def next_state():
-    if node_sate.state_description == U_1:
-        node_sate.state_description = U_3_1
-        node_sate.u3_counter += 1
+    if node_state.state_description == U_1:
+        node_state.state_description = U_3_1
+        node_state.u3_counter += 1
         use_case_3()
-    elif node_sate.state_description == U_3_1:
-        if node_sate.u3_counter < node_sate.u3_repeat:
-            node_sate.u3_counter += 1
-            use_case_3(last_time=node_sate.u3_counter == node_sate.u3_repeat)
+    elif node_state.state_description == U_3_1:
+        if node_state.u3_counter < node_state.u3_repeat:
+            node_state.u3_counter += 1
+            use_case_3(last_time=node_state.u3_counter == node_state.u3_repeat)
         else:
-            node_sate.state_description = U_2
-            node_sate.u3_counter = 0
-            listen(sock=node_sate.socket, callback=use_case_2)
-    elif node_sate.state_description == U_2:
-        node_sate.state_description = U_3_2
-        node_sate.u3_counter += 1
-        use_case_3(node_sate.u3_counter == node_sate.u3_repeat)
-    elif node_sate.state_description == U_3_2:
-        if node_sate.u3_counter < node_sate.u3_repeat:
-            node_sate.u3_counter += 1
-            use_case_3(done=node_sate.u3_counter == node_sate.u3_repeat)
+            node_state.state_description = U_2
+            node_state.u3_counter = 0
+            listen(sock=node_state.socket, callback=use_case_2)
+    elif node_state.state_description == U_2:
+        node_state.state_description = U_3_2
+        node_state.u3_counter += 1
+        use_case_3(node_state.u3_counter == node_state.u3_repeat)
+    elif node_state.state_description == U_3_2:
+        if node_state.u3_counter < node_state.u3_repeat:
+            node_state.u3_counter += 1
+            use_case_3(done=node_state.u3_counter == node_state.u3_repeat)
         else:
             print('DONE')
 
@@ -128,12 +158,50 @@ def next_state():
 def _load_model_snapshot(state, counter):
     state = state.replace('U_', '').replace('_', '-')
     snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
-    snapshot_path = os.path.join(node_sate.model_snapshots, snapshot_name)
+    snapshot_path = os.path.join(node_state.model_snapshots, snapshot_name)
     print('load model: {}'.format(snapshot_path))
     state_dict = torch.load(snapshot_path)
-    model: torch.nn.Module = node_sate.model_class()
+    model: torch.nn.Module = node_state.model_class()
     model.load_state_dict(state_dict)
     return model
+
+
+def dummy_custom_coco_train_service_wrapper(model, raw_data):
+    imagenet_ts = ImagenetTrainService()
+
+    set_deterministic()
+
+    state_dict = {}
+
+    data_wrapper = TrainCustomCoco(raw_data)
+    state_dict[DATA] = RestorableObjectWrapper(
+        config_args={'root': CURRENT_DATA_ROOT},
+        instance=data_wrapper
+    )
+
+    data_loader_kwargs = {'batch_size': 4, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
+    dataloader = DataLoader(data_wrapper, **data_loader_kwargs)
+    state_dict[DATALOADER] = RestorableObjectWrapper(
+        import_cmd='from torch.utils.data import DataLoader',
+        init_args=data_loader_kwargs,
+        init_ref_type_args=['dataset'],
+        instance=dataloader
+    )
+
+    optimizer_kwargs = {'lr': 1e-4, 'weight_decay': 1e-4}
+    optimizer = ImagenetOptimizer(model.parameters(), **optimizer_kwargs)
+    state_dict[OPTIMIZER] = StateFileRestorableObjectWrapper(
+        code=FileReference('imagenet_optimizer.py'),  # NOTE check if we need this, might work automatically
+        init_args=optimizer_kwargs,
+        init_ref_type_args=['params'],
+        instance=optimizer
+    )
+
+    imagenet_ts.state_objs = state_dict
+
+    ts_wrapper = ImagenetTrainWrapper(instance=imagenet_ts)
+
+    return ts_wrapper
 
 
 def parse_args():
@@ -146,6 +214,8 @@ def parse_args():
     add_mongo_ip(parser)
     add_approach(parser)
     add_u3_count(parser)
+    add_training_data_path(parser)
+    add_config(parser)
     _args = parser.parse_args()
 
     return _args

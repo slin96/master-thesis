@@ -100,6 +100,14 @@ def add_u3_count(parser):
     parser.add_argument('--u3_count', help='The amount of times u3 is repeated', type=int, required=True)
 
 
+def add_training_data_path(parser):
+    parser.add_argument('--training_data_path', help='The path to the data used to retrain the models', type=str)
+
+
+def add_config(parser):
+    parser.add_argument('--config', help='configuration file, only needed for prov appraoch', type=str)
+
+
 def get_save_service(approach, dict_pers_service, file_pers_service):
     result = None
 
@@ -131,9 +139,22 @@ def save_model(model, save_service, base_model_id=None):
     return model_id
 
 
-def recover_model(model_id, save_service):
+def save_provenance_model(save_service, base_model_id, prov_env, raw_data, train_kwargs, ts_wrapper, model):
+    save_info_builder = ModelSaveInfoBuilder()
+    save_info_builder.add_model_info(base_model_id=base_model_id, env=prov_env)
+    save_info_builder.add_prov_data(
+        raw_data_path=raw_data, train_kwargs=train_kwargs, train_service_wrapper=ts_wrapper)
+    save_info = save_info_builder.build()
+
+    model_id = save_service.save_model(save_info)
+    save_service.add_weights_hash_info(model_id, model)
+
+    return model_id
+
+
+def recover_model(model_id, save_service, execute_checks=True):
     # turn execute checks on to validate that saved an recovered model are the same
-    restored_model_info = save_service.recover_model(model_id, execute_checks=True)
+    restored_model_info = save_service.recover_model(model_id, execute_checks=execute_checks)
     return restored_model_info.model
 
 
@@ -193,3 +214,7 @@ def log_stop(log_dict):
     log_dict[TIME] = t
 
     print(json.dumps(log_dict))
+
+
+def get_dummy_train_kwargs():
+    return {'number_batches': 2}

@@ -16,7 +16,9 @@ if __name__ == '__main__':
 
     files_to_copy = [
         (os.path.join(FILE_PATH, './node.py'), os.path.join(BASELINE_FLOW, './node.py')),
-        (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './shared.py'))
+        (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './shared.py')),
+        (os.path.join(FILE_PATH, './custom_coco.py'), os.path.join(BASELINE_FLOW, './custom_coco.py')),
+        (os.path.join(FILE_PATH, './imagenet_train.py'), os.path.join(BASELINE_FLOW, './imagenet_train.py')),
     ]
 
     dirs_to_copy = [
