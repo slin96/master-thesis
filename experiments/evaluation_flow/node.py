@@ -5,8 +5,8 @@ import torch
 from mmlib.constants import CURRENT_DATA_ROOT, MMLIB_CONFIG
 from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from schema.file_reference import FileReference
-from schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from mmlib.schema.file_reference import FileReference
+from mmlib.schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
 from torch.utils.data import DataLoader
 
 from experiments.evaluation_flow.custom_coco import TrainCustomCoco

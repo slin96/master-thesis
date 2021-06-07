@@ -55,7 +55,7 @@
             --num-batches 10 
             > <LOCAL-ABS-PATH>/workers-0-run-2/out.txt 
           ```
-          
+
     - **2 workers, run 1**
         - ```
             python train-model-imagenet.py
@@ -68,7 +68,7 @@
             --num-batches 10 
             > <LOCAL-ABS-PATH>/workers-2-run-1/out.txt 
           ```
-    
+
     - **2 workers, run 2**
         - ```
             python train-model-imagenet.py
@@ -81,7 +81,7 @@
             --num-batches 10 
             > <LOCAL-ABS-PATH>/workers-2-run-2/out.txt 
           ```
-    
+
     - **5 workers, run 1**
         - ```
           python train-model-imagenet.py

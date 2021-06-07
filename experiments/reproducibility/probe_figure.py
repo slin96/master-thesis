@@ -1,7 +1,7 @@
 import torch
 from mmlib.deterministic import set_deterministic
-from mmlib.helper import imagenet_input, imagenet_target
 from mmlib.probe import probe_training, ProbeInfo
+from mmlib.util.dummy_data import imagenet_input, imagenet_target
 
 from experiments.models.googlenet import googlenet
 
