@@ -1,5 +1,4 @@
 import torch
-
 from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FilePersistenceService, DictPersistenceService
 from schema.restorable_object import TrainService, StateDictRestorableObjectWrapper, \
@@ -76,3 +75,5 @@ class ImagenetTrainWrapper(StateDictRestorableObjectWrapper):
 
         self.instance = create_object(code=self.code.path, class_name=self.class_name)
         self.instance.state_objs = state_dict
+
+

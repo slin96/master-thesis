@@ -152,9 +152,9 @@ def save_provenance_model(save_service, base_model_id, prov_env, raw_data, train
     return model_id
 
 
-def recover_model(model_id, save_service):
+def recover_model(model_id, save_service, execute_checks=True):
     # turn execute checks on to validate that saved an recovered model are the same
-    restored_model_info = save_service.recover_model(model_id, execute_checks=True)
+    restored_model_info = save_service.recover_model(model_id, execute_checks=execute_checks)
     return restored_model_info.model
 
 
@@ -214,3 +214,7 @@ def log_stop(log_dict):
     log_dict[TIME] = t
 
     print(json.dumps(log_dict))
+
+
+def get_dummy_train_kwargs():
+    return {'number_batches': 2}

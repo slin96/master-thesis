@@ -75,7 +75,7 @@ def _react_to_new_model(msg):
     # if we use the provenance approach we only simulate the training, thus the saved and the recovered models will
     # differ -> we deactivate the checks for this approach
     execute_checks = not (node_state.approach == PROVENANCE)
-    model = recover_model(model_id, node_state.save_service)
+    model = recover_model(model_id, node_state.save_service, execute_checks=execute_checks)
     assert model is not None
     node_state.last_recovered_model = model
     log_stop(log)
@@ -96,8 +96,9 @@ def _state_with_counter():
 
 def use_case_3(last_time=False, done=False):
     state_w_counter = _state_with_counter()
-    log = log_start(NODE, state_w_counter, SAVE_MODEL)
     model = _load_model_snapshot(node_state.state_description, node_state.u3_counter)
+
+    log = log_start(NODE, state_w_counter, SAVE_MODEL)
     if node_state.approach == PROVENANCE:
         ts_wrapper = dummy_custom_coco_train_service_wrapper(
             node_state.last_recovered_model, node_state.training_data_path)
@@ -165,10 +166,6 @@ def _load_model_snapshot(state, counter):
     return model
 
 
-def get_dummy_train_kwargs():
-    return {'number_batches': 2}
-
-
 def dummy_custom_coco_train_service_wrapper(model, raw_data):
     imagenet_ts = ImagenetTrainService()
 
@@ -194,7 +191,7 @@ def dummy_custom_coco_train_service_wrapper(model, raw_data):
     optimizer_kwargs = {'lr': 1e-4, 'weight_decay': 1e-4}
     optimizer = ImagenetOptimizer(model.parameters(), **optimizer_kwargs)
     state_dict[OPTIMIZER] = StateFileRestorableObjectWrapper(
-        code=FileReference('imagenet_optimizer.py'),
+        code=FileReference('imagenet_optimizer.py'),  # NOTE check if we need this, might work automatically
         init_args=optimizer_kwargs,
         init_ref_type_args=['params'],
         instance=optimizer

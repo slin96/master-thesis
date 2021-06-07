@@ -3,14 +3,23 @@ import json
 import os
 
 import torch
-from mmlib.constants import MMLIB_CONFIG
+from mmlib.constants import MMLIB_CONFIG, CURRENT_DATA_ROOT
+from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
+from mmlib.track_env import track_current_environment
+from schema.file_reference import FileReference
+from schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from torch.utils.data import DataLoader
 
+from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
+from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
+    ImagenetTrainWrapper
+from experiments.evaluation_flow.imagenet_train_loader import ImagenetTrainLoader
 from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
     add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
-    add_config, PROVENANCE
+    add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model
 
 RECOVER_MODELS = 'recover_models'
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
@@ -23,7 +32,8 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, config=None):
+    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, training_data_path=None,
+                 config=None):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -47,6 +57,9 @@ class ServerState:
         self.model_class = model_class
         self.model_snapshots = model_snapshots
 
+        self.u1_model = None
+        self.training_data_path = args.training_data_path
+
         os.environ[MMLIB_CONFIG] = config
 
 
@@ -57,7 +70,8 @@ init_model_id = None
 def main(args):
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
-                               MODELS_DICT[args.model],args.model_snapshots, args.config)
+                               MODELS_DICT[args.model], args.model_snapshots,
+                               training_data_path=args.training_data_path, config=args.config)
 
     use_case_1()
 
@@ -66,6 +80,7 @@ def use_case_1():
     global init_model_id
     # load model from snapshot
     model = _load_model_snapshot(USE_CASE_1_PT)
+    server_state.u1_model = model
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
     init_model_id = save_model(model, server_state.save_service)
@@ -111,7 +126,20 @@ def use_case_2():
     model = _load_model_snapshot(USE_CASE_2_PT)
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
-    model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
+    if server_state.approach == PROVENANCE:
+        ts_wrapper = dummy_custom_imagenet_train_service_wrapper(
+            server_state.u1_model, server_state.training_data_path)
+        model_id = save_provenance_model(
+            save_service=server_state.save_service,
+            base_model_id=init_model_id,
+            train_kwargs=get_dummy_train_kwargs(),
+            prov_env=track_current_environment(),
+            raw_data=server_state.training_data_path,
+            ts_wrapper=ts_wrapper,
+            model=model
+        )
+    else:
+        model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
@@ -149,12 +177,9 @@ def next_state(text=None):
         listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_3_1:
         if 'last' in text:
-            # server_state.state_description = U_2
-            # server_state.u3_counter = 0
-            # use_case_2()
-            # TODO fix me: just for testing
-            server_state.state_description = U_4
-            use_case_4()
+            server_state.state_description = U_2
+            server_state.u3_counter = 0
+            use_case_2()
         else:
             server_state.u3_counter += 1
             listen(sock=server_state.socket, callback=use_case_3)
@@ -174,6 +199,45 @@ def next_state(text=None):
         print('DONE')
 
 
+def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
+    imagenet_ts = ImagenetTrainService()
+
+    set_deterministic()
+
+    state_dict = {}
+
+    data_wrapper = ImagenetTrainLoader(raw_data, split='val')
+    state_dict[DATA] = RestorableObjectWrapper(
+        config_args={'root': CURRENT_DATA_ROOT},
+        init_args={'split': 'val'},
+        instance=data_wrapper
+    )
+
+    data_loader_kwargs = {'batch_size': 5, 'shuffle': True, 'num_workers': 0, 'pin_memory': True}
+    dataloader = DataLoader(data_wrapper, **data_loader_kwargs)
+    state_dict[DATALOADER] = RestorableObjectWrapper(
+        import_cmd='from torch.utils.data import DataLoader',
+        init_args=data_loader_kwargs,
+        init_ref_type_args=['dataset'],
+        instance=dataloader
+    )
+
+    optimizer_kwargs = {'lr': 1e-4, 'weight_decay': 1e-4}
+    optimizer = ImagenetOptimizer(model.parameters(), **optimizer_kwargs)
+    state_dict[OPTIMIZER] = StateFileRestorableObjectWrapper(
+        code=FileReference('imagenet_optimizer.py'),
+        init_args=optimizer_kwargs,
+        init_ref_type_args=['params'],
+        instance=optimizer
+    )
+
+    imagenet_ts.state_objs = state_dict
+
+    ts_wrapper = ImagenetTrainWrapper(instance=imagenet_ts)
+
+    return ts_wrapper
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Script modeling server for workflow using baseline appraoch')
 
@@ -184,6 +248,7 @@ def parse_args():
     add_paths(parser)
     add_mongo_ip(parser)
     add_approach(parser)
+    add_training_data_path(parser)
     add_config(parser)
     _args = parser.parse_args()
 
