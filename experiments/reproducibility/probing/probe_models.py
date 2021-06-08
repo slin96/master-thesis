@@ -11,6 +11,10 @@ from mmlib.util.helper import class_name
 from torch import nn
 
 from experiments.models.googlenet import googlenet
+from experiments.models.mobilenet import mobilenet_v2
+from experiments.models.resnet152 import resnet152
+from experiments.models.resnet18 import resnet18
+from experiments.models.resnet50 import resnet50
 
 
 def create_and_save_summary(model_class, device, save_path, forward_indices=None):
@@ -95,11 +99,11 @@ def deterministic_backward_compare(model_class, device, forward_indices=None):
 
 def main(args):
     evaluate = [
-        # (mobilenet_v2, list(range(0, 10))), (mobilenet_v2, list(range(149, 159))),
+        (mobilenet_v2, list(range(0, 10))), (mobilenet_v2, list(range(149, 159))),
         (googlenet, list(range(0, 10))), (googlenet, list(range(187, 197))),
-        # (resnet18, list(range(0, 10))), (resnet18, list(range(59, 69))),
-        # (resnet50, list(range(0, 10))), (resnet50, list(range(165, 175))),
-        # (resnet152, list(range(0, 10))), (resnet152, list(range(505, 515)))
+        (resnet18, list(range(0, 10))), (resnet18, list(range(59, 69))),
+        (resnet50, list(range(0, 10))), (resnet50, list(range(165, 175))),
+        (resnet152, list(range(0, 10))), (resnet152, list(range(505, 515)))
     ]
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
