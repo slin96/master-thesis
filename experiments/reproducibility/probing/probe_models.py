@@ -29,7 +29,7 @@ def create_and_save_summary(model_class, device, save_path, forward_indices=None
     summary = probe_training(model, dummy_input, optimizer1, loss_func, dummy_target, device,
                              forward_indices=forward_indices)
 
-    summary_file_name = _summary_file_name(forward_indices, class_name(model))
+    summary_file_name = _summary_file_name(forward_indices, model_class.__name__)
     summary_save_path = os.path.join(save_path, summary_file_name)
     summary.save(summary_save_path)
 
