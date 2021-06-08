@@ -16,13 +16,22 @@
 ### Execution
 
 - node1
-    - on node 1 we only save probing summaries
+    - on node1 we only save probing summaries
     - `probe_models.py --save_path <SAVE-PATH>`
 
 - node2
     - on node2 we create summaries and compare them to the ones form node2
     - `probe_models.py --save_path <SAVE-PATH> --load_path <LOAD-PATH> --compare true`
     
-
 #### Results
-- LINK TO OUTPUT FORM 16-NODE cluster 
+- **all models are reproducible across the machines we tested on**
+
+- log of node1
+    - `results/probe-models/node1-out.txt`
+    
+- log of node2
+    - `results/probe-models/node1-out.txt`
+    
+- note: the probing tool color codes the output, to see display the output color coded open the files with the `less` 
+  command
+    - e.g. `less node1-out.txt`
