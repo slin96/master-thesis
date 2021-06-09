@@ -2,7 +2,7 @@ import time
 
 import torch
 from torch.utils.data import DataLoader
-from util.helper import get_device
+from mmlib.util.helper import get_device
 
 from experiments.imagenet.imagenet_utils import AverageMeter, ProgressMeter, accuracy
 
