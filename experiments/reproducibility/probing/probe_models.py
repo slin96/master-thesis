@@ -7,7 +7,6 @@ from mmlib.deterministic import set_deterministic
 from mmlib.equal import blackbox_model_equal, whitebox_model_equal, model_equal
 from mmlib.probe import probe_training, ProbeInfo, ProbeSummary
 from mmlib.util.dummy_data import imagenet_input, imagenet_target
-from mmlib.util.helper import class_name
 from torch import nn
 
 from experiments.models.googlenet import googlenet
