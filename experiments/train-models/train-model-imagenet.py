@@ -72,8 +72,14 @@ def main(args):
     # specify the model to use and load it to the device (GPU or CPU)
     model_class = MODELS_DICT[args.model]
     model = model_class(pretrained=True)
-    torch.save(model.state_dict(), os.path.join(args.save_root, 'init-model.pt'))
+
     device = get_device()
+
+    if args.base_model_state:
+        state_dict = torch.load(args.base_model_state, map_location=device)
+        model.load_state_dict(state_dict)
+
+    torch.save(model.state_dict(), os.path.join(args.save_root, 'init-model.pt'))
     model.to(device)
     # specify the loss function and optimizer
     loss_func = nn.CrossEntropyLoss()
@@ -153,6 +159,7 @@ def parse_args():
                         help='If we want to use a momentum base optimizer or not')
     parser.add_argument('--model', help='The model to use for the run',
                         choices=[MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152])
+    parser.add_argument('--base-model-state', help='The path to a state dict to initialize the base model', type=str)
 
     args = parser.parse_args()
 

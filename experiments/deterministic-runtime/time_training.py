@@ -57,7 +57,10 @@ def main(args):
 
     # specify the model to use and load it to the device (GPU or CPU)
     model_class = MODELS_DICT[args.model]
-    model = model_class()
+    if model_class == googlenet:
+        model = model_class(aux_logits=False)
+    else:
+        model = model_class()
     device = get_device()
     model.to(device)
     # specify the loss function and optimizer
