@@ -105,7 +105,7 @@ def add_training_data_path(parser):
 
 
 def add_config(parser):
-    parser.add_argument('--config', help='configuration file, only needed for prov appraoch', type=str)
+    parser.add_argument('--config', help='configuration file, only needed for prov approach', type=str)
 
 
 def get_save_service(approach, dict_pers_service, file_pers_service):
