@@ -28,7 +28,7 @@ def main(args):
 
     dict_pers_service = MongoDictPersistenceService(host=args.mongo_host)
 
-    save_service = ProvenanceSaveService(file_pers_service, dict_pers_service, logging=False)
+    save_service = ProvenanceSaveService(file_pers_service, dict_pers_service, logging=True)
 
     model = mobilenet_v2(pretrained=True)
 
