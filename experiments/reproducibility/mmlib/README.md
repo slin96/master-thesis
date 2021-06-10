@@ -22,11 +22,12 @@
     - `--tmp_dir` the directory to a directory that *node1* and *node2* can access via the shared file system
       (needs to be the same for *node1* and *node2*)
     - `--mongo_host` the ip or host name of the *DBnode*
-  
+
 ## Results
+
 - the logs of the executions can be found in the results directory
-- the only important thing to note is that in `recover-log.txt` we can not find any assertion errors that would have 
-been thrown if a saved and a recovered model differ 
+- the only important thing to note is that in `recover-log.txt` we can not find any assertion errors that would have
+  been thrown if a saved and a recovered model differ 
   
 
 
