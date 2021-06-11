@@ -2,10 +2,6 @@ import torch
 from mmlib.equal import state_dict_equal
 from mmlib.util.helper import get_device
 
-from experiments.models.googlenet import googlenet
-from experiments.models.mobilenet import mobilenet_v2
-from experiments.models.resnet18 import resnet18
-
 
 def _get_fine_tuned_model(model_class, base_snapshot, copy_snapshot, layer_names):
     device = get_device(None)
@@ -36,13 +32,3 @@ def get_fine_tuned_model(model_class, base_snapshot, copy_snapshot):
     else:
         return _get_fine_tuned_model(model_class, base_snapshot, copy_snapshot,
                                      ['classifier.1.weight', 'classifier.1.bias'])
-
-
-if __name__ == '__main__':
-    m = googlenet()
-    model = get_fine_tuned_model(
-        m.__class__,
-        base_snapshot='/Users/nils/Studium/master-thesis/repo/experiments/evaluation_flow/model-snapshots/googlenet-versions-food/use-case-1.pt',
-        copy_snapshot='/Users/nils/Studium/master-thesis/repo/experiments/evaluation_flow/model-snapshots/googlenet-versions-food/use-case-2.pt'
-    )
-    print('test')
