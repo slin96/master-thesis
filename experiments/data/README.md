@@ -170,7 +170,7 @@ categories[
 
 - for our experiments we create 4 custom coco datasets
     - custom-coco-food-512,custom-coco-outdoor-512,custom-coco-indoor-512,custom-coco-zebra-512
-- each dataset contains the first 512 items of its category
+- each dataset contains the first 512 items of its categories
 - we created them using the script `create_coco_n.py`
 
 ### Download
