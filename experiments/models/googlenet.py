@@ -26,14 +26,14 @@ def googlenet(pretrained=False, progress=True, **kwargs):
             was trained on ImageNet. Default: *False*
     """
 
+    model = GoogLeNet(**kwargs)
+
     if pretrained:
         if 'transform_input' not in kwargs:
             kwargs['transform_input'] = True
         kwargs['init_weights'] = False
-        model = GoogLeNet(**kwargs)
         state_dict = load_state_dict_from_url(model_urls['googlenet'],
                                               progress=progress)
-
         # remove all aux weights
         keys = list(state_dict.keys())
         for k in keys:
@@ -42,9 +42,7 @@ def googlenet(pretrained=False, progress=True, **kwargs):
 
         model.load_state_dict(state_dict)
 
-        return model
-
-    return GoogLeNet(**kwargs)
+    return model
 
 
 class GoogLeNet(nn.Module):
