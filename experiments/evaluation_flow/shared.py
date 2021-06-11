@@ -4,14 +4,18 @@ import time
 import uuid
 
 from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
-from mmlib.track_env import track_current_environment
 from mmlib.schema.save_info_builder import ModelSaveInfoBuilder
+from mmlib.track_env import track_current_environment
 
 from experiments.models.googlenet import googlenet
 from experiments.models.mobilenet import mobilenet_v2
 from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
+
+FINE_TUNED = 'fine-tuned'
+
+VERSION = 'version'
 
 BASELINE = 'baseline'
 PARAM_UPDATE = 'param_update'
@@ -92,8 +96,10 @@ def add_approach(parser):
                         choices=[BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE])
 
 
-def add_model_snapshot_arg(parser):
+def add_model_snapshot_args(parser):
     parser.add_argument('--model_snapshots', help='The directory do find the model snapshots in', type=str)
+    parser.add_argument('--snapshot_type', help='The type of snapshot we want to use', type=str,
+                        choices=[VERSION, FINE_TUNED])
 
 
 def add_u3_count(parser):
