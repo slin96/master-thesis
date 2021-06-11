@@ -165,4 +165,17 @@ categories[
               (http://www.image-net.org/challenges/LSVRC/2012/downloads) before download!
 - **customized coco data**
     - [full-dataset](https://owncloud.hpi.de/s/TRCzfvxwyHCRIQr)
-  
+
+## Custom Coco Datasets 512
+
+- for our experiments we create 4 custom coco datasets
+    - custom-coco-food-512,custom-coco-outdoor-512,custom-coco-indoor-512,custom-coco-zebra-512
+- each dataset contains the first 512 items of its categories
+- we created them using the script `create_coco_n.py`
+
+### Download
+
+- [custom-coco-food-512](https://owncloud.hpi.de/s/Pp2f4hdKFvUrYMm)
+- [custom-coco-outdoor-512](https://owncloud.hpi.de/s/T083xp5fBt5S7OI)
+- [custom-coco-indoor-512](https://owncloud.hpi.de/s/m5XjelcaVm577i4)
+- [custom-coco-zebra-512](https://owncloud.hpi.de/s/MgfxezMgdWbvOYu)
