@@ -166,3 +166,14 @@ categories[
 - **customized coco data**
     - [full-dataset](https://owncloud.hpi.de/s/TRCzfvxwyHCRIQr)
   
+## Custom Coco Datasets 512
+- for our experiments we create 4 custom coco datasets
+  - custom-coco-food-512,custom-coco-outdoor-512,custom-coco-indoor-512,custom-coco-zebra-512
+- each dataset contains the first 512 items of its category
+- we created them using the script `create_coco_n.py`
+
+### Download
+- [custom-coco-food-512]()
+- [custom-coco-outdoor-512]()
+- [custom-coco-indoor-512]()
+- [custom-coco-zebra-512]()
