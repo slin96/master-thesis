@@ -100,11 +100,11 @@ def use_case_1():
 def _load_model_snapshot(snapshot_name):
     snapshot_path = os.path.join(server_state.model_snapshots, snapshot_name)
 
-    if server_state.snapshot_types == FINE_TUNED:
+    if not server_state.state_description == U_1 and server_state.snapshot_types == FINE_TUNED:
         print('load model (fine-tuned): {}'.format(snapshot_path))
         base_path = os.path.join(server_state.model_snapshots, USE_CASE_1_PT)
-        model = get_fine_tuned_model(server_state.model_snapshots, base_path, snapshot_path)
-    elif server_state.snapshot_types == VERSION:
+        model = get_fine_tuned_model(server_state.model_class, base_path, snapshot_path)
+    elif server_state.state_description == U_1 or server_state.snapshot_types == VERSION:
         device = get_device(None)
         print('load model (version): {}'.format(snapshot_path))
         state_dict = torch.load(snapshot_path, map_location=device)

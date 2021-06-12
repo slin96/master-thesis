@@ -169,7 +169,7 @@ def _load_model_snapshot(state, counter):
     if node_state.snapshot_types == FINE_TUNED:
         print('load model (fine-tuned): {}'.format(snapshot_path))
         base_path = os.path.join(node_state.model_snapshots, USE_CASE_1_PT)
-        model = get_fine_tuned_model(node_state.model_snapshots, base_path, snapshot_path)
+        model = get_fine_tuned_model(node_state.model_class, base_path, snapshot_path)
     elif node_state.snapshot_types == VERSION:
         device = get_device(None)
         print('load model (version): {}'.format(snapshot_path))
