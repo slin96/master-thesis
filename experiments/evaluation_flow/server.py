@@ -23,6 +23,8 @@ from experiments.evaluation_flow.shared import save_model, add_paths, inform, ge
     add_model_snapshot_args, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
     add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model, FINE_TUNED, VERSION
 
+DONE_TXT = 'done.txt'
+
 RECOVER_MODELS = 'recover_models'
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
 SAVE_MODEL = 'save_model'
@@ -73,6 +75,8 @@ init_model_id = None
 
 def main(args):
     print(args)
+    os.system('rm %s' % DONE_TXT)
+
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
                                MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,
@@ -212,6 +216,7 @@ def next_state(text=None):
     elif server_state.state_description == U_4:
         log_sizes()
         print('DONE')
+        os.system('touch %s' % DONE_TXT)
 
 
 def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
