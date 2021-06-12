@@ -72,6 +72,7 @@ init_model_id = None
 
 
 def main(args):
+    print(args)
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
                                MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,

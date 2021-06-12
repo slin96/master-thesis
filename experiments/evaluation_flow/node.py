@@ -64,6 +64,7 @@ node_state: NodeState = None
 
 
 def main(args):
+    print(args)
     global node_state
     node_state = NodeState(args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model],
                            args.model_snapshots, args.snapshot_type, training_data_path=args.training_data_path,
