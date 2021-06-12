@@ -24,6 +24,8 @@ START_STOP = 'start-stop'
 
 EVENT = 'event'
 
+FLOAT_TEMPLATE = '{:.10f}'
+
 
 def use_case_ids(log_file):
     relevant_lines = []
@@ -134,7 +136,8 @@ class Event:
         return self._generate_representation()
 
     def _generate_representation(self, level=0):
-        result = '{}: {}s \n'.format(self._event_name, self.duration_s)
+        time_str = FLOAT_TEMPLATE.format(self.duration_s)
+        result = '{}: {}s \n'.format(self._event_name, time_str)
         for c in self.children:
             tabs = '\t' * level
             result += tabs + c._generate_representation(level + 1)
