@@ -1,5 +1,9 @@
 import json
 
+COLLECTION = 'collection'
+
+TIME = 'time'
+
 SCHEMA_OBJ = 'schema_obj'
 
 SERVICE = 'service'
@@ -105,6 +109,36 @@ class Event:
         self.method = start_json[METHOD] if METHOD in stop_json else None
         self.service = start_json[SERVICE] if SERVICE in stop_json else None
         self.schema_obj = start_json[SCHEMA_OBJ] if SCHEMA_OBJ in stop_json else None
+        self.collection = start_json[COLLECTION] if COLLECTION in stop_json else None
+        self.duration_ns = int(stop_json[TIME]) - int(start_json[TIME])
+        self.duration_s = self.duration_ns * 10 ** -9
+
+    @property
+    def _event_name(self):
+        if self.use_case:
+            return self.use_case
+        elif self.method and self.event:
+            return '{} -- {}'.format(self.method, self.event)
+        elif self.service and self.method:
+            if self.collection:
+                return '{} -- {} -- collection({})'.format(self.service, self.method, self.collection)
+            else:
+                return '{} -- {}'.format(self.service, self.method)
+        elif self.method and self.schema_obj:
+            return '{} -- schema_obj({})'.format(self.method, self.schema_obj)
+
+        else:
+            return 'no name'
+
+    def __str__(self):
+        return self._generate_representation()
+
+    def _generate_representation(self, level=0):
+        result = '{}: {}s \n'.format(self._event_name, self.duration_s)
+        for c in self.children:
+            tabs = '\t' * level
+            result += tabs + c._generate_representation(level + 1)
+        return result
 
 
 def parse_events(file):
@@ -112,7 +146,10 @@ def parse_events(file):
         lines = f.readlines()
 
     filtered_lines = filter_non_events(lines)
-    events = _parse_event(filtered_lines)
+    events = []
+    while len(filtered_lines) > 0:
+        event = _parse_event(filtered_lines)
+        events.append(event)
     return events
 
 
@@ -125,7 +162,6 @@ def _parse_event(lines: list, _continue=True):
     start_line_json = json.loads(start_line)
     assert start_line_json[START_STOP].lower() == START
     start_id = start_line_json[ID]
-    print(start_line)
 
     next_line = lines[0]
     next_line_json = json.loads(next_line)
@@ -154,4 +190,6 @@ def _parse_event(lines: list, _continue=True):
 
 
 if __name__ == '__main__':
-    parse_events('/Users/nils/Studium/master-thesis/repo/tmp/res/server-baseline-out.txt')
+    events = parse_events('/Users/nils/Studium/master-thesis/repo/tmp/res/server-update-out.txt')
+    for e in events:
+        print(e)
