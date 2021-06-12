@@ -1,6 +1,8 @@
 import argparse
+import os
 import pipes
 import subprocess
+import time
 
 
 def exists_remote(host, path):
@@ -40,6 +42,14 @@ def main(args):
     result = exists_remote('dlab-n05',
                            '/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow/done.txt')
     print(result)
+
+    # start mongo
+    os.system("ssh -t {} '{};{}' &".format('dlab-n04', 'export XDG_DATA_HOME=/scratch/$(id -un)/enroot', 'enroot start mongo'))
+
+    time.sleep(20)
+
+    # kill mongoDB
+    os.system('ssh -t {} pkill -f mongo'.format('dlab-n04'))
 
 
 if __name__ == '__main__':
