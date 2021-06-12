@@ -9,6 +9,7 @@ from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistence
 from mmlib.schema.file_reference import FileReference
 from mmlib.schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
 from mmlib.track_env import track_current_environment
+from mmlib.util.helper import get_device
 from torch.utils.data import DataLoader
 
 from experiments.evaluation_flow.create_finetuned import get_fine_tuned_model
@@ -62,7 +63,8 @@ class ServerState:
         self.u1_model = None
         self.training_data_path = args.training_data_path
 
-        os.environ[MMLIB_CONFIG] = config
+        if approach == PROVENANCE:
+            os.environ[MMLIB_CONFIG] = config
 
 
 server_state: ServerState = None
@@ -95,16 +97,17 @@ def use_case_1():
     next_state()
 
 
-def _load_model_snapshot(snapshot_name, _type=server_state.snapshot_types):
+def _load_model_snapshot(snapshot_name):
     snapshot_path = os.path.join(server_state.model_snapshots, snapshot_name)
 
-    if _type == FINE_TUNED:
+    if server_state.snapshot_types == FINE_TUNED:
         print('load model (fine-tuned): {}'.format(snapshot_path))
         base_path = os.path.join(server_state.model_snapshots, USE_CASE_1_PT)
         model = get_fine_tuned_model(server_state.model_snapshots, base_path, snapshot_path)
-    elif _type == VERSION:
+    elif server_state.snapshot_types == VERSION:
+        device = get_device(None)
         print('load model (version): {}'.format(snapshot_path))
-        state_dict = torch.load(snapshot_path)
+        state_dict = torch.load(snapshot_path, map_location=device)
         model: torch.nn.Module = server_state.model_class()
         model.load_state_dict(state_dict)
     else:
