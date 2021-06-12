@@ -1,5 +1,15 @@
 import json
 
+SCHEMA_OBJ = 'schema_obj'
+
+SERVICE = 'service'
+
+USE_CASE = 'use_case'
+
+EVENT = 'event'
+
+METHOD = 'method'
+
 STOP = 'stop'
 
 ID = '_id'
@@ -88,6 +98,13 @@ class Event:
         self.start_json = start_json
         self.stop_json = stop_json
         self.children = children
+        assert stop_json[ID] == start_json[ID]
+        self.event_id = start_json[ID]
+        self.use_case = start_json[USE_CASE] if USE_CASE in stop_json else None
+        self.event = start_json[EVENT] if EVENT in stop_json else None
+        self.method = start_json[METHOD] if METHOD in stop_json else None
+        self.service = start_json[SERVICE] if SERVICE in stop_json else None
+        self.schema_obj = start_json[SCHEMA_OBJ] if SCHEMA_OBJ in stop_json else None
 
 
 def parse_events(file):
