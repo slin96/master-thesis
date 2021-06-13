@@ -2,6 +2,7 @@ import argparse
 import os
 import pipes
 import subprocess
+import time
 
 
 def exists_remote(host, path):
@@ -56,28 +57,35 @@ def main(args):
                          model_snapshot_args, snapshot_type_arg, server_out_file]
     run_server_cmd = "python server.py {}".format(" ".join(server_parameters))
 
+    ###############
+    # run experiment
+    ###############
+    # start mongo
+    os.system("ssh -t {} '{};{}' &".format('dlab-n04', 'export XDG_DATA_HOME=/scratch/$(id -un)/enroot',
+                                           'enroot start mongo'))
+
+    print('wait for mongo ...')
+    time.sleep(10)
+
     # run node
-    execute_commands('dlab-n06', [activate_env, set_node_python_path, cd_to_node_script, run_node_cmd, node_out_file],
+    execute_commands('dlab-n06', [activate_env, set_node_python_path, cd_to_node_script, run_node_cmd],
                      to_background=True)
     # run server
     execute_commands('dlab-n05', [activate_env, set_server_python_path, cd_to_server_script, run_server_cmd],
                      to_background=True)
 
-    # cmd = ''
-    # cmd += "ssh -t {} 'conda activate {};".format(args.host_name, args.env_name)
-    # cmd += "export PYTHONPATH=\"{}\";".format(args.pythonpath)
-    # cmd += "cd {};".format(args.script_root)
-    # cmd += "python node.py --tmp_dir /hpi/fs00/home/nils.strassenburg/tmp-dir --server_ip 172.20.26.34 --node_ip 172.20.26.35 --mongo_host 172.20.26.33 --model resnet152 --approach param_update --model_snapshots /hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/resnet152-versions-outdoor --snapshot_type fine-tuned --u3_count 3 > node-remote-test.txt'"
-    # cmd += ' &'
-    # os.system(cmd)
-    #
-    # cmd = ''
-    # cmd += "ssh -t {} 'conda activate {};".format('dlab-n05', args.env_name)
-    # cmd += "export PYTHONPATH=\"{}\";".format('/hpi/fs00/home/nils.strassenburg/evaluation/server/')
-    # cmd += "cd {};".format('/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow')
-    # cmd += "python server.py --tmp_dir /hpi/fs00/home/nils.strassenburg/tmp-dir --server_ip 172.20.26.34 --node_ip 172.20.26.35 --mongo_host 172.20.26.33 --model resnet152 --approach param_update --model_snapshots /hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/resnet152-versions-outdoor --snapshot_type fine-tuned > server-remote-test.txt'"
-    # cmd += ' &'
-    # os.system(cmd)
+    done = False
+    while not done:
+        time.sleep(10)
+        done = exists_remote('dlab-n05',
+                             '/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow/done.txt')
+        print('done: {}'.format(done))
+
+    # stop mongo
+    os.system('ssh -t {} pkill -f mongo'.format('dlab-n04'))
+
+    print('wait for before starting new experiment')
+    time.sleep(100)
 
 
 # result = exists_remote('dlab-n05',
