@@ -60,6 +60,8 @@ U_4 = 'U_4'
 MODELS_DICT = {MOBILENET: mobilenet_v2, GOOGLENET: googlenet, RESNET_18: resnet18, RESNET_50: resnet50,
                RESNET_152: resnet152}
 
+MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
+
 
 def add_server_connection_arguments(parser):
     parser.add_argument('--server_ip', help='The server ip or hostname', default=SERVER_IP)

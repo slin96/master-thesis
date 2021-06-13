@@ -3,6 +3,15 @@ import os
 from os import listdir
 from os.path import isfile
 
+U_3_1 = 'U_3_1'
+U_3_2 = 'U_3_2'
+
+MODEL = 'model'
+
+U_2 = 'U_2'
+
+U_1 = 'U_1'
+
 COLLECTION = 'collection'
 
 TIME = 'time'
@@ -252,6 +261,36 @@ if __name__ == '__main__':
     baseline_version_food_server_0 = filter_parsed_files(baseline_version_food_server, ('run', '0'))
 
     baseline_version_food_node = filter_parsed_files(baseline_version_food, ('location', 'node'))
-    baseline_version_food_node_0 = filter_parsed_files(baseline_version_food_server, ('run', '0'))
+    baseline_version_food_node_0 = filter_parsed_files(baseline_version_food_node, ('run', '0'))
+
+
+
+    save_times = {}
+
+    for file in baseline_version_food_server_0:
+        meta, events = file
+        times = {}
+        for e in events:
+            if e.use_case == U_1:
+                times[U_1] = e.duration_s
+            elif e.use_case == U_2:
+                times[U_2] = e.duration_s
+        save_times[meta[MODEL]] = times
+
+    for file in baseline_version_food_node_0:
+        meta, events = file
+        times = {}
+        u31_counter = 1
+        u32_counter = 1
+        for e in events:
+            if e.use_case and e.use_case.startswith(U_3_1):
+                key = "{}_{}".format(e.use_case, u31_counter)
+                times[key] = e.duration_s
+                u31_counter += 1
+            elif e.use_case and e.use_case.startswith(U_3_2):
+                key = "{}_{}".format(e.use_case, u32_counter)
+                times[key] = e.duration_s
+                u32_counter += 1
+        save_times[meta[MODEL]].update(times)
 
     print('test')
