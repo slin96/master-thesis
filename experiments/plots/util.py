@@ -1,4 +1,7 @@
 import json
+import os
+from os import listdir
+from os.path import isfile
 
 COLLECTION = 'collection'
 
@@ -192,7 +195,63 @@ def _parse_event(lines: list, _continue=True):
         return e
 
 
+def all_files_in_dir(directory):
+    files = [os.path.join(directory, f) for f in listdir(directory) if isfile(os.path.join(directory, f))]
+    return files
+
+
+def extract_event_and_and_meta(file):
+    file_name = os.path.split(file)[-1].replace('.txt', '')
+    split_file_name = file_name.split('--')
+    meta = {}
+    for e in split_file_name:
+        spl = e.split(':')
+        if len(spl) == 1:
+            meta['location'] = spl[0]
+        else:
+            k, v = spl
+            meta[k] = v
+
+    events = parse_events(file)
+
+    return meta, events
+
+
+def parse_all_log_files(root_log_dir):
+    all_files = all_files_in_dir(root_log_dir)
+
+    all_events = []
+    for f in all_files:
+        try:
+            meta, events = extract_event_and_and_meta(f)
+            all_events.append((meta, events))
+        except:
+            print('file is broken: {}'.format(f))
+
+    return all_events
+
+
+def filter_parsed_files(files, attribute):
+    result = []
+    attribute_key, attribute_value = attribute
+    for f in files:
+        meta, _ = f
+        if meta[attribute_key] == attribute_value:
+            result.append(f)
+
+    return result
+
+
 if __name__ == '__main__':
-    events = parse_events('/Users/nils/Studium/master-thesis/repo/tmp/res/server-update-out.txt')
-    for e in events:
-        print(e)
+    all_files_parsed = parse_all_log_files('/Users/nils/Downloads/log-dir')
+    baseline_only = filter_parsed_files(all_files_parsed, ('approach', 'baseline'))
+    baseline_versions = filter_parsed_files(baseline_only, ('snapshot_type', 'version'))
+    baseline_version_food = filter_parsed_files(baseline_versions, ('snapshot_dist', 'food'))
+
+    baseline_version_food_server = filter_parsed_files(baseline_version_food, ('location', 'server'))
+    baseline_version_food_server_0 = filter_parsed_files(baseline_version_food_server, ('run', '0'))
+
+    baseline_version_food_node = filter_parsed_files(baseline_version_food, ('location', 'node'))
+    baseline_version_food_node_0 = filter_parsed_files(baseline_version_food_server, ('run', '0'))
+
+    print('test')
