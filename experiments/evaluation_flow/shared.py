@@ -72,11 +72,6 @@ def add_node_connection_arguments(parser):
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
 
 
-def add_admin_connection_arguments(parser):
-    parser.add_argument('--admin_ip', help='The db ip or hostname', default=NODE_IP)
-    parser.add_argument('--admin_port', help='The db port', default=NODE_PORT)
-
-
 def add_mongo_ip(parser):
     parser.add_argument('--mongo_host', help='The ip or hostname for the mongoDB.', default=LOCAL_HOST)
 
@@ -112,6 +107,24 @@ def add_training_data_path(parser):
 
 def add_config(parser):
     parser.add_argument('--config', help='configuration file, only needed for prov approach', type=str)
+
+
+def add_node_and_server_config(parser):
+    parser.add_argument('--node_config', help='configuration file, only needed for prov approach', type=str)
+    parser.add_argument('--server_config', help='configuration file, only needed for prov approach', type=str)
+
+
+def add_all_parameters(parser):
+    add_server_connection_arguments(parser)
+    add_node_connection_arguments(parser)
+    add_mongo_ip(parser)
+    add_paths(parser)
+    add_model_arg(parser)
+    add_approach(parser)
+    add_model_snapshot_args(parser)
+    add_u3_count(parser)
+    add_training_data_path(parser)
+    add_node_and_server_config(parser)
 
 
 def get_save_service(approach, dict_pers_service, file_pers_service):
