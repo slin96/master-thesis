@@ -114,14 +114,17 @@ def add_node_and_server_config(parser):
     parser.add_argument('--server_config', help='configuration file, only needed for prov approach', type=str)
 
 
-def add_all_parameters(parser):
+def add_evaluation_parameters(parser):
+    # --mongo_host 172.20.26.33
+    # --server_ip 172.20.26.34
+    # --node_ip 172.20.26.35
+    # --tmp_dir /hpi/fs00/home/nils.strassenburg/tmp-dir
+    # --log_dir /hpi/fs00/home/nils.strassenburg/log-dir
+    # --u3_count 4
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_mongo_ip(parser)
     add_paths(parser)
-    add_model_arg(parser)
-    add_approach(parser)
-    add_model_snapshot_args(parser)
     add_u3_count(parser)
     add_training_data_path(parser)
     add_node_and_server_config(parser)
