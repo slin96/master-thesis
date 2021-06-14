@@ -240,7 +240,7 @@ def parse_all_log_files(root_log_dir):
     return all_events
 
 
-def filter_parsed_files(files, attribute):
+def filter_by_attribute(files, attribute):
     result = []
     attribute_key, attribute_value = attribute
     for f in files:
@@ -251,23 +251,18 @@ def filter_parsed_files(files, attribute):
     return result
 
 
-if __name__ == '__main__':
-    all_files_parsed = parse_all_log_files('/Users/nils/Downloads/log-dir')
-    baseline_only = filter_parsed_files(all_files_parsed, ('approach', 'baseline'))
-    baseline_versions = filter_parsed_files(baseline_only, ('snapshot_type', 'version'))
-    baseline_version_food = filter_parsed_files(baseline_versions, ('snapshot_dist', 'food'))
+def filter_by_attributes(files, attributes):
+    result = []
+    for a in attributes:
+        result = filter_by_attribute(files, a)
 
-    baseline_version_food_server = filter_parsed_files(baseline_version_food, ('location', 'server'))
-    baseline_version_food_server_0 = filter_parsed_files(baseline_version_food_server, ('run', '0'))
-
-    baseline_version_food_node = filter_parsed_files(baseline_version_food, ('location', 'node'))
-    baseline_version_food_node_0 = filter_parsed_files(baseline_version_food_node, ('run', '0'))
+    return result
 
 
-
+def calc_save_times(server_logs, node_logs):
     save_times = {}
 
-    for file in baseline_version_food_server_0:
+    for file in server_logs:
         meta, events = file
         times = {}
         for e in events:
@@ -277,20 +272,18 @@ if __name__ == '__main__':
                 times[U_2] = e.duration_s
         save_times[meta[MODEL]] = times
 
-    for file in baseline_version_food_node_0:
+    for file in node_logs:
         meta, events = file
         times = {}
         u31_counter = 1
         u32_counter = 1
         for e in events:
             if e.use_case and e.use_case.startswith(U_3_1):
-                key = "{}_{}".format(e.use_case, u31_counter)
-                times[key] = e.duration_s
+                times[e.use_case] = e.duration_s
                 u31_counter += 1
             elif e.use_case and e.use_case.startswith(U_3_2):
-                key = "{}_{}".format(e.use_case, u32_counter)
-                times[key] = e.duration_s
+                times[e.use_case] = e.duration_s
                 u32_counter += 1
         save_times[meta[MODEL]].update(times)
 
-    print('test')
+    return save_times
