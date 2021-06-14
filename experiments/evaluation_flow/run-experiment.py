@@ -30,7 +30,7 @@ def execute_commands(hostname, commands, to_background=False):
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
 # APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [PROVENANCE]
+APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -66,11 +66,11 @@ def main(args):
     snapshot_root = args.snapshot_root
     log_dir = args.log_dir
 
-    for model in MODELS:
-        for approach in APPROACHES:
-            for snapshot_type in SNAPSHOT_TYPES:
-                for snapshot_dist in SNAPSHOT_DIST:
-                    for run in range(REPEAT):
+    for run in range(REPEAT):
+        for model in MODELS:
+            for approach in APPROACHES:
+                for snapshot_type in SNAPSHOT_TYPES:
+                    for snapshot_dist in SNAPSHOT_DIST:
 
                         run_name = 'model:{}--approach:{}--snapshot_type:{}--snapshot_dist:{}--run:{}' \
                             .format(model, approach, snapshot_type, snapshot_dist, run)
@@ -175,9 +175,10 @@ if __name__ == '__main__':
     parser.add_argument('--server_script_root', type=str,
                         default='/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow')
     parser.add_argument('--snapshot_root', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/')
-    parser.add_argument('--server_training_data_path', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/imgnet/tiny-validation-set')
-    parser.add_argument('--node_training_data_path', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
-
+    parser.add_argument('--server_training_data_path', type=str,
+                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/imgnet/tiny-validation-set')
+    parser.add_argument('--node_training_data_path', type=str,
+                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
 
     args = parser.parse_args()
     main(args)
