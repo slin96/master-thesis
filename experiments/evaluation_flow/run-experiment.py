@@ -66,11 +66,14 @@ def main(args):
     snapshot_root = args.snapshot_root
     log_dir = args.log_dir
 
+    wait_counter_max = 20
+
     for run in range(REPEAT):
         for model in MODELS:
             for approach in APPROACHES:
                 for snapshot_type in SNAPSHOT_TYPES:
                     for snapshot_dist in SNAPSHOT_DIST:
+                        wait_counter = 0
 
                         run_name = 'model:{}--approach:{}--snapshot_type:{}--snapshot_dist:{}--run:{}' \
                             .format(model, approach, snapshot_type, snapshot_dist, run)
@@ -149,12 +152,17 @@ def main(args):
                         # check if the experiment is done
                         done = False
                         while not done:
+                            wait counter check if not prov appraoch
                             time.sleep(10)
                             done = exists_remote(args.server_host_name, done_path)
                             print('done: {}'.format(done))
 
                         # when done stop mongo and clean up tmp directory
                         os.system('ssh -t {} pkill -f mongo'.format(args.mongo_host_name))
+                        # TODO kill node and server
+                        pkill - f
+                        server.py
+
                         # the pattern *-*-*-*-* should cover all uuids
                         os.system("ssh -t {} 'cd {}; rm -rf *-*-*-*-*'".format(args.mongo_host_name, args.tmp_dir))
                         print('wait for before starting new experiment')
