@@ -3,6 +3,8 @@ import os
 from os import listdir
 from os.path import isfile
 
+U_4 = 'U_4'
+
 U_3_1 = 'U_3_1'
 U_3_2 = 'U_3_2'
 
@@ -39,7 +41,7 @@ EVENT = 'event'
 FLOAT_TEMPLATE = '{:.10f}'
 
 
-def use_case_ids(log_file):
+def use_case_ids(log_file, id2use_case=False):
     relevant_lines = []
     with open(log_file) as f:
         lines = f.readlines()
@@ -54,9 +56,16 @@ def use_case_ids(log_file):
     for l in relevant_lines:
         event_json = json.loads(l)
         split = event_json[EVENT].split('-')
-        result[split[1]] = split[2]
+        if id2use_case:
+            result[split[2]] = split[1]
+        else:
+            result[split[1]] = split[2]
 
     return result
+
+
+def id_use_case_dict(log_file):
+    return use_case_ids(log_file, id2use_case=True)
 
 
 def use_case1_id(log_file):
@@ -287,3 +296,20 @@ def calc_save_times(server_logs, node_logs):
         save_times[meta[MODEL]].update(times)
 
     return save_times
+
+
+def calc_recover_times(server_logs):
+    recover_times = {}
+
+    for file in server_logs:
+        meta, events = file
+        times = {}
+        for e in events:
+            if e.use_case == U_4:
+                sub_events = e.children
+                for sub_e in sub_events:
+                    _, use_case, _ = sub_e.event.split('-')
+                    times[use_case] = sub_e.duration_s
+        recover_times[meta[MODEL]] = times
+
+    return recover_times
