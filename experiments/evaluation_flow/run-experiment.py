@@ -39,6 +39,16 @@ SNAPSHOT_DIST = ['outdoor', 'food']
 REPEAT = 2
 
 
+def write_completed_log(_str, completed):
+    if completed:
+        write_string = 'COMPLETED---{}'.format(_str)
+    else:
+        write_string = 'ABORT---{}'.format(_str)
+
+    with open('completed-log.txt', 'a') as f:
+        f.write(write_string)
+
+
 def main(args):
     ####################################################
     # parameters that stay fixed for all experiments
@@ -152,16 +162,20 @@ def main(args):
                         # check if the experiment is done
                         done = False
                         while not done:
-                            wait counter check if not prov appraoch
                             time.sleep(10)
                             done = exists_remote(args.server_host_name, done_path)
-                            print('done: {}'.format(done))
+                            print('done: {}, wait_counter: {}'.format(done, wait_counter))
+                            wait_counter += 1
 
-                        # when done stop mongo and clean up tmp directory
+                            # if for some reason something got stuck
+                            if not approach == PROVENANCE and wait_counter > wait_counter_max:
+                                write_completed_log(run_name, completed=False)
+                                done = True
+
+                        # when done, stop all processes and clean up tmp directory
                         os.system('ssh -t {} pkill -f mongo'.format(args.mongo_host_name))
-                        # TODO kill node and server
-                        pkill - f
-                        server.py
+                        os.system('ssh -t {} pkill -f server.py'.format(args.server_host_name))
+                        os.system('ssh -t {} pkill -f node.py'.format(args.node_host_name))
 
                         # the pattern *-*-*-*-* should cover all uuids
                         os.system("ssh -t {} 'cd {}; rm -rf *-*-*-*-*'".format(args.mongo_host_name, args.tmp_dir))
