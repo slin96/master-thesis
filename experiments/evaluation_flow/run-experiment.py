@@ -29,7 +29,8 @@ def execute_commands(hostname, commands, to_background=False):
 
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
-APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
+# APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
+APPROACHES = [PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -58,6 +59,9 @@ def main(args):
     u3_count_arg = "--u3_count {}".format(args.u3_count)
 
     done_path = '{}/done.txt'.format(args.server_script_root)
+
+    server_train_data_root = args.server_training_data_path
+    node_train_data_root = args.node_training_data_path
 
     snapshot_root = args.snapshot_root
     log_dir = args.log_dir
@@ -88,16 +92,38 @@ def main(args):
                         server_log = os.path.join(log_dir, server_log_name)
                         server_out_file = "> {}".format(server_log)
 
+                        node_train_data_name = '{}-512'.format(snapshot_dist)
+                        node_training_data_path = os.path.join(node_train_data_root, node_train_data_name)
+                        node_training_data_path_arg = "--training_data_path {}".format(node_training_data_path)
+
+                        server_training_data_path_arg = "--training_data_path {}".format(server_train_data_root)
+
+                        node_config = args.node_config
+                        node_config_arg = "--config {}".format(node_config)
+
+                        server_config = args.server_config
+                        server_config_arg = "--config {}".format(server_config)
+
                         ####################################################
                         # put commands together
                         ####################################################
                         node_parameters = [tmp_dir_arg, node_ip_arg, server_ip_arg, mongo_host_arg, model_arg,
                                            approach_arg, model_snapshot_args, snapshot_type_arg, u3_count_arg,
                                            node_out_file]
+
+                        if approach == PROVENANCE:
+                            node_parameters.append(node_training_data_path_arg)
+                            node_parameters.append(node_config_arg)
+
                         run_node_cmd = "python node.py {}".format(" ".join(node_parameters))
 
                         server_parameters = [tmp_dir_arg, server_ip_arg, node_ip_arg, mongo_host_arg, model_arg,
                                              approach_arg, model_snapshot_args, snapshot_type_arg, server_out_file]
+
+                        if approach == PROVENANCE:
+                            server_parameters.append(server_training_data_path_arg)
+                            server_parameters.append(server_config_arg)
+
                         run_server_cmd = "python server.py {}".format(" ".join(server_parameters))
 
                         ####################################################
@@ -149,6 +175,9 @@ if __name__ == '__main__':
     parser.add_argument('--server_script_root', type=str,
                         default='/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow')
     parser.add_argument('--snapshot_root', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/')
+    parser.add_argument('--server_training_data_path', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/imgnet/tiny-validation-set')
+    parser.add_argument('--node_training_data_path', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
+
 
     args = parser.parse_args()
     main(args)

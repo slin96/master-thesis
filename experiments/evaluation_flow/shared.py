@@ -121,12 +121,13 @@ def add_evaluation_parameters(parser):
     # --tmp_dir /hpi/fs00/home/nils.strassenburg/tmp-dir
     # --log_dir /hpi/fs00/home/nils.strassenburg/log-dir
     # --u3_count 4
+    # --node_config /hpi/fs00/home/nils.strassenburg/evaluation/node/experiments/evaluation_flow/server-config.ini
+    # --server_config /hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow/node-config.ini
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_mongo_ip(parser)
     add_paths(parser)
     add_u3_count(parser)
-    add_training_data_path(parser)
     add_node_and_server_config(parser)
 
 
