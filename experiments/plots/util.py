@@ -219,6 +219,13 @@ def all_files_in_dir(directory):
 
 
 def extract_event_and_and_meta(file):
+    meta = extract_file_meta(file)
+    events = parse_events(file)
+
+    return meta, events
+
+
+def extract_file_meta(file):
     file_name = os.path.split(file)[-1].replace('.txt', '')
     split_file_name = file_name.split('--')
     meta = {}
@@ -229,10 +236,7 @@ def extract_event_and_and_meta(file):
         else:
             k, v = spl
             meta[k] = v
-
-    events = parse_events(file)
-
-    return meta, events
+    return meta
 
 
 def parse_all_log_files(root_log_dir):
