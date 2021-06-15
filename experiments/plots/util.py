@@ -1,7 +1,10 @@
+import collections
 import json
 import os
 from os import listdir
 from os.path import isfile
+
+import pandas as pd
 
 U_4 = 'U_4'
 
@@ -39,6 +42,14 @@ START_STOP = 'start-stop'
 EVENT = 'event'
 
 FLOAT_TEMPLATE = '{:.10f}'
+
+APPROACH = 'approach'
+SNAPSHOT_TYPE = 'snapshot_type'
+SNAPSHOT_DIST = 'snapshot_dist'
+RUN = 'run'
+
+TOTAL_CONSUMPTIONS = 'total-consumptions'
+CONSUMPTIONS = 'consumptions'
 
 
 def use_case_ids(log_file, id2use_case=False):
@@ -317,3 +328,71 @@ def calc_recover_times(server_logs):
         recover_times[meta[MODEL]] = times
 
     return recover_times
+
+
+def aggregate_total_storage_consumption(metas, aggregate):
+    meta_0 = metas[0]
+    combined = {
+        MODEL: meta_0[MODEL],
+        APPROACH: meta_0[APPROACH],
+        SNAPSHOT_TYPE: meta_0[SNAPSHOT_TYPE],
+        SNAPSHOT_DIST: meta_0[SNAPSHOT_DIST],
+        RUN: meta_0[RUN]
+    }
+
+    total_cons = []
+    for meta in metas:
+        total_cons.append(meta[TOTAL_CONSUMPTIONS])
+
+    df = pd.DataFrame(total_cons)
+    if aggregate == 'avg':
+        aggregated_total_cons = dict(df.mean())
+    elif aggregate == 'median':
+        aggregated_total_cons = dict(df.median())
+    else:
+        raise NotImplementedError
+
+    combined[TOTAL_CONSUMPTIONS] = aggregated_total_cons
+
+    return combined
+
+
+def combine_avg(dict_list):
+    df = pd.DataFrame(dict_list)
+    return dict(df.mean())
+
+
+def flatten_dict(d, parent_key='', sep='_'):
+    # form https://stackoverflow.com/questions/6027558/flatten-nested-dictionaries-compressing-keys
+    items = []
+    for k, v in d.items():
+        new_key = parent_key + sep + k if parent_key else k
+        if isinstance(v, collections.MutableMapping):
+            items.extend(flatten_dict(v, new_key, sep=sep).items())
+        else:
+            items.append((new_key, v))
+    return dict(items)
+
+
+def split_in_params_and_rest(storage_dict):
+    other = 'other'
+    parameters = 'parameters'
+
+    result = {
+        other: 0,
+        parameters: 0
+    }
+
+    for k, v in storage_dict.items():
+        if parameters in k:
+            key = parameters
+        else:
+            key = other
+
+        result[key] += int(v)
+
+    return result
+
+
+if __name__ == '__main__':
+    combine_avg(None)
