@@ -30,20 +30,21 @@ def execute_commands(hostname, commands, to_background=False):
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
 # APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
+APPROACHES = [PROVENANCE]
+# APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
 SNAPSHOT_DIST = ['outdoor', 'food']
 
-REPEAT = 2
+REPEAT = 5
 
 
 def write_completed_log(_str, completed):
     if completed:
-        write_string = 'COMPLETED---{}'.format(_str)
+        write_string = 'COMPLETED---{}\n'.format(_str)
     else:
-        write_string = 'ABORT---{}'.format(_str)
+        write_string = 'ABORT---{}\n'.format(_str)
 
     with open('completed-log.txt', 'a') as f:
         f.write(write_string)
@@ -76,9 +77,10 @@ def main(args):
     snapshot_root = args.snapshot_root
     log_dir = args.log_dir
 
-    wait_counter_max = 20
+    wait_counter_max = args.wait_counter_max
 
-    for run in range(REPEAT):
+    for r in range(REPEAT):
+        run = r + args.run_offset
         for model in MODELS:
             for approach in APPROACHES:
                 for snapshot_type in SNAPSHOT_TYPES:
@@ -201,6 +203,8 @@ if __name__ == '__main__':
                         default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/imgnet/tiny-validation-set')
     parser.add_argument('--node_training_data_path', type=str,
                         default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
+    parser.add_argument('--run_offset', type=int, default=0)
+    parser.add_argument('--wait_counter_max', type=int, default=20)
 
     args = parser.parse_args()
     main(args)
