@@ -6,6 +6,14 @@ from os.path import isfile
 
 import pandas as pd
 
+HIGH_LEVEL_SAVE_TIMES = 'high_level_save_times'
+
+NODE = 'node'
+
+SERVER = 'server'
+
+LOCATION = 'location'
+
 U_4 = 'U_4'
 
 U_3_1 = 'U_3_1'
@@ -40,6 +48,7 @@ START = 'start'
 START_STOP = 'start-stop'
 
 EVENT = 'event'
+EVENTS = 'events'
 
 FLOAT_TEMPLATE = '{:.10f}'
 
@@ -54,25 +63,28 @@ CONSUMPTIONS = 'consumptions'
 
 def use_case_ids(log_file, id2use_case=False):
     relevant_lines = []
-    with open(log_file) as f:
-        lines = f.readlines()
-        search_for = 'recover-U'
+    try:
+        with open(log_file) as f:
+            lines = f.readlines()
+            search_for = 'recover-U'
 
-        for l in lines:
-            if search_for in l:
-                relevant_lines.append(l)
+            for l in lines:
+                if search_for in l:
+                    relevant_lines.append(l)
 
-    result = {}
+        result = {}
 
-    for l in relevant_lines:
-        event_json = json.loads(l)
-        split = event_json[EVENT].split('-')
-        if id2use_case:
-            result[split[2]] = split[1]
-        else:
-            result[split[1]] = split[2]
+        for l in relevant_lines:
+            event_json = json.loads(l)
+            split = event_json[EVENT].split('-')
+            if id2use_case:
+                result[split[2]] = split[1]
+            else:
+                result[split[1]] = split[2]
 
-    return result
+        return result
+    except:
+        print('broken file: {}'.format(log_file))
 
 
 def id_use_case_dict(log_file):
@@ -313,6 +325,68 @@ def calc_save_times(server_logs, node_logs):
     return save_times
 
 
+def join_server_and_node_meta(meta_and_files):
+    def _custom_id_string(meta):
+        _id = '{}-{}-{}-{}-{}'.format(meta[MODEL], meta[APPROACH], meta[SNAPSHOT_TYPE], meta[SNAPSHOT_DIST], meta[RUN])
+        return _id
+
+    joined = {}
+    for elem in meta_and_files:
+        meta, file = elem
+        meta_id = _custom_id_string(meta)
+        if meta_id not in joined:
+            joined[meta_id] = {meta[LOCATION]: (meta, file)}
+        else:
+            joined[meta_id].update({meta[LOCATION]: (meta, file)})
+
+    joined_data = list(joined.values())
+    valid_joined = [i for i in joined_data if len(i.keys()) == 2]
+
+    return valid_joined
+
+
+def extract_times(valid_joined):
+    save_times = []
+
+    for _dict in valid_joined:
+        server_meta, _ = _dict[SERVER]
+        node_meta, _ = _dict[NODE]
+
+        combined = {
+            MODEL: server_meta[MODEL],
+            APPROACH: server_meta[APPROACH],
+            SNAPSHOT_TYPE: server_meta[SNAPSHOT_TYPE],
+            SNAPSHOT_DIST: server_meta[SNAPSHOT_DIST],
+            RUN: server_meta[RUN]
+        }
+
+        _high_level_save_times = high_level_save_times(node_meta, server_meta)
+
+        combined[HIGH_LEVEL_SAVE_TIMES] = _high_level_save_times
+        save_times.append(combined)
+
+    return save_times
+
+
+def high_level_save_times(node_meta, server_meta):
+    times = {}
+    for e in server_meta[EVENTS]:
+        if e.use_case == U_1:
+            times[U_1] = e.duration_s
+        elif e.use_case == U_2:
+            times[U_2] = e.duration_s
+    u31_counter = 1
+    u32_counter = 1
+    for e in node_meta[EVENTS]:
+        if e.use_case and e.use_case.startswith(U_3_1):
+            times[e.use_case] = e.duration_s
+            u31_counter += 1
+        elif e.use_case and e.use_case.startswith(U_3_2):
+            times[e.use_case] = e.duration_s
+            u32_counter += 1
+    return times
+
+
 def calc_recover_times(server_logs):
     recover_times = {}
 
@@ -330,7 +404,7 @@ def calc_recover_times(server_logs):
     return recover_times
 
 
-def aggregate_total_storage_consumption(metas, aggregate):
+def aggregate_fields(metas, aggregate, field_key):
     meta_0 = metas[0]
     combined = {
         MODEL: meta_0[MODEL],
@@ -342,7 +416,7 @@ def aggregate_total_storage_consumption(metas, aggregate):
 
     total_cons = []
     for meta in metas:
-        total_cons.append(meta[TOTAL_CONSUMPTIONS])
+        total_cons.append(meta[field_key])
 
     df = pd.DataFrame(total_cons)
     if aggregate == 'avg':
@@ -352,7 +426,7 @@ def aggregate_total_storage_consumption(metas, aggregate):
     else:
         raise NotImplementedError
 
-    combined[TOTAL_CONSUMPTIONS] = aggregated_total_cons
+    combined[field_key] = aggregated_total_cons
 
     return combined
 
@@ -391,6 +465,23 @@ def split_in_params_and_rest(storage_dict):
             key = other
 
         result[key] += int(v)
+
+    return result
+
+
+# helper function to filer metadata
+def filter_meta(to_filter, model=None, approach=None, snapshot_type=None, snapshot_dist=None, run=None):
+    result = [f for f in to_filter]
+    if model:
+        result = [f for f in result if f[MODEL] == model]
+    if approach:
+        result = [f for f in result if f[APPROACH] == approach]
+    if snapshot_type:
+        result = [f for f in result if f[SNAPSHOT_TYPE] == snapshot_type]
+    if snapshot_dist:
+        result = [f for f in result if f[SNAPSHOT_DIST] == snapshot_dist]
+    if run:
+        result = [f for f in result if f[RUN] == run]
 
     return result
 
