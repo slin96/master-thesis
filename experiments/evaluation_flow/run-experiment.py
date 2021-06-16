@@ -170,7 +170,7 @@ def main(args):
                             wait_counter += 1
 
                             # if for some reason something got stuck
-                            if not approach == PROVENANCE and wait_counter > wait_counter_max:
+                            if wait_counter > wait_counter_max:
                                 write_completed_log(run_name, completed=False)
                                 done = True
 
