@@ -377,6 +377,7 @@ def flatten_dict(d, parent_key='', sep='_'):
 def split_in_params_and_rest(storage_dict):
     other = 'other'
     parameters = 'parameters'
+    update = 'update'
 
     result = {
         other: 0,
@@ -384,7 +385,7 @@ def split_in_params_and_rest(storage_dict):
     }
 
     for k, v in storage_dict.items():
-        if parameters in k:
+        if parameters in k or update in k:
             key = parameters
         else:
             key = other
