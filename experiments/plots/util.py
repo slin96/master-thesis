@@ -215,10 +215,14 @@ class Event:
 
             # the next gap times are between the children events
             for child1, child2 in zip(self.children[:-1], self.children[1:]):
-                gap_times.append(abs(child1.start_time - child2.start_time))
+                gap_times.append(abs(child1.stop_time - child2.start_time))
 
             # the last gap is between the own stop time and the last child stop time
             gap_times.append(abs(self.stop_time - self.children[-1].stop_time))
+
+            sum_gap_times = sum(gap_times)
+            sum_child_times = sum([c.duration_ns for c in self.children])
+            assert self.duration_ns == sum_gap_times + sum_child_times
 
         return gap_times
 
