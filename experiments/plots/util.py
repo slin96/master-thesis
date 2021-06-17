@@ -6,6 +6,8 @@ from os.path import isfile
 
 import pandas as pd
 
+HIGH_LEVEL_RECOVER_TIMES = 'high_level_recover_times'
+
 HIGH_LEVEL_SAVE_TIMES = 'high_level_save_times'
 
 NODE = 'node'
@@ -361,8 +363,10 @@ def extract_times(valid_joined):
         }
 
         _high_level_save_times = high_level_save_times(node_meta, server_meta)
+        _high_level_recover_times = high_level_recover_times(server_meta)
 
         combined[HIGH_LEVEL_SAVE_TIMES] = _high_level_save_times
+        combined[HIGH_LEVEL_RECOVER_TIMES] = _high_level_recover_times
         save_times.append(combined)
 
     return save_times
@@ -387,21 +391,16 @@ def high_level_save_times(node_meta, server_meta):
     return times
 
 
-def calc_recover_times(server_logs):
-    recover_times = {}
+def high_level_recover_times(server_meta):
+    times = {}
+    for e in server_meta[EVENTS]:
+        if e.use_case == U_4:
+            sub_events = e.children
+            for sub_e in sub_events:
+                _, use_case, _ = sub_e.event.split('-')
+                times[use_case] = sub_e.duration_s
+    return times
 
-    for file in server_logs:
-        meta, events = file
-        times = {}
-        for e in events:
-            if e.use_case == U_4:
-                sub_events = e.children
-                for sub_e in sub_events:
-                    _, use_case, _ = sub_e.event.split('-')
-                    times[use_case] = sub_e.duration_s
-        recover_times[meta[MODEL]] = times
-
-    return recover_times
 
 
 def aggregate_fields(metas, aggregate, field_key):
