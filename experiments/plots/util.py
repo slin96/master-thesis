@@ -6,6 +6,8 @@ from os.path import isfile
 
 import pandas as pd
 
+GAPTIME = 'GAPTIME'
+
 HIGH_LEVEL_RECOVER_TIMES = 'high_level_recover_times'
 
 HIGH_LEVEL_SAVE_TIMES = 'high_level_save_times'
@@ -158,8 +160,13 @@ class Event:
         self.service = start_json[SERVICE] if SERVICE in stop_json else None
         self.schema_obj = start_json[SCHEMA_OBJ] if SCHEMA_OBJ in stop_json else None
         self.collection = start_json[COLLECTION] if COLLECTION in stop_json else None
+        self.start_time = int(start_json[TIME])
+        self.stop_time = int(stop_json[TIME])
         self.duration_ns = int(stop_json[TIME]) - int(start_json[TIME])
         self.duration_s = self.duration_ns * 10 ** -9
+        # the times between the events
+        self.gap_times_ns = self._calc_gap_times()
+        self.gap_times_s = [t * 10 ** -9 for t in self.gap_times_ns]
 
     @property
     def _event_name(self):
@@ -182,12 +189,38 @@ class Event:
         return self._generate_representation()
 
     def _generate_representation(self, level=0):
+        result = ''
+        tabs = '\t' * level
+
         time_str = FLOAT_TEMPLATE.format(self.duration_s)
-        result = '{}: {}s \n'.format(self._event_name, time_str)
-        for c in self.children:
-            tabs = '\t' * level
+        result += '{}: {}s \n'.format(self._event_name, time_str)
+        for i, c in enumerate(self.children):
+
+            if len(self.gap_times_ns) > 0:
+                # add first gap time to result
+                result += tabs + '{}: {}s \n'.format(GAPTIME, self.gap_times_s[i])
+
             result += tabs + c._generate_representation(level + 1)
+
+        if len(self.gap_times_ns) > 0:
+            # add last gap time to result
+            result += tabs + '{}: {}s \n'.format(GAPTIME, self.gap_times_s[-1])
         return result
+
+    def _calc_gap_times(self):
+        gap_times = []
+        if len(self.children) > 0:
+            # The first gap is between the own start and the start of the first child
+            gap_times.append(abs(self.start_time - self.children[0].start_time))
+
+            # the next gap times are between the children events
+            for child1, child2 in zip(self.children[:-1], self.children[1:]):
+                gap_times.append(abs(child1.start_time - child2.start_time))
+
+            # the last gap is between the own stop time and the last child stop time
+            gap_times.append(abs(self.stop_time - self.children[-1].stop_time))
+
+        return gap_times
 
 
 def parse_events(file):
@@ -400,7 +433,6 @@ def high_level_recover_times(server_meta):
                 _, use_case, _ = sub_e.event.split('-')
                 times[use_case] = sub_e.duration_s
     return times
-
 
 
 def aggregate_fields(metas, aggregate, field_key):
