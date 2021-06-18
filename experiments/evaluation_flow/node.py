@@ -7,6 +7,7 @@ from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.schema.file_reference import FileReference
 from mmlib.schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from mmlib.track_env import track_current_environment
 from mmlib.util.helper import get_device
 from torch.utils.data import DataLoader
 
@@ -58,6 +59,9 @@ class NodeState:
         if approach == PROVENANCE:
             self.training_data_path = training_data_path
             os.environ[MMLIB_CONFIG] = config
+
+        self.node_environment = track_current_environment()
+        self.dummy_train_kwargs = get_dummy_train_kwargs()
 
 
 node_state: NodeState = None
@@ -112,18 +116,19 @@ def use_case_3(last_time=False, done=False):
         model_id = save_provenance_model(
             save_service=node_state.save_service,
             base_model_id=node_state.last_model_id,
-            train_kwargs=get_dummy_train_kwargs(),
-            prov_env=track_current_environment(),
+            train_kwargs=node_state.dummy_train_kwargs,
+            prov_env=node_state.node_environment,
             raw_data=node_state.training_data_path,
             ts_wrapper=ts_wrapper,
             model=model
         )
     else:
         # simulate model training by loading model from checkpoint
-        model_id = save_model(model, node_state.save_service, base_model_id=node_state.last_model_id)
+        model_id = save_model(NODE, node_state, model, node_state.save_service, node_state.node_environment,
+                              base_model_id=node_state.last_model_id)
+    log_stop(log)
 
     node_state.last_model_id = model_id
-    log_stop(log)
 
     # notify server
     text = NEW_MODEL

@@ -5,7 +5,6 @@ import uuid
 
 from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
 from mmlib.schema.save_info_builder import ModelSaveInfoBuilder
-from mmlib.track_env import track_current_environment
 
 from experiments.models.googlenet import googlenet
 from experiments.models.mobilenet import mobilenet_v2
@@ -151,13 +150,16 @@ def get_save_service(approach, dict_pers_service, file_pers_service):
     return result
 
 
-def save_model(model, save_service, base_model_id=None):
+def save_model(node_description, node_state, model, save_service, env, base_model_id=None):
+    log = log_start(node_description, node_state.state_description, 'build_save_info')
     save_info_builder = ModelSaveInfoBuilder()
-    env = track_current_environment()
     save_info_builder.add_model_info(model=model, env=env, base_model_id=base_model_id)
     save_info = save_info_builder.build()
+    log_stop(log)
 
+    log = log_start(node_description, node_state.state_description, 'mmlib_save_call')
     model_id = save_service.save_model(save_info)
+    log_stop(log)
 
     return model_id
 

@@ -65,6 +65,9 @@ class ServerState:
         self.u1_model = None
         self.training_data_path = args.training_data_path
 
+        self.server_environment = track_current_environment()
+        self.dummy_train_kwargs = get_dummy_train_kwargs()
+
         if approach == PROVENANCE:
             os.environ[MMLIB_CONFIG] = config
 
@@ -92,7 +95,7 @@ def use_case_1():
     server_state.u1_model = model
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
-    init_model_id = save_model(model, server_state.save_service)
+    init_model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment)
     log_stop(log)
 
     server_state.saved_model_ids[init_model_id] = server_state.state_description
@@ -151,14 +154,14 @@ def use_case_2():
         model_id = save_provenance_model(
             save_service=server_state.save_service,
             base_model_id=init_model_id,
-            train_kwargs=get_dummy_train_kwargs(),
-            prov_env=track_current_environment(),
+            train_kwargs=server_state.dummy_train_kwargs,
+            prov_env=server_state.server_environment,
             raw_data=server_state.training_data_path,
             ts_wrapper=ts_wrapper,
             model=model
         )
     else:
-        model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
+        model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment, base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
