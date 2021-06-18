@@ -30,8 +30,8 @@ def execute_commands(hostname, commands, to_background=False):
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
 # APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [PROVENANCE]
-# APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
+# APPROACHES = [PROVENANCE]
+APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -181,16 +181,16 @@ def main(args):
 
                         # the pattern *-*-*-*-* should cover all uuids
                         os.system("ssh -t {} 'cd {}; rm -rf *-*-*-*-*'".format(args.mongo_host_name, args.tmp_dir))
-                        print('wait for before starting new experiment')
+                        print('wait before starting new experiment')
                         time.sleep(30)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     add_evaluation_parameters(parser)
-    parser.add_argument('--mongo_host_name', type=str, default='dlab-n04')
-    parser.add_argument('--server_host_name', type=str, default='dlab-n05')
-    parser.add_argument('--node_host_name', type=str, default='dlab-n06')
+    parser.add_argument('--mongo_host_name', type=str, default='dlab-n07')
+    parser.add_argument('--server_host_name', type=str, default='dlab-n08')
+    parser.add_argument('--node_host_name', type=str, default='dlab-n09')
     parser.add_argument('--env_name', type=str, default='myenv')
     parser.add_argument('--node_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/node/')
     parser.add_argument('--server_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/server/')

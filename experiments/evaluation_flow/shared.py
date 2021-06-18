@@ -151,13 +151,13 @@ def get_save_service(approach, dict_pers_service, file_pers_service):
 
 
 def save_model(node_description, node_state, model, save_service, env, base_model_id=None):
-    log = log_start(node_description, node_state.state_description, 'build_save_info')
+    log = log_start(node_description, 'build_save_info', 'all')
     save_info_builder = ModelSaveInfoBuilder()
     save_info_builder.add_model_info(model=model, env=env, base_model_id=base_model_id)
     save_info = save_info_builder.build()
     log_stop(log)
 
-    log = log_start(node_description, node_state.state_description, 'mmlib_save_call')
+    log = log_start(node_description, 'mmlib_save_call', 'all')
     model_id = save_service.save_model(save_info)
     log_stop(log)
 
