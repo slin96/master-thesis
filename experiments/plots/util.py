@@ -442,8 +442,11 @@ def _extract_detailed_recover_times(event, approach):
         load_event = get_sub_event(event, method='recover_model', event_name='load_model_info_rec_files')
         if load_event:
             recover_event = get_sub_event(event, method='recover_model', event_name='recover_from_info')
-            check_weights = get_sub_event(recover_event, method='recover_model', event_name='_check_weights')
-            check_environment = get_sub_event(recover_event, method='recover_model', event_name='_check_env')
+            check_weights = get_sub_event(recover_event, method='_check_weights', event_name='_all')
+            check_environment = get_sub_event(recover_event, method='_check_env', event_name='_all')
+
+            if check_weights is None:
+                print(event)
 
             load_time = load_event.duration_ns
             recover_time = recover_event.duration_ns
@@ -653,6 +656,15 @@ def split_in_params_and_rest(storage_dict):
         result[key] += int(v)
 
     return result
+
+def plot_median_high_level_save_time(metas, save_path=None, ignore_use_cases=[], y_min_max=None):
+    agg = aggregate_fields(metas, aggregate='median', field_key=HIGH_LEVEL_SAVE_TIMES)
+    plot_time_one_model(agg[HIGH_LEVEL_SAVE_TIMES], save_path, ignore_use_cases, y_min_max)
+
+
+def plot_median_high_level_recover_time(metas, save_path=None, ignore_use_cases=[], y_min_max=None):
+    agg = aggregate_fields(metas, aggregate='median', field_key=HIGH_LEVEL_RECOVER_TIMES)
+    plot_time_one_model(agg[HIGH_LEVEL_RECOVER_TIMES], save_path, ignore_use_cases, y_min_max)
 
 
 # helper function to filer metadata
