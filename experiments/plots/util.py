@@ -4,7 +4,9 @@ import os
 from os import listdir
 from os.path import isfile
 
+import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 from experiments.evaluation_flow.shared import BASELINE
 
@@ -135,21 +137,6 @@ def total_storage_consumption(storage_info: dict):
             result += total_storage_consumption(v)
 
     return result
-
-
-def create_pie_chart_sizes_and_labels(storage_distribution):
-    labels = []
-    sizes = []
-    total_size = total_storage_consumption(storage_distribution)
-    for k, v in storage_distribution.items():
-        labels.append(k)
-        if isinstance(v, dict):
-            size = total_storage_consumption(v)
-        else:
-            size = v
-        sizes.append(size / total_size * 100)
-
-    return labels, sizes
 
 
 class Event:
@@ -490,7 +477,7 @@ def _detailed_recover_times(server_meta, extract_method):
             sub_events = e.children
             for sub_e in sub_events:
                 _, use_case, _ = sub_e.event.split('-')
-                times[use_case] = extract_method(e, approach)
+                times[use_case] = extract_method(sub_e, approach)
     return times
 
 
@@ -522,6 +509,65 @@ def _detailed_save_times(node_meta, server_meta, extract_method):
             times[e.use_case] = extract_method(e, approach)
             u32_counter += 1
     return times
+
+
+def rearrange_u2(use_cases):
+    use_cases.sort()
+    # remove U_2
+    u2 = use_cases.pop(1)
+    num_cases = len(use_cases)
+    new_u2_pos = int((num_cases - 1) / 2) + 1
+    use_cases.insert(new_u2_pos, u2)
+    return use_cases
+
+
+def plot_time_one_model(save_times, save_path=None, ignore_use_cases=[], y_min_max=None):
+    use_cases = rearrange_u2(list(save_times.keys()))
+
+    for u in ignore_use_cases:
+        use_cases.remove(u)
+
+    plt.rc('font', size=12)
+    fig = plt.figure()
+    ax = fig.add_axes([0, 0, 1, 1])
+    times = np.array([save_times[k] for k in use_cases]) * 10**-9
+    ax.bar(use_cases, times)
+    ax.set_ylabel('Time in seconds')
+    ax.set_xlabel('Use case description')
+    plt.xticks(rotation=45)
+    if y_min_max:
+        axes = plt.gca()
+        axes.set_ylim(y_min_max)
+    if save_path:
+        fig.savefig(save_path, bbox_inches='tight')
+        fig.savefig(save_path + '.pdf', bbox_inches='tight')
+
+    plt.show()
+
+
+def plot_detailed_times(plot_data, labels, x_labels, save_path=None):
+    plt.rc('font', size=12)
+    fig = plt.figure()
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_ylabel('Time in seconds')
+    ax.set_xlabel('Use case description')
+    plt.xticks(rotation=45)
+    bottom = np.zeros(plot_data[0].shape)
+    pos = range(len(x_labels))
+
+    for i, l in enumerate(labels):
+        d = plot_data[i] * 10**-9
+        plt.bar(pos, d, label=labels[i], bottom=bottom)
+        bottom += d
+
+    plt.xticks(pos, x_labels)
+    plt.legend()
+
+    if save_path:
+        fig.savefig(save_path, bbox_inches='tight')
+        fig.savefig(save_path + '.pdf', bbox_inches='tight')
+
+    plt.show()
 
 
 def aggregate_fields(metas, aggregate, field_key):
