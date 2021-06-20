@@ -6,6 +6,12 @@ from os.path import isfile
 
 import pandas as pd
 
+from experiments.evaluation_flow.shared import BASELINE
+
+DETAILED_RECOVER_TIMES = 'detailed_recover_times'
+
+DETAILED_SAVE_TIMES = 'detailed_save_times'
+
 GAPTIME = 'GAPTIME'
 
 HIGH_LEVEL_RECOVER_TIMES = 'high_level_recover_times'
@@ -400,42 +406,121 @@ def extract_times(valid_joined):
         }
 
         _high_level_save_times = high_level_save_times(node_meta, server_meta)
+        _detailed_save_times = detailed_save_times(node_meta, server_meta)
         _high_level_recover_times = high_level_recover_times(server_meta)
+        _detailed_recover_times = detailed_recover_times(server_meta)
 
         combined[HIGH_LEVEL_SAVE_TIMES] = _high_level_save_times
+        combined[DETAILED_SAVE_TIMES] = _detailed_save_times
         combined[HIGH_LEVEL_RECOVER_TIMES] = _high_level_recover_times
+        combined[DETAILED_RECOVER_TIMES] = _detailed_recover_times
         save_times.append(combined)
 
     return save_times
 
 
-def high_level_save_times(node_meta, server_meta):
-    times = {}
-    for e in server_meta[EVENTS]:
-        if e.use_case == U_1:
-            times[U_1] = e.duration_s
-        elif e.use_case == U_2:
-            times[U_2] = e.duration_s
-    u31_counter = 1
-    u32_counter = 1
-    for e in node_meta[EVENTS]:
-        if e.use_case and e.use_case.startswith(U_3_1):
-            times[e.use_case] = e.duration_s
-            u31_counter += 1
-        elif e.use_case and e.use_case.startswith(U_3_2):
-            times[e.use_case] = e.duration_s
-            u32_counter += 1
-    return times
+def get_sub_event(root_event, method, event_name):
+    if root_event.method == method and root_event.event == event_name:
+        return root_event
+    else:
+        for c in root_event.children:
+            event_found = get_sub_event(c, method, event_name)
+            if event_found is not None:
+                return event_found
+
+
+def _extract_detailed_save_times(event, approach):
+    if approach == BASELINE:
+        # search for event with event: 'all', method: 'save_full_model'
+        save_sub_event = get_sub_event(event, method='_save_full_model', event_name='all')
+        total_save_time_ns = event.duration_ns
+        pickle_weights_ns = save_sub_event.children[0].duration_ns
+        get_weights_hash_info_ns = save_sub_event.children[1].duration_ns
+        persist_model_info = save_sub_event.children[2].duration_ns
+
+        detailed_times = {
+            'total_save_time_ns': total_save_time_ns,
+            'pickle_weights_ns': pickle_weights_ns,
+            'get_weights_hash_info_ns': get_weights_hash_info_ns,
+            'persist_model_info': persist_model_info
+        }
+        return detailed_times
+    else:
+        return []
+
+
+def _extract_detailed_recover_times(event, approach):
+    result = []
+    if approach == BASELINE:
+        load_event = get_sub_event(event, method='recover_model', event_name='load_model_info_rec_files')
+        if load_event:
+            recover_event = get_sub_event(event, method='recover_model', event_name='recover_from_info')
+            check_weights = get_sub_event(recover_event, method='recover_model', event_name='_check_weights')
+            check_environment = get_sub_event(recover_event, method='recover_model', event_name='_check_env')
+
+            load_time = load_event.duration_ns
+            recover_time = recover_event.duration_ns
+            check_weights_time = check_weights.duration_ns
+            check_env_time = check_environment.duration_ns
+
+            detailed_times = {
+                'load_time': load_time,
+                'recover_time': recover_time,
+                'check_weights_time': check_weights_time,
+                'check_env_time': check_env_time
+            }
+            result = detailed_times
+
+    return result
 
 
 def high_level_recover_times(server_meta):
+    return _detailed_recover_times(server_meta, lambda x, y: x.duration_ns)
+
+
+def detailed_recover_times(server_meta):
+    return _detailed_recover_times(server_meta, _extract_detailed_recover_times)
+
+
+def _detailed_recover_times(server_meta, extract_method):
+    approach = server_meta[APPROACH]
     times = {}
     for e in server_meta[EVENTS]:
         if e.use_case == U_4:
             sub_events = e.children
             for sub_e in sub_events:
                 _, use_case, _ = sub_e.event.split('-')
-                times[use_case] = sub_e.duration_s
+                times[use_case] = extract_method(e, approach)
+    return times
+
+
+def detailed_save_times(node_meta, server_meta):
+    return _detailed_save_times(node_meta, server_meta, _extract_detailed_save_times)
+
+
+def high_level_save_times(node_meta, server_meta):
+    return _detailed_save_times(node_meta, server_meta, lambda x, y: x.duration_ns)
+
+
+def _detailed_save_times(node_meta, server_meta, extract_method):
+    times = {}
+
+    approach = server_meta[APPROACH]
+
+    for e in server_meta[EVENTS]:
+        if e.use_case == U_1:
+            times[U_1] = extract_method(e, approach)
+        elif e.use_case == U_2:
+            times[U_2] = extract_method(e, approach)
+    u31_counter = 1
+    u32_counter = 1
+    for e in node_meta[EVENTS]:
+        if e.use_case and e.use_case.startswith(U_3_1):
+            times[e.use_case] = extract_method(e, approach)
+            u31_counter += 1
+        elif e.use_case and e.use_case.startswith(U_3_2):
+            times[e.use_case] = extract_method(e, approach)
+            u32_counter += 1
     return times
 
 
@@ -464,6 +549,26 @@ def aggregate_fields(metas, aggregate, field_key):
     combined[field_key] = aggregated_total_cons
 
     return combined
+
+
+def median_detailed_save_times(data):
+    return median_detailed_times(data, 'detailed_save_times')
+
+
+def median_detailed_times(data, key):
+    all_detailed_times = [d[key] for d in data]
+    use_cases = list(all_detailed_times[0].keys())
+    result = {}
+    for u in use_cases:
+        tmp_u = [run[u] for run in all_detailed_times if u in run]
+        df = pd.DataFrame(tmp_u)
+        result[u] = dict(df.median())
+
+    return result
+
+
+def median_detailed_recover_times(data):
+    return median_detailed_times(data, 'detailed_recover_times')
 
 
 def combine_avg(dict_list):
@@ -519,7 +624,3 @@ def filter_meta(to_filter, model=None, approach=None, snapshot_type=None, snapsh
         result = [f for f in result if f[RUN] == run]
 
     return result
-
-
-if __name__ == '__main__':
-    combine_avg(None)
