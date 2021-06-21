@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE
+from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED
 
 GENERATE_PARAM_UPDATE = 'generate_param_update'
 
@@ -448,7 +448,7 @@ def _extract_detailed_save_times(event, approach):
             PERSIST_MODEL_INFO: persist_model_info
         }
         return detailed_times
-    elif approach == PARAM_UPDATE:
+    elif approach == PARAM_UPDATE or approach == PARAM_UPDATE_IMPROVED:
         if event.use_case == U_1:
             save_sub_event = get_sub_event(event, method='_save_full_model', event_name='all')
             total_save_time_ns = event.duration_ns
@@ -495,7 +495,7 @@ def _extract_detailed_recover_times(event, approach):
             'check_env_time': check_env_time
         }
         result = detailed_times
-    elif approach == PARAM_UPDATE:
+    elif approach == PARAM_UPDATE or approach == PARAM_UPDATE_IMPROVED:
         recover_event = get_sub_event(event, method='recover_model', event_name='_recover_from_weight_update')
         if recover_event is None:
             load_event = get_sub_event(event, method='recover_model', event_name='load_model_info_rec_files')
