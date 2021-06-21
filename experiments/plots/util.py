@@ -427,7 +427,7 @@ def get_sub_event(root_event, method, event_name, starts_with=False):
         return root_event
     else:
         for c in root_event.children:
-            event_found = get_sub_event(c, method, event_name)
+            event_found = get_sub_event(c, method, event_name, starts_with)
             if event_found is not None:
                 return event_found
 
@@ -479,26 +479,56 @@ def _extract_detailed_recover_times(event, approach):
     result = []
     if approach == BASELINE:
         load_event = get_sub_event(event, method='recover_model', event_name='load_model_info_rec_files')
-        if load_event:
+        recover_event = get_sub_event(event, method='recover_model', event_name='recover_from_info')
+        check_weights = get_sub_event(recover_event, method='_check_weights', event_name='_all')
+        check_environment = get_sub_event(recover_event, method='_check_env', event_name='_all')
+
+        load_time = load_event.duration_ns
+        check_weights_time = check_weights.duration_ns
+        check_env_time = check_environment.duration_ns
+        recover_time = recover_event.duration_ns - check_env_time - check_weights_time
+
+        detailed_times = {
+            'load_time': load_time,
+            'recover_time': recover_time,
+            'check_weights_time': check_weights_time,
+            'check_env_time': check_env_time
+        }
+        result = detailed_times
+    elif approach == PARAM_UPDATE:
+        recover_event = get_sub_event(event, method='recover_model', event_name='_recover_from_weight_update')
+        if recover_event is None:
+            load_event = get_sub_event(event, method='recover_model', event_name='load_model_info_rec_files')
             recover_event = get_sub_event(event, method='recover_model', event_name='recover_from_info')
             check_weights = get_sub_event(recover_event, method='_check_weights', event_name='_all')
             check_environment = get_sub_event(recover_event, method='_check_env', event_name='_all')
 
-            if check_weights is None:
-                print(event)
-
             load_time = load_event.duration_ns
-            recover_time = recover_event.duration_ns
             check_weights_time = check_weights.duration_ns
             check_env_time = check_environment.duration_ns
+            recover_time = recover_event.duration_ns - check_weights_time - check_env_time
+            load_base_model_time = 0
+        else:
+            recover_from_patch_event = get_sub_event(event, method='_recover_from_parameter_patch', event_name='all')
+            load_base_model_event = get_sub_event(recover_from_patch_event, method='recover_model-', event_name='all',
+                                                  starts_with=True)
+            check_weights_event = get_sub_event(event, method='_recover_from_weight_update',
+                                                event_name='_check_weights')
 
-            detailed_times = {
-                'load_time': load_time,
-                'recover_time': recover_time,
-                'check_weights_time': check_weights_time,
-                'check_env_time': check_env_time
-            }
-            result = detailed_times
+            check_weights_time = check_weights_event.duration_ns
+            load_base_model_time = load_base_model_event.duration_ns
+            recover_time = recover_from_patch_event.duration_ns - load_base_model_time
+            load_time = recover_event.duration_ns - recover_from_patch_event.duration_ns - check_weights_time
+            check_env_time = 0
+
+        detailed_times = {
+            'recover_base_model_time': load_base_model_time,
+            'load_time': load_time,
+            'recover_time': recover_time,
+            'check_weights_time': check_weights_time,
+            'check_env_time': check_env_time
+        }
+        result = detailed_times
 
     return result
 
