@@ -8,7 +8,21 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from experiments.evaluation_flow.shared import BASELINE
+from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE
+
+GENERATE_PARAM_UPDATE = 'generate_param_update'
+
+CALC_UPDATE = 'calc_update'
+
+PERSIST_MODEL_INFO = 'persist_model_info'
+
+WEIGHTS_HASH_INFO_NS = 'get_weights_hash_info_ns'
+
+PICKLE_WEIGHTS_NS = 'pickle_weights_ns'
+
+RECOVER_BASE_MODEL = 'recover_base_model'
+
+TOTAL_SAVE_TIME_NS = 'total_save_time_ns'
 
 DETAILED_RECOVER_TIMES = 'detailed_recover_times'
 
@@ -406,8 +420,10 @@ def extract_times(valid_joined):
     return save_times
 
 
-def get_sub_event(root_event, method, event_name):
+def get_sub_event(root_event, method, event_name, starts_with=False):
     if root_event.method == method and root_event.event == event_name:
+        return root_event
+    elif starts_with and root_event.method.startswith(method) and root_event.event.startswith(event_name):
         return root_event
     else:
         for c in root_event.children:
@@ -426,10 +442,33 @@ def _extract_detailed_save_times(event, approach):
         persist_model_info = save_sub_event.children[2].duration_ns
 
         detailed_times = {
-            'total_save_time_ns': total_save_time_ns,
-            'pickle_weights_ns': pickle_weights_ns,
-            'get_weights_hash_info_ns': get_weights_hash_info_ns,
-            'persist_model_info': persist_model_info
+            TOTAL_SAVE_TIME_NS: total_save_time_ns,
+            PICKLE_WEIGHTS_NS: pickle_weights_ns,
+            WEIGHTS_HASH_INFO_NS: get_weights_hash_info_ns,
+            PERSIST_MODEL_INFO: persist_model_info
+        }
+        return detailed_times
+    elif approach == PARAM_UPDATE:
+        if event.use_case == U_1:
+            save_sub_event = get_sub_event(event, method='_save_full_model', event_name='all')
+            total_save_time_ns = event.duration_ns
+            persist_model_info = save_sub_event.children[2].duration_ns
+            generate_weights_update = 0
+        else:
+            save_sub_event = get_sub_event(event, method='_save_updated_model', event_name='all')
+            total_save_time_ns = event.duration_ns
+
+            persist_event = get_sub_event(save_sub_event, method='_save_updated_model', event_name='persist')
+            persist_model_info = persist_event.duration_ns
+
+            generate_weights_update_event = get_sub_event(
+                save_sub_event, method='_save_updated_model', event_name='generate_weights_update', starts_with=True)
+            generate_weights_update = generate_weights_update_event.duration_ns
+
+        detailed_times = {
+            TOTAL_SAVE_TIME_NS: total_save_time_ns,
+            GENERATE_PARAM_UPDATE: generate_weights_update,
+            PERSIST_MODEL_INFO: persist_model_info,
         }
         return detailed_times
     else:
@@ -533,7 +572,7 @@ def plot_time_one_model(save_times, save_path=None, ignore_use_cases=[], y_min_m
     plt.rc('font', size=12)
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
-    times = np.array([save_times[k] for k in use_cases]) * 10**-9
+    times = np.array([save_times[k] for k in use_cases]) * 10 ** -9
     ax.bar(use_cases, times)
     ax.set_ylabel('Time in seconds')
     ax.set_xlabel('Use case description')
@@ -559,7 +598,7 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None):
     pos = range(len(x_labels))
 
     for i, l in enumerate(labels):
-        d = plot_data[i] * 10**-9
+        d = plot_data[i] * 10 ** -9
         plt.bar(pos, d, label=labels[i], bottom=bottom)
         bottom += d
 
@@ -656,6 +695,7 @@ def split_in_params_and_rest(storage_dict):
         result[key] += int(v)
 
     return result
+
 
 def plot_median_high_level_save_time(metas, save_path=None, ignore_use_cases=[], y_min_max=None):
     agg = aggregate_fields(metas, aggregate='median', field_key=HIGH_LEVEL_SAVE_TIMES)
