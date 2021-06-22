@@ -10,6 +10,8 @@ from matplotlib import pyplot as plt
 
 from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE
 
+SAVE_DATASET = 'save_dataset'
+
 GENERATE_PARAM_UPDATE = 'generate_param_update'
 
 CALC_UPDATE = 'calc_update'
@@ -420,6 +422,16 @@ def extract_times(valid_joined):
     return save_times
 
 
+def get_schema_obj_event(root_event, schema_obj, method):
+    if schema_obj == root_event.schema_obj and root_event.method == method:
+        return root_event
+    else:
+        for c in root_event.children:
+            event_found = get_schema_obj_event(c, method, schema_obj)
+            if event_found is not None:
+                return event_found
+
+
 def get_sub_event(root_event, method=None, event_name=None, starts_with=False, check_event_only=False):
     if check_event_only and root_event.event == event_name:
         return root_event
@@ -474,6 +486,20 @@ def _extract_detailed_save_times(event, approach):
             TOTAL_SAVE_TIME_NS: total_save_time_ns,
             GENERATE_PARAM_UPDATE: generate_weights_update,
             PERSIST_MODEL_INFO: persist_model_info,
+        }
+        return detailed_times
+    elif approach == PROVENANCE:
+        if event.use_case == U_1:
+            total_save_time_ns = event.duration_ns
+            save_dataset_time = 0
+        else:
+            persist_dataset_event = get_schema_obj_event(event, 'dataset', 'persist')
+            total_save_time_ns = event.duration_ns
+            save_dataset_time = persist_dataset_event.duration_ns
+
+        detailed_times = {
+            TOTAL_SAVE_TIME_NS: total_save_time_ns,
+            SAVE_DATASET: save_dataset_time,
         }
         return detailed_times
     else:
@@ -541,7 +567,7 @@ def _extract_detailed_recover_times(event, approach):
             load_base_model_time = 0
             load_prov_info_time = 0
             training_time = 0
-            recover_time = u1_event.duration_ns
+            recover_time = event.duration_ns
         else:
             recover_event = get_sub_event(event, method='recover_model-', event_name='all', starts_with=True)
             recover_base_model_event = get_sub_event(recover_event, method='recover_model',
