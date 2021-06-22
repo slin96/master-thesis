@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED
+from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE
 
 GENERATE_PARAM_UPDATE = 'generate_param_update'
 
@@ -420,14 +420,19 @@ def extract_times(valid_joined):
     return save_times
 
 
-def get_sub_event(root_event, method, event_name, starts_with=False):
-    if root_event.method == method and root_event.event == event_name:
+def get_sub_event(root_event, method=None, event_name=None, starts_with=False, check_event_only=False):
+    if check_event_only and root_event.event == event_name:
         return root_event
-    elif starts_with and root_event.method.startswith(method) and root_event.event.startswith(event_name):
+    elif check_event_only and root_event and root_event.event and root_event.event.startswith(event_name):
+        return root_event
+    elif not check_event_only and root_event.method == method and root_event.event.startswith(event_name):
+        return root_event
+    elif not check_event_only and starts_with and root_event and root_event.method \
+            and root_event.method.startswith(method) and root_event.event.startswith(event_name):
         return root_event
     else:
         for c in root_event.children:
-            event_found = get_sub_event(c, method, event_name, starts_with)
+            event_found = get_sub_event(c, method, event_name, starts_with, check_event_only)
             if event_found is not None:
                 return event_found
 
@@ -527,6 +532,33 @@ def _extract_detailed_recover_times(event, approach):
             'recover_time': recover_time,
             'check_weights_time': check_weights_time,
             'check_env_time': check_env_time
+        }
+        result = detailed_times
+    elif approach == PROVENANCE:
+        u1_event = get_sub_event(event, event_name='recover-U_1', starts_with=True, check_event_only=True)
+        if u1_event is not None:
+            # if the train event is none then we have use case U1
+            load_base_model_time = 0
+            load_prov_info_time = 0
+            training_time = 0
+            recover_time = u1_event.duration_ns
+        else:
+            recover_event = get_sub_event(event, method='recover_model-', event_name='all', starts_with=True)
+            recover_base_model_event = get_sub_event(recover_event, method='recover_model',
+                                                     event_name='recover_base_model')
+            load_prov_info_event = get_sub_event(recover_event, method='recover_model', event_name='load_model_info')
+            training_event = get_sub_event(recover_event, method='recover_model', event_name='train')
+
+            load_base_model_time = recover_base_model_event.duration_ns
+            load_prov_info_time = load_prov_info_event.duration_ns
+            training_time = training_event.duration_ns
+            recover_time = 0
+
+        detailed_times = {
+            'recover_base_model_time': load_base_model_time,
+            'load_prov_info_time': load_prov_info_time,
+            'training_time': training_time,
+            'recover_time': recover_time,
         }
         result = detailed_times
 
