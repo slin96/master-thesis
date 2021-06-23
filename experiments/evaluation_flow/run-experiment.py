@@ -30,8 +30,7 @@ def execute_commands(hostname, commands, to_background=False):
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
 # APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-# APPROACHES = [PROVENANCE]
-APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED]
+APPROACHES = [PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -189,8 +188,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     add_evaluation_parameters(parser)
     parser.add_argument('--mongo_host_name', type=str, default='dlab-n07')
-    parser.add_argument('--server_host_name', type=str, default='dlab-n08')
-    parser.add_argument('--node_host_name', type=str, default='dlab-n09')
+    parser.add_argument('--server_host_name', type=str, default='dlab-n09')
+    parser.add_argument('--node_host_name', type=str, default='dlab-n08')
     parser.add_argument('--env_name', type=str, default='myenv')
     parser.add_argument('--node_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/node/')
     parser.add_argument('--server_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/server/')
@@ -200,11 +199,11 @@ if __name__ == '__main__':
                         default='/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow')
     parser.add_argument('--snapshot_root', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/')
     parser.add_argument('--server_training_data_path', type=str,
-                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/imgnet/tiny-validation-set')
+                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/dummy_imagenet_val')
     parser.add_argument('--node_training_data_path', type=str,
                         default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
     parser.add_argument('--run_offset', type=int, default=0)
-    parser.add_argument('--wait_counter_max', type=int, default=20)
+    parser.add_argument('--wait_counter_max', type=int, default=30)
 
     args = parser.parse_args()
     main(args)

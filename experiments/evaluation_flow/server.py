@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import time
 
 import torch
 from mmlib.constants import MMLIB_CONFIG, CURRENT_DATA_ROOT
@@ -193,6 +194,7 @@ def log_sizes():
 
 
 def next_state(text=None):
+    time.sleep(5)
     if server_state.state_description == U_1:
         server_state.state_description = U_3_1
         server_state.u3_counter += 1

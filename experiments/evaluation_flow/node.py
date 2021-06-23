@@ -143,6 +143,7 @@ def use_case_3(last_time=False, done=False):
 
 
 def next_state():
+    time.sleep(5)
     if node_state.state_description == U_1:
         node_state.state_description = U_3_1
         node_state.u3_counter += 1
