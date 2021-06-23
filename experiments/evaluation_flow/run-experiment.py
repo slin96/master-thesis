@@ -29,8 +29,7 @@ def execute_commands(hostname, commands, to_background=False):
 
 MODELS = [MOBILENET, GOOGLENET, RESNET_18, RESNET_50, RESNET_152]
 
-# APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [PROVENANCE]
+APPROACHES = [BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -187,21 +186,30 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     add_evaluation_parameters(parser)
-    parser.add_argument('--mongo_host_name', type=str, default='dlab-n07')
-    parser.add_argument('--server_host_name', type=str, default='dlab-n09')
-    parser.add_argument('--node_host_name', type=str, default='dlab-n08')
-    parser.add_argument('--env_name', type=str, default='myenv')
-    parser.add_argument('--node_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/node/')
-    parser.add_argument('--server_pythonpath', type=str, default='/hpi/fs00/home/nils.strassenburg/evaluation/server/')
-    parser.add_argument('--node_script_root', type=str,
-                        default='/hpi/fs00/home/nils.strassenburg/evaluation/node/experiments/evaluation_flow')
-    parser.add_argument('--server_script_root', type=str,
-                        default='/hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow')
-    parser.add_argument('--snapshot_root', type=str, default='/hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/')
-    parser.add_argument('--server_training_data_path', type=str,
-                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/dummy_imagenet_val')
-    parser.add_argument('--node_training_data_path', type=str,
-                        default='/hpi/fs00/share/fg-rabl/strassenburg/datasets/coco-512')
+    parser.add_argument('--mongo_host_name', type=str, required=True,
+                        help='The hostname or IP address of the machine that should model the database.')
+    parser.add_argument('--server_host_name', type=str,  required=True,
+                        help='The hostname or IP address of the machine that should model the server.')
+    parser.add_argument('--node_host_name', type=str, required=True,
+                        help='The hostname or IP address of the machine that should model the node.')
+    parser.add_argument('--env_name', type=str, required=True,
+                        help='The name of the conda environment')
+    parser.add_argument('--node_pythonpath', type=str, required=True,
+                        help='The PYTHONPATH for the node ending with /evaluation/server/')
+    parser.add_argument('--server_pythonpath', type=str, required=True,
+                        help='The PYTHONPATH for the server ending with /evaluation/server/')
+    parser.add_argument('--node_script_root', type=str, required=True,
+                        help='The path ending with "server/experiments/evaluation_flow" '
+                             'to specify where to find the node.py script')
+    parser.add_argument('--server_script_root', type=str, required=True,
+                        help='The path ending with "server/experiments/evaluation_flow" '
+                             'to specify where to find the server.py script')
+    parser.add_argument('--snapshot_root', type=str, required=True,
+                        help='The root directory to load the pretrained model snapshots form.')
+    parser.add_argument('--server_training_data_path', type=str, required=True,
+                        help='The path to the training data used by the server, only relevant for provenance approach.')
+    parser.add_argument('--node_training_data_path', type=str, required=True,
+                        help='The path to the training data used by the node, only relevant for provenance approach.')
     parser.add_argument('--run_offset', type=int, default=0)
     parser.add_argument('--wait_counter_max', type=int, default=30)
 
