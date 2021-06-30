@@ -10,6 +10,13 @@ from matplotlib import pyplot as plt
 
 from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE
 
+HPI_ORANGE = '#DE6207'
+HPI_LIGHT_ORANGE = '#F7A900'
+HPI_RED = '#B1083A'
+GREY = '#8b8f93'
+DARK_RED = '#660101'
+YELLOW = '#c7c91e'
+
 SAVE_DATASET = 'save_dataset'
 
 GENERATE_PARAM_UPDATE = 'generate_param_update'
@@ -675,10 +682,21 @@ def plot_time_one_model(save_times, save_path=None, ignore_use_cases=[], y_min_m
     plt.show()
 
 
-def plot_detailed_times(plot_data, labels, x_labels, save_path=None):
-    plt.rc('font', size=12)
+def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None):
+    if len(labels) == 2:
+        colors = [HPI_RED, HPI_LIGHT_ORANGE]
+    elif only_hpi_colors or len(labels) <= 3:
+        colors = [HPI_ORANGE, HPI_RED, HPI_LIGHT_ORANGE]
+    else:
+        colors = [DARK_RED, HPI_RED, HPI_ORANGE, HPI_LIGHT_ORANGE, YELLOW, GREY]
+
+    plt.rc('font', size=30)
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
+    if size:
+        fig.set_size_inches(size[0], size[1])
+    else:
+        fig.set_size_inches(10, 6)
     ax.set_ylabel('Time in seconds')
     ax.set_xlabel('Use case description')
     plt.xticks(rotation=45)
@@ -687,11 +705,15 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None):
 
     for i, l in enumerate(labels):
         d = plot_data[i] * 10 ** -9
-        plt.bar(pos, d, label=labels[i], bottom=bottom)
+        plt.bar(pos, d, label=labels[i], bottom=bottom, color=colors[i])
         bottom += d
 
     plt.xticks(pos, x_labels)
-    plt.legend()
+    plt.legend(loc=0, bbox_to_anchor=(1.0, 1.0))
+
+    if y_min_max:
+        axes = plt.gca()
+        axes.set_ylim(y_min_max)
 
     if save_path:
         fig.savefig(save_path, bbox_inches='tight')
@@ -808,5 +830,26 @@ def filter_meta(to_filter, model=None, approach=None, snapshot_type=None, snapsh
         result = [f for f in result if f[SNAPSHOT_DIST] == snapshot_dist]
     if run:
         result = [f for f in result if f[RUN] == run]
+
+    return result
+
+
+def split_in_dataset_and_rest(storage_dict):
+    other = 'other'
+    dataset = 'dataset'
+    update = 'update'
+
+    result = {
+        other: 0,
+        dataset: 0
+    }
+
+    for k, v in storage_dict.items():
+        if dataset in k or update in k:
+            key = dataset
+        else:
+            key = other
+
+        result[key] += int(v)
 
     return result
