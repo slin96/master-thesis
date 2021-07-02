@@ -682,7 +682,11 @@ def plot_time_one_model(save_times, save_path=None, ignore_use_cases=[], y_min_m
     plt.show()
 
 
-def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None):
+MODEL_PARAMETERS = np.array([3504872, 6624904, 11689512, 25557032, 60192808]) * 10 ** -6
+
+
+def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None,
+                        model_params=False):
     if len(labels) == 2:
         colors = [HPI_RED, HPI_LIGHT_ORANGE]
     elif only_hpi_colors or len(labels) <= 3:
@@ -710,6 +714,11 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
 
     plt.xticks(pos, x_labels)
     plt.legend(loc=0, bbox_to_anchor=(1.0, 1.0))
+
+    if model_params:
+        ax2 = ax.twinx()
+        ax2.plot(x_labels, MODEL_PARAMETERS, color=HPI_RED, marker="o", markersize=10)
+        ax2.set_ylabel("Number of parameters (* 10^-6)", color=HPI_RED)
 
     if y_min_max:
         axes = plt.gca()
