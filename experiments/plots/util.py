@@ -725,8 +725,8 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
     plt.xticks(pos, x_labels)
     handles, labels = ax.get_legend_handles_labels()
     if reorder_labels:
-        handles = [handles[0], handles[1], handles[3], handles[2]]
-        labels = [labels[0], labels[2], labels[3], labels[2]]
+        handles = [handles[2], handles[1], handles[0], handles[3]]
+        labels = [labels[2], labels[1], labels[0], labels[3]]
 
     if lgd_right:
         plt.legend(handles, labels, bbox_to_anchor=(1.04, 1), borderaxespad=0)
