@@ -13,9 +13,25 @@ from experiments.evaluation_flow.shared import BASELINE, PARAM_UPDATE, PARAM_UPD
 HPI_ORANGE = '#DE6207'
 HPI_LIGHT_ORANGE = '#F7A900'
 HPI_RED = '#B1083A'
-GREY = '#8b8f93'
-DARK_RED = '#660101'
 YELLOW = '#c7c91e'
+PURPLE = '#7516b5'
+
+colors = {
+    'load': PURPLE,
+    'pickle parameters': PURPLE,
+    'recover': HPI_RED,
+    'hash parameters': HPI_RED,
+    'check params': HPI_ORANGE,
+    'persist': HPI_ORANGE,
+    'check env': HPI_LIGHT_ORANGE,
+    'save dataset': HPI_ORANGE,
+    'other': HPI_LIGHT_ORANGE,
+    'training': HPI_LIGHT_ORANGE,
+    'recover base': YELLOW,
+    'recover full model': HPI_ORANGE,
+    'generate update': HPI_RED
+
+}
 
 SAVE_DATASET = 'save_dataset'
 
@@ -686,15 +702,8 @@ MODEL_PARAMETERS = np.array([3504872, 6624904, 11689512, 25557032, 60192808]) * 
 
 
 def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None,
-                        model_params=False):
-    if len(labels) == 2:
-        colors = [HPI_RED, HPI_LIGHT_ORANGE]
-    elif only_hpi_colors or len(labels) <= 3:
-        colors = [HPI_ORANGE, HPI_RED, HPI_LIGHT_ORANGE]
-    else:
-        colors = [DARK_RED, HPI_RED, HPI_ORANGE, HPI_LIGHT_ORANGE, YELLOW, GREY]
-
-    plt.rc('font', size=30)
+                        model_params=False, lgd_right=False, reorder_labels=False):
+    plt.rc('font', size=36)
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
     if size:
@@ -703,17 +712,27 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
         fig.set_size_inches(10, 6)
     ax.set_ylabel('Time in seconds')
     ax.set_xlabel('Use case description')
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=60)
     bottom = np.zeros(plot_data[0].shape)
     pos = range(len(x_labels))
 
     for i, l in enumerate(labels):
         d = plot_data[i] * 10 ** -9
-        plt.bar(pos, d, label=labels[i], bottom=bottom, color=colors[i])
+        plt.bar(pos, d, label=labels[i], bottom=bottom, color=colors[labels[i]])
+
         bottom += d
 
     plt.xticks(pos, x_labels)
-    plt.legend(loc=0, bbox_to_anchor=(1.0, 1.0))
+    handles, labels = ax.get_legend_handles_labels()
+    if reorder_labels:
+        handles = [handles[0], handles[1], handles[3], handles[2]]
+        labels = [labels[0], labels[2], labels[3], labels[2]]
+
+    if lgd_right:
+        plt.legend(handles, labels, bbox_to_anchor=(1.04, 1), borderaxespad=0)
+    else:
+        plt.legend(handles, labels, bbox_to_anchor=(0, 1.02, 1, 0.2), loc="lower left", mode="expand", borderaxespad=0,
+                   ncol=2)
 
     if model_params:
         ax2 = ax.twinx()
