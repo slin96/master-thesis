@@ -4,7 +4,6 @@ import time
 import uuid
 
 from mmlib.save import BaselineSaveService, WeightUpdateSaveService, ProvenanceSaveService
-from mmlib.track_env import track_current_environment
 from mmlib.schema.save_info_builder import ModelSaveInfoBuilder
 
 from experiments.models.googlenet import googlenet
@@ -12,6 +11,10 @@ from experiments.models.mobilenet import mobilenet_v2
 from experiments.models.resnet152 import resnet152
 from experiments.models.resnet18 import resnet18
 from experiments.models.resnet50 import resnet50
+
+FINE_TUNED = 'fine-tuned'
+
+VERSION = 'version'
 
 BASELINE = 'baseline'
 PARAM_UPDATE = 'param_update'
@@ -68,11 +71,6 @@ def add_node_connection_arguments(parser):
     parser.add_argument('--node_port', help='The node port', default=NODE_PORT)
 
 
-def add_admin_connection_arguments(parser):
-    parser.add_argument('--admin_ip', help='The db ip or hostname', default=NODE_IP)
-    parser.add_argument('--admin_port', help='The db port', default=NODE_PORT)
-
-
 def add_mongo_ip(parser):
     parser.add_argument('--mongo_host', help='The ip or hostname for the mongoDB.', default=LOCAL_HOST)
 
@@ -92,8 +90,10 @@ def add_approach(parser):
                         choices=[BASELINE, PARAM_UPDATE, PARAM_UPDATE_IMPROVED, PROVENANCE])
 
 
-def add_model_snapshot_arg(parser):
+def add_model_snapshot_args(parser):
     parser.add_argument('--model_snapshots', help='The directory do find the model snapshots in', type=str)
+    parser.add_argument('--snapshot_type', help='The type of snapshot we want to use', type=str,
+                        choices=[VERSION, FINE_TUNED])
 
 
 def add_u3_count(parser):
@@ -106,6 +106,28 @@ def add_training_data_path(parser):
 
 def add_config(parser):
     parser.add_argument('--config', help='configuration file, only needed for prov approach', type=str)
+
+
+def add_node_and_server_config(parser):
+    parser.add_argument('--node_config', help='configuration file, only needed for prov approach', type=str)
+    parser.add_argument('--server_config', help='configuration file, only needed for prov approach', type=str)
+
+
+def add_evaluation_parameters(parser):
+    # --mongo_host 172.20.26.33
+    # --server_ip 172.20.26.34
+    # --node_ip 172.20.26.35
+    # --tmp_dir /hpi/fs00/home/nils.strassenburg/tmp-dir
+    # --log_dir /hpi/fs00/home/nils.strassenburg/log-dir
+    # --u3_count 4
+    # --node_config /hpi/fs00/home/nils.strassenburg/evaluation/node/experiments/evaluation_flow/server-config.ini
+    # --server_config /hpi/fs00/home/nils.strassenburg/evaluation/server/experiments/evaluation_flow/node-config.ini
+    add_server_connection_arguments(parser)
+    add_node_connection_arguments(parser)
+    add_mongo_ip(parser)
+    add_paths(parser)
+    add_u3_count(parser)
+    add_node_and_server_config(parser)
 
 
 def get_save_service(approach, dict_pers_service, file_pers_service):
@@ -128,13 +150,16 @@ def get_save_service(approach, dict_pers_service, file_pers_service):
     return result
 
 
-def save_model(model, save_service, base_model_id=None):
+def save_model(node_description, node_state, model, save_service, env, base_model_id=None):
+    log = log_start(node_description, 'build_save_info', 'all')
     save_info_builder = ModelSaveInfoBuilder()
-    env = track_current_environment()
     save_info_builder.add_model_info(model=model, env=env, base_model_id=base_model_id)
     save_info = save_info_builder.build()
+    log_stop(log)
 
+    log = log_start(node_description, 'mmlib_save_call', 'all')
     model_id = save_service.save_model(save_info)
+    log_stop(log)
 
     return model_id
 

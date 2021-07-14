@@ -1,16 +1,19 @@
 import argparse
 import json
 import os
+import time
 
 import torch
 from mmlib.constants import MMLIB_CONFIG, CURRENT_DATA_ROOT
 from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
-from mmlib.track_env import track_current_environment
 from mmlib.schema.file_reference import FileReference
 from mmlib.schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from mmlib.track_env import track_current_environment
+from mmlib.util.helper import get_device
 from torch.utils.data import DataLoader
 
+from experiments.evaluation_flow.create_finetuned import get_fine_tuned_model
 from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
 from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
     ImagenetTrainWrapper
@@ -18,8 +21,10 @@ from experiments.evaluation_flow.imagenet_train_loader import ImagenetTrainLoade
 from experiments.evaluation_flow.shared import save_model, add_paths, inform, generate_message, \
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
-    add_model_snapshot_arg, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
-    add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model
+    add_model_snapshot_args, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
+    add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model, FINE_TUNED, VERSION
+
+DONE_TXT = 'done.txt'
 
 RECOVER_MODELS = 'recover_models'
 EXTRACT_NOTIFY_MESSAGE = 'extract_notify_message'
@@ -32,8 +37,8 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 
 class ServerState:
-    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, training_data_path=None,
-                 config=None):
+    def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, snapshot_types,
+                 training_data_path=None, config=None):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -56,11 +61,16 @@ class ServerState:
 
         self.model_class = model_class
         self.model_snapshots = model_snapshots
+        self.snapshot_types = snapshot_types
 
         self.u1_model = None
         self.training_data_path = args.training_data_path
 
-        os.environ[MMLIB_CONFIG] = config
+        self.server_environment = track_current_environment()
+        self.dummy_train_kwargs = get_dummy_train_kwargs()
+
+        if approach == PROVENANCE:
+            os.environ[MMLIB_CONFIG] = config
 
 
 server_state: ServerState = None
@@ -68,9 +78,12 @@ init_model_id = None
 
 
 def main(args):
+    print(args)
+    os.system('rm %s' % DONE_TXT)
+
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
-                               MODELS_DICT[args.model], args.model_snapshots,
+                               MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,
                                training_data_path=args.training_data_path, config=args.config)
 
     use_case_1()
@@ -83,7 +96,7 @@ def use_case_1():
     server_state.u1_model = model
 
     log = log_start(SERVER, server_state.state_description, SAVE_MODEL)
-    init_model_id = save_model(model, server_state.save_service)
+    init_model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment)
     log_stop(log)
 
     server_state.saved_model_ids[init_model_id] = server_state.state_description
@@ -95,10 +108,20 @@ def use_case_1():
 
 def _load_model_snapshot(snapshot_name):
     snapshot_path = os.path.join(server_state.model_snapshots, snapshot_name)
-    print('load model: {}'.format(snapshot_path))
-    state_dict = torch.load(snapshot_path)
-    model: torch.nn.Module = server_state.model_class()
-    model.load_state_dict(state_dict)
+
+    if not server_state.state_description == U_1 and server_state.snapshot_types == FINE_TUNED:
+        print('load model (fine-tuned): {}'.format(snapshot_path))
+        base_path = os.path.join(server_state.model_snapshots, USE_CASE_1_PT)
+        model = get_fine_tuned_model(server_state.model_class, base_path, snapshot_path)
+    elif server_state.state_description == U_1 or server_state.snapshot_types == VERSION:
+        device = get_device(None)
+        print('load model (version): {}'.format(snapshot_path))
+        state_dict = torch.load(snapshot_path, map_location=device)
+        model: torch.nn.Module = server_state.model_class()
+        model.load_state_dict(state_dict)
+    else:
+        raise NotImplementedError
+
     return model
 
 
@@ -132,14 +155,14 @@ def use_case_2():
         model_id = save_provenance_model(
             save_service=server_state.save_service,
             base_model_id=init_model_id,
-            train_kwargs=get_dummy_train_kwargs(),
-            prov_env=track_current_environment(),
+            train_kwargs=server_state.dummy_train_kwargs,
+            prov_env=server_state.server_environment,
             raw_data=server_state.training_data_path,
             ts_wrapper=ts_wrapper,
             model=model
         )
     else:
-        model_id = save_model(model, server_state.save_service, base_model_id=init_model_id)
+        model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment, base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
@@ -171,6 +194,7 @@ def log_sizes():
 
 
 def next_state(text=None):
+    time.sleep(5)
     if server_state.state_description == U_1:
         server_state.state_description = U_3_1
         server_state.u3_counter += 1
@@ -197,6 +221,7 @@ def next_state(text=None):
     elif server_state.state_description == U_4:
         log_sizes()
         print('DONE')
+        os.system('touch %s' % DONE_TXT)
 
 
 def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
@@ -244,7 +269,7 @@ def parse_args():
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_model_arg(parser)
-    add_model_snapshot_arg(parser)
+    add_model_snapshot_args(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     add_approach(parser)

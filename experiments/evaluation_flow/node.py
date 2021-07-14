@@ -7,8 +7,11 @@ from mmlib.deterministic import set_deterministic
 from mmlib.persistence import FileSystemPersistenceService, MongoDictPersistenceService
 from mmlib.schema.file_reference import FileReference
 from mmlib.schema.restorable_object import RestorableObjectWrapper, StateFileRestorableObjectWrapper
+from mmlib.track_env import track_current_environment
+from mmlib.util.helper import get_device
 from torch.utils.data import DataLoader
 
+from experiments.evaluation_flow.create_finetuned import get_fine_tuned_model
 from experiments.evaluation_flow.custom_coco import TrainCustomCoco
 from experiments.evaluation_flow.imagenet_optimizer import ImagenetOptimizer
 from experiments.evaluation_flow.imagenet_train import ImagenetTrainService, DATA, DATALOADER, OPTIMIZER, \
@@ -22,11 +25,12 @@ RECOVER_MODEL = 'recover_model'
 NODE = 'node'
 
 USE_CASE_TEMPLATE = 'use-case-{}-{}.pt'
+USE_CASE_1_PT = 'use-case-1.pt'
 
 
 class NodeState:
-    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots, training_data_path=None,
-                 config=None):
+    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots, snapshot_types,
+                 training_data_path=None, config=None):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
@@ -47,21 +51,28 @@ class NodeState:
 
         self.model_class = model_class
         self.model_snapshots = model_snapshots
+        self.snapshot_types = snapshot_types
 
         self.last_model_id = None
         self.last_recovered_model = None
 
-        self.training_data_path = training_data_path
-        os.environ[MMLIB_CONFIG] = config
+        if approach == PROVENANCE:
+            self.training_data_path = training_data_path
+            os.environ[MMLIB_CONFIG] = config
+
+        self.node_environment = track_current_environment()
+        self.dummy_train_kwargs = get_dummy_train_kwargs()
 
 
 node_state: NodeState = None
 
 
 def main(args):
+    print(args)
     global node_state
     node_state = NodeState(args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model],
-                           args.model_snapshots, training_data_path=args.training_data_path, config=args.config)
+                           args.model_snapshots, args.snapshot_type, training_data_path=args.training_data_path,
+                           config=args.config)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_state.socket, callback=use_case_1)
@@ -105,18 +116,19 @@ def use_case_3(last_time=False, done=False):
         model_id = save_provenance_model(
             save_service=node_state.save_service,
             base_model_id=node_state.last_model_id,
-            train_kwargs=get_dummy_train_kwargs(),
-            prov_env=track_current_environment(),
+            train_kwargs=node_state.dummy_train_kwargs,
+            prov_env=node_state.node_environment,
             raw_data=node_state.training_data_path,
             ts_wrapper=ts_wrapper,
             model=model
         )
     else:
         # simulate model training by loading model from checkpoint
-        model_id = save_model(model, node_state.save_service, base_model_id=node_state.last_model_id)
+        model_id = save_model(NODE, node_state, model, node_state.save_service, node_state.node_environment,
+                              base_model_id=node_state.last_model_id)
+    log_stop(log)
 
     node_state.last_model_id = model_id
-    log_stop(log)
 
     # notify server
     text = NEW_MODEL
@@ -131,6 +143,7 @@ def use_case_3(last_time=False, done=False):
 
 
 def next_state():
+    time.sleep(5)
     if node_state.state_description == U_1:
         node_state.state_description = U_3_1
         node_state.u3_counter += 1
@@ -159,10 +172,20 @@ def _load_model_snapshot(state, counter):
     state = state.replace('U_', '').replace('_', '-')
     snapshot_name = USE_CASE_TEMPLATE.format(state, counter)
     snapshot_path = os.path.join(node_state.model_snapshots, snapshot_name)
-    print('load model: {}'.format(snapshot_path))
-    state_dict = torch.load(snapshot_path)
-    model: torch.nn.Module = node_state.model_class()
-    model.load_state_dict(state_dict)
+
+    if node_state.snapshot_types == FINE_TUNED:
+        print('load model (fine-tuned): {}'.format(snapshot_path))
+        base_path = os.path.join(node_state.model_snapshots, USE_CASE_1_PT)
+        model = get_fine_tuned_model(node_state.model_class, base_path, snapshot_path)
+    elif node_state.snapshot_types == VERSION:
+        device = get_device(None)
+        print('load model (version): {}'.format(snapshot_path))
+        state_dict = torch.load(snapshot_path, map_location=device)
+        model: torch.nn.Module = node_state.model_class()
+        model.load_state_dict(state_dict)
+    else:
+        raise NotImplementedError
+
     return model
 
 
@@ -209,7 +232,7 @@ def parse_args():
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)
     add_model_arg(parser)
-    add_model_snapshot_arg(parser)
+    add_model_snapshot_args(parser)
     add_paths(parser)
     add_mongo_ip(parser)
     add_approach(parser)
