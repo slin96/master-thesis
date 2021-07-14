@@ -21,11 +21,7 @@
     - `export PYTHONPATH="<PATH-TO-REPO-ROOT>"`
 - to create the directories to save the models to run
     - `./create-directories.sh`
-
-#### Dataset
-
-- TODO
-
+    
 #### Run Experiment
 
 - to perform the dummy training we use the script: `experiments/train-models/train-model-imagenet.py`
