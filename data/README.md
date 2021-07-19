@@ -1,5 +1,7 @@
 # Data
 
+In this part of the readme we describe the datasets we used and how to create them.
+
 ## ImageNet Data
 
 - when we say ImageNet data, we refer to the data that is used for the ImageNet Large Scale Visual Recognition
