@@ -1,5 +1,8 @@
 # Experiment: Number of Workers
 
+- some simple experiments on how and if the number workers used for dataloading influences the reproducibility of a 
+  training process  
+
 ## Reproducibility
 
 - Does the number of workers for the dataloader affect the reproducibility? -- **YES**
