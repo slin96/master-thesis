@@ -5,7 +5,7 @@ from torch import nn
 from torchvision import datasets
 from torchvision.models import resnet18
 
-from experiments.data.custom.custom_coco import CustomCoco
+from data.custom.custom_coco import CustomCoco
 from experiments.imagenet.imagenet_utils import inference_transforms, train_transforms
 from experiments.imagenet.processing import train_epoch, validate
 
