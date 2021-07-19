@@ -7,9 +7,8 @@ from torch import nn
 from torch.utils.collect_env import get_pretty_env_info
 from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resnet152
 
-from experiments.data.custom.custom_coco import TrainCustomCoco
-from experiments.imagenet.processing import in_number_of_batches
-
+from data.custom.custom_coco import TrainCustomCoco
+from imagenet.processing import in_number_of_batches
 
 TO_DEVICE = 'to_device'
 

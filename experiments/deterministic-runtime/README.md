@@ -16,8 +16,8 @@ runtime.
 - to specify the GPUs used use something like
     - `CUDA_VISIBLE_DEVICES=1,2 python myscript.py`
 - for our experiment we use two different parametrizations
-  - **non-deterministic:**`python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> > <LOG-FILE>`
-  - **deterministic:**`python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> --deterministic t > <LOG-FILE>`
+  - **non-deterministic:** `python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> > <LOG-FILE>`
+  - **deterministic:** `python time_training.py --num-epochs <EPOCHS> --coco-root <COCO-ROOT> --coco-annotations <COCO-META-JSON> --model <MODEL-ID> --deterministic t > <LOG-FILE>`
   
 ## Environment
 - we executed all experiments on the dgx-100 (for more info see main README.md) using 1 GPU
