@@ -1,5 +1,7 @@
 # Generate Models
 
+- the code we used to train the models we used for our experiments is provided in `train-model-imagenet.py` 
+
 ## Setup
 
 - in order to run the experiment *pytorch* and *torchvision* have to be installed
