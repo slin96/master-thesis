@@ -14,12 +14,12 @@ with loss of precision or focus on metadata and use a naive approach to saving a
 if, and by how much, we can outperform a baseline approach capable of naively saving and recovering models without loss
 of precision, while focusing on metrics of storage consumption, time-to-save, and time-to-recover.
 
-We develop a set of approaches consisting of a baseline approach B that saves complete model snapshots, a parameter
-update approach U_p′ that saves the updated model data, and a provenance approach M_Prov that saves the model’s
+We develop a set of approaches consisting of a baseline approach *B* that saves complete model snapshots, a parameter
+update approach *U_p′* that saves the updated model data, and a provenance approach *M_Prov* that saves the model’s
 provenance instead of the model itself. In addition to these approaches, we also develop a probing tool to determine if
 we can reproduce the inference and training of a given model across different machines. Evaluating all approaches in a
-distributed environment on different model architectures, model datasets, and model relations, we show that M_Prov
-outperforms the baseline by up to 70% and U_p′ by up to 95.6% in terms of storage consumption. While both approaches
+distributed environment on different model architectures, model datasets, and model relations, we show that *M_Prov*
+outperforms the baseline by up to 70% and *U_p′* by up to 95.6% in terms of storage consumption. While both approaches
 have the potential to achieve a similar or slightly shorter time-to-save, they come with a longer time-to-recover. We
 find that if and by how much, a given approach outperforms a baseline strongly depends on factors such as the dataset
 used, the model architecture, and how many model parameters stay fixed across different model versions.
