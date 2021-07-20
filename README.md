@@ -10,7 +10,7 @@ It contains:
 - description and creation of the datasets we used
     - [data](./data) 
   
-##MMlib
+## MMlib
 - the *MMlib* developed as part of the thesis comprising all our approaches is *NOT* part of this repo
   - you can find it here: [mmlib](https://github.com/slin96/mmlib)
 
