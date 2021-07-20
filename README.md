@@ -32,7 +32,7 @@ used, the model architecture, and how many model parameters stay fixed across di
 ## Repo Structure
 
 - thesis in PDF format
-    - HERE TODO insert link
+    - [thesis](./thesis.pdf)
 - overview of related work
     - [related work](./related-work)
 - the code for all experiments
