@@ -12,11 +12,13 @@
 - we execute our experiments on three different but equivalent machines in the same cluster
   - one node is representing the *database*, on the *server*, and one the *node*
   
+### Copy code
 - for the *node* and the *server* we create corresponding directories using the scripts and copy them to the node and 
   the server respectively:
   - `create-node-dir.py`
   - `create-server-dir.py`
 
+### Database
 - to model the database we run a mongoDB in a container in the corresponding machine
 - in our setup we use enroot
 - before we can automatically run all experiments, we have to ensure that the command `enroot start mongo` will strat a 
@@ -30,61 +32,44 @@
     - start container
       - `enroot start mongo`
   
+### MMlib
 - all our experiments make use of the approaches developed in the `mmlib` library
   - thus, it needs to be installed on the machine representing the `node` and the `server`
   - see instructions on how to install it in the corresponding [mmlib repo](https://github.com/slin96/mmlib)
     - *HINT*: you can also build the library locally and then just copy the wheel file to the corresponding machines
       and install it there using pip
   
-
-
-
-
-# Evaluate the different mmlib approaches
-
-- disclaimer
-  - script `run-experiment.py` was used to run experiments on uni machines
-  - it is not guaranteed that it works any other machine
-  - but script can be good starting point to adjust for new environment
-
-- need to have ssh access to the machines 
-  - with a ssh key identification
-
-- install enroot
-  - mongoDB
-
-- install conda
-  - install mmlib in named env
+### Pretrained model
+- to enable an extensive evaluation we do only perform dummy training (U2) or do not perform training at all (U3)
+- instead, of training we load snapshots of models that we have trained before using the code in
+  - [train-models-experiment](../train-models)
+  - depending on our experimental setup we can vary the save frequency
+- having created the model snapshots we have to bring them in the following directory structure so that we can access 
+  them when executing our experiments
+  - `<MODELNAME>-version-<U3DATASET>`
+      - `use-case-1.pt` 
+      - `use-case-2.pt`
+      - `use-case-3-1-1.pt`
+      - `use-case-3-1-2.pt`
+      - `use-case-3-1-3.pt`
+      - ...
+      - `use-case-3-2-1.pt`
+      - `use-case-3-2-2.pt`
+      - `use-case-3-2-3.pt`
+      - ...
+  - `<MODELRELATION> - [mobilenet, googlenet, resnet18, resnet50, resnet152]`
+  - `<U3DATASET> - [food, outdoor]`
   
-- models need to be trained and ready
-  - we produced them like THIS
-  - can be downloaded here
+- *COMMENT*: we plan to upload the exact models we used, but so far we do not have enough cloud storage available
+  
+### Data
+- for use case 1 we use the pretrained modes provided by PyTorch
+- for use case 2 we use the imagenet validation dataset
+- for use cases 3 we use our custom created COCO-food or COCO-outdoor dataset
+- for detailed descriptions on the datasets see the [data](../../data) part of this repo
+  
 
-- data needs to be trained and ready
-  - we used this ____ data
-  - can be downloaded here REF to DATA dir in repo
 
-## Models for experiment
-
-## relation
-```
-U1 ---> U3_1_1 ---> U3_1_2 ---> ...
-|
-|-> U2 ---> U3_2_1 ---> U3_2_2 ---> ...
-```
-
-- U1 model
-    - models use case 1
-    - is the pretrained model given by PyTorch
-- U2 model 
-    - models use case 2
-    - take U1 as starting point
-    - train for 10 epochs on the imagenet validation dataset
-- U3_1 models
-    - models use case 3
-    - first takes model U1 as starting point
-    - following take their previous U3_1 model as starting point
-    - trains on 512 images of ONE category of the Custom Coco dataset
-    - are trained for 5 epochs in comparison to the previous model
-- U3_2 models
-    - same as U3_1 models but initially take U2 as starting point
+## Run evaluation
+- after preparing all the models, datasets, and the code we can run our experiments using the script
+  - `run-experiment.py`
