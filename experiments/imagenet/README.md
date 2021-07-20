@@ -1,0 +1,2 @@
+- providing some example code on how to train models on the ImageNet dataset using PyTorch
+- to execute example run `example.py`

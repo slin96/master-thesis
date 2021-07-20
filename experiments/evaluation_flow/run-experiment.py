@@ -205,7 +205,7 @@ if __name__ == '__main__':
                         help='The path ending with "server/experiments/evaluation_flow" '
                              'to specify where to find the server.py script')
     parser.add_argument('--snapshot_root', type=str, required=True,
-                        help='The root directory to load the pretrained model snapshots form.')
+                        help='The root directory to load the pretrained model snapshots from.')
     parser.add_argument('--server_training_data_path', type=str, required=True,
                         help='The path to the training data used by the server, only relevant for provenance approach.')
     parser.add_argument('--node_training_data_path', type=str, required=True,

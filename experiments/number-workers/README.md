@@ -1,5 +1,8 @@
 # Experiment: Number of Workers
 
+- some simple experiments on how and if the number workers used for dataloading influences the reproducibility of a 
+  training process  
+
 ## Reproducibility
 
 - Does the number of workers for the dataloader affect the reproducibility? -- **YES**
@@ -21,11 +24,7 @@
     - `export PYTHONPATH="<PATH-TO-REPO-ROOT>"`
 - to create the directories to save the models to run
     - `./create-directories.sh`
-
-#### Dataset
-
-- TODO
-
+    
 #### Run Experiment
 
 - to perform the dummy training we use the script: `experiments/train-models/train-model-imagenet.py`

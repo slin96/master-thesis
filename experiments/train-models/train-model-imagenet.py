@@ -9,7 +9,7 @@ from torch.utils.collect_env import get_pretty_env_info
 from torchvision import datasets
 from torchvision.models import mobilenet_v2, googlenet, resnet18, resnet50, resnet152
 
-from experiments.data.custom.custom_coco import TrainCustomCoco
+from data.custom.custom_coco import TrainCustomCoco
 from experiments.imagenet.imagenet_utils import train_transforms
 from experiments.imagenet.processing import in_number_of_batches
 
