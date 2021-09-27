@@ -16,6 +16,13 @@ HPI_RED = '#B1083A'
 YELLOW = '#c7c91e'
 PURPLE = '#7516b5'
 
+# Accessibility colors
+A_LIGHT_BLUE = '#7AACF5'
+A_RED = '#E04178'
+A_BLUE = '#E04178'
+A_YELLOW = '#F5D73B'
+A_ORANGE = '#F59A5F'
+
 colors = {
     'load': PURPLE,
     'pickle parameters': PURPLE,
