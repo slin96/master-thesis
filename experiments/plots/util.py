@@ -24,11 +24,11 @@ A_YELLOW = '#E0D523'
 A_PINK = '#EB88DB'
 
 colors = {
-    'load': PURPLE,
+    'load': A_RED,
     'pickle parameters': PURPLE,
-    'recover': HPI_RED,
+    'recover': A_YELLOW,
     'hash parameters': HPI_RED,
-    'check params': HPI_ORANGE,
+    'check params': A_BLUE,
     'persist': HPI_ORANGE,
     'check env': HPI_LIGHT_ORANGE,
     'save dataset': HPI_ORANGE,
@@ -710,7 +710,7 @@ MODEL_PARAMETERS = np.array([3504872, 6624904, 11689512, 25557032, 60192808]) * 
 
 def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None,
                         model_params=False, lgd_right=False, reorder_labels=False):
-    plt.rc('font', size=36)
+    plt.rc('font', size=40)
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
     if size:
