@@ -17,11 +17,11 @@ YELLOW = '#c7c91e'
 PURPLE = '#7516b5'
 
 # Accessibility colors
-A_LIGHT_BLUE = '#7AACF5'
-A_RED = '#E04178'
-A_BLUE = '#E04178'
-A_YELLOW = '#F5D73B'
-A_ORANGE = '#F59A5F'
+A_RED = '#FA2100'
+A_BLUE = '#6F62DB'
+A_GREEN = '#6FDBA8'
+A_YELLOW = '#E0D523'
+A_PINK = '#EB88DB'
 
 colors = {
     'load': PURPLE,
