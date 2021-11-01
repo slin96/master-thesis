@@ -731,6 +731,11 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
 
     plt.xticks(pos, x_labels)
     handles, labels = ax.get_legend_handles_labels()
+
+    for i in range(len(labels)):
+        if labels[i] is 'recover':
+            labels[i] = 'recover model'
+
     if reorder_labels:
         handles = [handles[2], handles[1], handles[0], handles[3]]
         labels = [labels[2], labels[1], labels[0], labels[3]]
