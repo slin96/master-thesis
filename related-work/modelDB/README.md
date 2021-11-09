@@ -79,6 +79,7 @@ Following Content from (8:00-25:00, demo from 32:10): [2]
         - Data
         - Environment (e.g. Python version, library versions)
     - weights and checkpoints can be stored as artifacts but are **NOT** part of the model version itself
+    - model are serialized here: https://github.com/VertaAI/modeldb/blob/1cf76f128d96a64f86c05ddd4b55d4b8b296be95/client/verta/verta/_internal_utils/_artifact_utils.py#L253      - 
 
 
 - Architecture
