@@ -53,6 +53,7 @@ def extract_data(data_file):
     to_device = data_frame.filter(like='to_device', axis=0)
     forward_path = data_frame.filter(like='forward_path', axis=0)
     backward_path = data_frame.filter(like='backward_path', axis=0)
+    epochs = data_frame.filter(like="epoch,epoch", axis=0)
 
     return batches, load_data, to_device, forward_path, backward_path
 
@@ -65,3 +66,6 @@ def median_values(extracted_data):
     forward_path_median = forward_path[DIFF].median()
     backward_path_median = backward_path[DIFF].median()
     return [batches_median, load_data_median, to_device_median, forward_path_median, backward_path_median]
+
+if __name__ == '__main__':
+    extract_data('/Users/nils/uni/mmlib-paper/master-thesis/experiments/deterministic-runtime/results/deterministic-resnet152.txt')
