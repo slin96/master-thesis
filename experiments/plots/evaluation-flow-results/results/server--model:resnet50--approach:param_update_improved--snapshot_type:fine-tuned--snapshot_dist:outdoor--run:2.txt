@@ -1,0 +1,865 @@
+Namespace(approach='param_update_improved', config=None, log_dir=None, model='resnet50', model_snapshots='/hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/resnet50-versions-outdoor', mongo_host='172.20.26.36', node_ip='172.20.26.37', node_port=18197, server_ip='172.20.26.38', server_port=18196, snapshot_type='fine-tuned', tmp_dir='/hpi/fs00/home/nils.strassenburg/tmp-dir', training_data_path=None)
+get_pytorch_env -- takes relatively long...
+load model (version): /hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/resnet50-versions-outdoor/use-case-1.pt
+{"start-stop": "START", "_id": "18e2668f-69f4-4f3d-a503-b5fa4aa1f6bb", "use_case": "U_1", "role": "server", "event": "save_model", "time": 1624250393486362676}
+{"start-stop": "START", "_id": "03c13558-8ae7-41d8-be50-c5826d824821", "use_case": "build_save_info", "role": "server", "event": "all", "time": 1624250393487709497}
+{"start-stop": "STOP", "_id": "03c13558-8ae7-41d8-be50-c5826d824821", "use_case": "build_save_info", "role": "server", "event": "all", "time": 1624250393488310821}
+{"start-stop": "START", "_id": "5e5024ff-80ef-4c88-9bdb-b408a657a8ce", "use_case": "mmlib_save_call", "role": "server", "event": "all", "time": 1624250393488328432}
+{"start-stop": "start", "_id": "def6dccd-a4d5-4dbf-b2b1-a90287ddf7d6", "approach": "param_update", "method": "save_model", "event": "all", "time": 1624250393488378033}
+{"start-stop": "start", "_id": "fdaa6b30-3d89-42f3-a541-0c7391597691", "approach": "baseline", "method": "call_save_full_model", "event": "all", "time": 1624250393488407239}
+{"start-stop": "start", "_id": "4118d586-b4c0-4319-a697-eff314838c1c", "approach": "baseline", "method": "_save_full_model", "event": "all", "time": 1624250393488430013}
+{"start-stop": "start", "_id": "7339d150-dad8-4fba-a94c-7233455bf317", "approach": "baseline", "method": "_save_full_model", "event": "pickle_weights", "time": 1624250393489169187}
+{"start-stop": "stop", "_id": "7339d150-dad8-4fba-a94c-7233455bf317", "approach": "baseline", "method": "_save_full_model", "event": "pickle_weights", "time": 1624250393601591911}
+{"start-stop": "start", "_id": "087b4570-db98-43a7-8270-dc202c0f3468", "approach": "baseline", "method": "_save_full_model", "event": "_get_weights_hash_info", "time": 1624250393601787957}
+{"start-stop": "stop", "_id": "087b4570-db98-43a7-8270-dc202c0f3468", "approach": "baseline", "method": "_save_full_model", "event": "_get_weights_hash_info", "time": 1624250393739252805}
+{"start-stop": "start", "_id": "4e0c8b8a-0fad-45a5-ab16-69b531101ed2", "approach": "baseline", "method": "_save_full_model", "event": "persist_model_info", "time": 1624250393739306567}
+{"start-stop": "start", "_id": "0ba74832-6870-4b61-b77a-686fe7adc458", "schema_obj": "model_info", "method": "persist", "time": 1624250393739345404}
+{"start-stop": "start", "_id": "4c1bfafd-3970-4728-9fee-60a5289e9be1", "schema_obj": "recover_info", "method": "persist", "time": 1624250393739498261}
+{"start-stop": "start", "_id": "68aec16c-567b-4bcd-9dc2-e6206fb14529", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250393739561934}
+{"start-stop": "stop", "_id": "68aec16c-567b-4bcd-9dc2-e6206fb14529", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250393761464689}
+{"start-stop": "start", "_id": "a47fd107-335e-4b90-b117-830152a4e4d6", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250393761519640}
+{"start-stop": "stop", "_id": "a47fd107-335e-4b90-b117-830152a4e4d6", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250393873226482}
+{"start-stop": "start", "_id": "2df53e3a-e843-4e80-bfd1-d9bea2164ad1", "schema_obj": "environment", "method": "persist", "time": 1624250393873298063}
+{"start-stop": "start", "_id": "2457c958-fc89-4322-a9c5-f01ed87d1787", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "environment", "time": 1624250393873438498}
+{"start-stop": "stop", "_id": "2457c958-fc89-4322-a9c5-f01ed87d1787", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "environment", "time": 1624250393882417541}
+{"start-stop": "stop", "_id": "2df53e3a-e843-4e80-bfd1-d9bea2164ad1", "schema_obj": "environment", "method": "persist", "time": 1624250393882494940}
+{"start-stop": "start", "_id": "0401f661-d8e9-45bc-9d48-051c14988aca", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "recover_info", "time": 1624250393882529338}
+{"start-stop": "stop", "_id": "0401f661-d8e9-45bc-9d48-051c14988aca", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "recover_info", "time": 1624250393888369065}
+{"start-stop": "stop", "_id": "4c1bfafd-3970-4728-9fee-60a5289e9be1", "schema_obj": "recover_info", "method": "persist", "time": 1624250393888424346}
+{"start-stop": "start", "_id": "b0d675e8-b1f7-49bc-bb7d-f5c0576617d9", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "model_info", "time": 1624250393889337057}
+{"start-stop": "stop", "_id": "b0d675e8-b1f7-49bc-bb7d-f5c0576617d9", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "model_info", "time": 1624250393897358543}
+{"start-stop": "stop", "_id": "0ba74832-6870-4b61-b77a-686fe7adc458", "schema_obj": "model_info", "method": "persist", "time": 1624250393897412555}
+{"start-stop": "stop", "_id": "4e0c8b8a-0fad-45a5-ab16-69b531101ed2", "approach": "baseline", "method": "_save_full_model", "event": "persist_model_info", "time": 1624250393897530316}
+{"start-stop": "stop", "_id": "4118d586-b4c0-4319-a697-eff314838c1c", "approach": "baseline", "method": "_save_full_model", "event": "all", "time": 1624250393897552272}
+{"start-stop": "stop", "_id": "fdaa6b30-3d89-42f3-a541-0c7391597691", "approach": "baseline", "method": "call_save_full_model", "event": "all", "time": 1624250393909492978}
+{"start-stop": "stop", "_id": "def6dccd-a4d5-4dbf-b2b1-a90287ddf7d6", "approach": "param_update", "method": "save_model", "event": "all", "time": 1624250393909746799}
+{"start-stop": "STOP", "_id": "5e5024ff-80ef-4c88-9bdb-b408a657a8ce", "use_case": "mmlib_save_call", "role": "server", "event": "all", "time": 1624250393909759271}
+{"start-stop": "STOP", "_id": "18e2668f-69f4-4f3d-a503-b5fa4aa1f6bb", "use_case": "U_1", "role": "server", "event": "save_model", "time": 1624250393909791133}
+{"start-stop": "START", "_id": "abd3c529-0534-45a0-8711-0d142d444db5", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250402770598864}
+(b'{"model_id": "60d018226bd79e5a68fcb40a", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "abd3c529-0534-45a0-8711-0d142d444db5", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250402771067349}
+{"start-stop": "START", "_id": "a8bd7372-e014-4f4c-9e69-c51350836bbf", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250408696936508}
+(b'{"model_id": "60d018286bd79e5a68fcb40c", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "a8bd7372-e014-4f4c-9e69-c51350836bbf", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250408697199326}
+{"start-stop": "START", "_id": "6e6aae74-acf7-40b3-a332-1e898b012918", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250414554340145}
+(b'{"model_id": "60d0182e6bd79e5a68fcb40e", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "6e6aae74-acf7-40b3-a332-1e898b012918", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250414554576390}
+{"start-stop": "START", "_id": "242ed703-b71a-4456-9513-a049d987379f", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250420481490176}
+(b'{"model_id": "60d018346bd79e5a68fcb410", "TEXT": "last"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "242ed703-b71a-4456-9513-a049d987379f", "use_case": "U_3_1", "role": "server", "event": "extract_notify_message", "time": 1624250420481725790}
+load model (fine-tuned): /hpi/fs00/share/fg-rabl/strassenburg/version-snapshots/resnet50-versions-outdoor/use-case-2.pt
+{"start-stop": "START", "_id": "08e5d9a0-9658-4e9a-8f30-82f708973680", "use_case": "U_2", "role": "server", "event": "save_model", "time": 1624250426160372764}
+{"start-stop": "START", "_id": "1f2bc431-4f17-4b02-89a0-726de9ebf8a4", "use_case": "build_save_info", "role": "server", "event": "all", "time": 1624250426160576911}
+{"start-stop": "STOP", "_id": "1f2bc431-4f17-4b02-89a0-726de9ebf8a4", "use_case": "build_save_info", "role": "server", "event": "all", "time": 1624250426161242618}
+{"start-stop": "START", "_id": "e496adce-4c73-4022-8583-54148cbdb867", "use_case": "mmlib_save_call", "role": "server", "event": "all", "time": 1624250426161253477}
+{"start-stop": "start", "_id": "a7f6acf1-1ecc-46c5-9f10-6d73b2510486", "approach": "param_update", "method": "save_model", "event": "all", "time": 1624250426161277390}
+{"start-stop": "start", "_id": "99741413-67d2-4a01-b6dc-f126c73958e1", "approach": "param_update", "method": "_save_updated_model", "event": "all", "time": 1624250426161298168}
+{"start-stop": "start", "_id": "14e5cd35-e432-41d5-81d2-3e9ed06d61dd", "approach": "param_update", "method": "_save_updated_model", "event": "get_weights_hash_info", "time": 1624250426161935289}
+{"start-stop": "stop", "_id": "14e5cd35-e432-41d5-81d2-3e9ed06d61dd", "approach": "param_update", "method": "_save_updated_model", "event": "get_weights_hash_info", "time": 1624250426298049976}
+{"start-stop": "start", "_id": "0599c475-f038-41fa-8d70-48a7bd5e9a48", "approach": "param_update", "method": "_save_updated_model", "event": "generate_weights_update", "time": 1624250426298077444}
+{"start-stop": "start", "_id": "8ff273fe-a743-47dc-abfb-f44d65febb83", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250426298152389}
+{"start-stop": "stop", "_id": "8ff273fe-a743-47dc-abfb-f44d65febb83", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250426298186192}
+{"start-stop": "stop", "_id": "0599c475-f038-41fa-8d70-48a7bd5e9a48", "approach": "param_update", "method": "_save_updated_model", "event": "generate_weights_update", "time": 1624250426316608612}
+{"start-stop": "start", "_id": "87156963-c20c-4eb6-84e8-a761b9bfb21e", "approach": "param_update", "method": "_save_updated_model", "event": "persist", "time": 1624250426316690754}
+{"start-stop": "start", "_id": "7ae1b791-9418-4231-a6d5-4ce4842552ba", "schema_obj": "model_info", "method": "persist", "time": 1624250426316731970}
+{"start-stop": "start", "_id": "5dcd5e3e-5e50-487d-9f3a-949e846f3ff8", "schema_obj": "recover_info", "method": "persist", "time": 1624250426316801731}
+{"start-stop": "start", "_id": "9786dcdb-791a-4749-af13-9787bd6dc751", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250426316836416}
+{"start-stop": "stop", "_id": "9786dcdb-791a-4749-af13-9787bd6dc751", "service": "mmlib_file_pers", "method": "save_file", "time": 1624250426364805683}
+{"start-stop": "start", "_id": "c09bfb62-43ad-4d24-b0cd-e364d141eb8b", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "recover_info", "time": 1624250426364876455}
+{"start-stop": "stop", "_id": "c09bfb62-43ad-4d24-b0cd-e364d141eb8b", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "recover_info", "time": 1624250426366352658}
+{"start-stop": "stop", "_id": "5dcd5e3e-5e50-487d-9f3a-949e846f3ff8", "schema_obj": "recover_info", "method": "persist", "time": 1624250426366405483}
+{"start-stop": "start", "_id": "e37fae42-5c89-4b62-924b-8423b6565a49", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "model_info", "time": 1624250426366849825}
+{"start-stop": "stop", "_id": "e37fae42-5c89-4b62-924b-8423b6565a49", "service": "mmlib_dict_pers", "method": "save_dict", "collection": "model_info", "time": 1624250426370117831}
+{"start-stop": "stop", "_id": "7ae1b791-9418-4231-a6d5-4ce4842552ba", "schema_obj": "model_info", "method": "persist", "time": 1624250426370172088}
+{"start-stop": "stop", "_id": "87156963-c20c-4eb6-84e8-a761b9bfb21e", "approach": "param_update", "method": "_save_updated_model", "event": "persist", "time": 1624250426370219976}
+{"start-stop": "stop", "_id": "99741413-67d2-4a01-b6dc-f126c73958e1", "approach": "param_update", "method": "_save_updated_model", "event": "all", "time": 1624250426370225660}
+{"start-stop": "stop", "_id": "a7f6acf1-1ecc-46c5-9f10-6d73b2510486", "approach": "param_update", "method": "save_model", "event": "all", "time": 1624250426371105504}
+{"start-stop": "STOP", "_id": "e496adce-4c73-4022-8583-54148cbdb867", "use_case": "mmlib_save_call", "role": "server", "event": "all", "time": 1624250426371119841}
+{"start-stop": "STOP", "_id": "08e5d9a0-9658-4e9a-8f30-82f708973680", "use_case": "U_2", "role": "server", "event": "save_model", "time": 1624250426371127552}
+{"start-stop": "START", "_id": "b601f096-5a61-40b1-8660-abb333509dad", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250435184856000}
+(b'{"model_id": "60d018436bd79e5a68fcb412", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "b601f096-5a61-40b1-8660-abb333509dad", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250435184988606}
+{"start-stop": "START", "_id": "a87275ef-323b-4f29-bb3c-284478705706", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250441115957419}
+(b'{"model_id": "60d018496bd79e5a68fcb414", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "a87275ef-323b-4f29-bb3c-284478705706", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250441116197213}
+{"start-stop": "START", "_id": "4256d880-ee75-4c6b-be8f-44de88a3d7b7", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250447045552240}
+(b'{"model_id": "60d0184f6bd79e5a68fcb416", "TEXT": "new model"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "4256d880-ee75-4c6b-be8f-44de88a3d7b7", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250447045682436}
+{"start-stop": "START", "_id": "cfe8ecd1-4b6d-4212-bf2d-87986ccec3d6", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250452931288971}
+(b'{"model_id": "60d018546bd79e5a68fcb418", "TEXT": "done"}', ('172.20.26.37', 18197))
+{"start-stop": "STOP", "_id": "cfe8ecd1-4b6d-4212-bf2d-87986ccec3d6", "use_case": "U_3_2", "role": "server", "event": "extract_notify_message", "time": 1624250452931498890}
+{"start-stop": "START", "_id": "149b88e1-7086-4b1d-92e9-f9a998ee9290", "use_case": "U_4", "role": "server", "event": "recover_models", "time": 1624250457936763382}
+{"start-stop": "START", "_id": "9c815794-04a3-48d8-a831-006256bccd38", "use_case": "U_4", "role": "server", "event": "recover-U_1-60d018199390569ff370240a", "time": 1624250457936945824}
+{"start-stop": "start", "_id": "572312cb-2d06-4128-bb88-ead0ffb394c3", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250457937019114}
+{"start-stop": "start", "_id": "a5da682d-3176-48e1-87c6-f42cd8508631", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250457937259084}
+{"start-stop": "stop", "_id": "a5da682d-3176-48e1-87c6-f42cd8508631", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250457937303085}
+{"start-stop": "start", "_id": "d9c94995-3c73-446e-9031-905bd4e55fe6", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250457950999559}
+{"start-stop": "start", "_id": "75b5410b-e5cd-470b-81dc-1faa04555c87", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250457951179912}
+{"start-stop": "start", "_id": "2f947551-8554-4f00-9a44-99ab4c0b869f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250457951229070}
+{"start-stop": "stop", "_id": "2f947551-8554-4f00-9a44-99ab4c0b869f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250457951257758}
+{"start-stop": "start", "_id": "82aac6b4-ae13-4493-b9bd-9adc25792a72", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250457953438928}
+{"start-stop": "stop", "_id": "82aac6b4-ae13-4493-b9bd-9adc25792a72", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250457953526447}
+{"start-stop": "start", "_id": "dab967ac-e0d8-4e0f-8f57-28bd8324d556", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250457954611517}
+{"start-stop": "stop", "_id": "dab967ac-e0d8-4e0f-8f57-28bd8324d556", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250457968037454}
+{"start-stop": "start", "_id": "118df4d9-c0a8-4210-be8d-59187e3edf59", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250457968097334}
+{"start-stop": "stop", "_id": "118df4d9-c0a8-4210-be8d-59187e3edf59", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250458129282818}
+{"start-stop": "start", "_id": "e473ed7c-8a37-4f89-ad8b-5dfdbd8e4d2a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250458129376162}
+{"start-stop": "stop", "_id": "e473ed7c-8a37-4f89-ad8b-5dfdbd8e4d2a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250458129422668}
+{"start-stop": "stop", "_id": "75b5410b-e5cd-470b-81dc-1faa04555c87", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250458136936934}
+{"start-stop": "start", "_id": "5582846d-543d-42ee-a2ac-b381c1d2aec6", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250458136957746}
+{"start-stop": "start", "_id": "36f507af-009a-4d88-b5f3-fcdb7f2850ff", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250458564255536}
+{"start-stop": "stop", "_id": "36f507af-009a-4d88-b5f3-fcdb7f2850ff", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250458702915738}
+{"start-stop": "start", "_id": "5733247f-6c22-478a-9b6c-a8ed42af57eb", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250458702989610}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "5733247f-6c22-478a-9b6c-a8ed42af57eb", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250460054332968}
+{"start-stop": "stop", "_id": "5582846d-543d-42ee-a2ac-b381c1d2aec6", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250460063542082}
+{"start-stop": "stop", "_id": "d9c94995-3c73-446e-9031-905bd4e55fe6", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250460063571686}
+{"start-stop": "stop", "_id": "572312cb-2d06-4128-bb88-ead0ffb394c3", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250460064678717}
+{"start-stop": "STOP", "_id": "9c815794-04a3-48d8-a831-006256bccd38", "use_case": "U_4", "role": "server", "event": "recover-U_1-60d018199390569ff370240a", "time": 1624250460065498780}
+{"start-stop": "START", "_id": "b9b646bc-aa15-45ea-833e-d5e2774ef2ac", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_1-60d018226bd79e5a68fcb40a", "time": 1624250460065531603}
+{"start-stop": "start", "_id": "695d0bea-8563-427b-a486-17e000ba4320", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250460065583975}
+{"start-stop": "start", "_id": "19f8c5dc-aafe-4b34-ab00-3910ae7a5eda", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460065777605}
+{"start-stop": "stop", "_id": "19f8c5dc-aafe-4b34-ab00-3910ae7a5eda", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460065819849}
+{"start-stop": "start", "_id": "4b10fa21-ffae-4eea-851c-fc823e42c2d1", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250460074638832}
+{"start-stop": "start", "_id": "d2e262e7-41aa-49f7-825f-ac0ac7884580", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460074757626}
+{"start-stop": "stop", "_id": "d2e262e7-41aa-49f7-825f-ac0ac7884580", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460074783904}
+{"start-stop": "start", "_id": "bc6eaaf9-c022-4313-9820-b469eaf0e1ce", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250460076281393}
+{"start-stop": "stop", "_id": "bc6eaaf9-c022-4313-9820-b469eaf0e1ce", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250460076316323}
+{"start-stop": "start", "_id": "f26231d7-1ffc-4b6b-902c-884af9c95711", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460077357357}
+{"start-stop": "stop", "_id": "f26231d7-1ffc-4b6b-902c-884af9c95711", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460117865303}
+{"start-stop": "start", "_id": "37070e5a-5d55-41f1-a9dc-0ed3c1850b7a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250460124794193}
+{"start-stop": "start", "_id": "aa80b1e7-49f4-450f-b156-9d627548d4d2", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250460124847212}
+{"start-stop": "start", "_id": "45c32edc-4021-4ce3-96a0-405e200e3493", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460124997731}
+{"start-stop": "stop", "_id": "45c32edc-4021-4ce3-96a0-405e200e3493", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460125031628}
+{"start-stop": "start", "_id": "693bbe4b-49aa-40e8-aff1-e5cc4b835c0e", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250460133549703}
+{"start-stop": "start", "_id": "986a1895-075b-40a2-a1e9-07b96748aac8", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250460133641528}
+{"start-stop": "start", "_id": "4433a61a-3778-4c55-b65d-bf181d0970a3", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460133665239}
+{"start-stop": "stop", "_id": "4433a61a-3778-4c55-b65d-bf181d0970a3", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250460133681989}
+{"start-stop": "start", "_id": "e4e42d05-75b0-41a7-b942-42caf8e3d305", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250460135313987}
+{"start-stop": "stop", "_id": "e4e42d05-75b0-41a7-b942-42caf8e3d305", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250460135346863}
+{"start-stop": "start", "_id": "1f51984f-ac7b-44ca-a2ae-bcad397e8b7b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460136256303}
+{"start-stop": "stop", "_id": "1f51984f-ac7b-44ca-a2ae-bcad397e8b7b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460136753478}
+{"start-stop": "start", "_id": "813d0ab9-2e60-4378-ba74-18d473e5d22e", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460136770833}
+{"start-stop": "stop", "_id": "813d0ab9-2e60-4378-ba74-18d473e5d22e", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250460199792443}
+{"start-stop": "start", "_id": "1a6f2d05-e398-4d93-9558-701725bd7919", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250460199842475}
+{"start-stop": "stop", "_id": "1a6f2d05-e398-4d93-9558-701725bd7919", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250460199880555}
+{"start-stop": "stop", "_id": "986a1895-075b-40a2-a1e9-07b96748aac8", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250460207198458}
+{"start-stop": "start", "_id": "56d311c6-1b60-4a57-b9bc-fa4993626275", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250460207219571}
+{"start-stop": "start", "_id": "4cac7e9d-8c8a-4d2e-b9ab-d196e08a82ef", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250460611661512}
+{"start-stop": "stop", "_id": "4cac7e9d-8c8a-4d2e-b9ab-d196e08a82ef", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250460752756743}
+{"start-stop": "start", "_id": "4a059403-21ef-4556-91b2-17cd5609977a", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250460752879525}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "4a059403-21ef-4556-91b2-17cd5609977a", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250462054014342}
+{"start-stop": "stop", "_id": "56d311c6-1b60-4a57-b9bc-fa4993626275", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250462064377156}
+{"start-stop": "stop", "_id": "693bbe4b-49aa-40e8-aff1-e5cc4b835c0e", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250462064404855}
+{"start-stop": "stop", "_id": "aa80b1e7-49f4-450f-b156-9d627548d4d2", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250462065415641}
+{"start-stop": "stop", "_id": "37070e5a-5d55-41f1-a9dc-0ed3c1850b7a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250462090665412}
+{"start-stop": "start", "_id": "68c53c12-fc41-4c50-8127-78c6cd75a45e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250462090753897}
+{"start-stop": "start", "_id": "90442ee5-ac38-4278-af73-fa4ba5e61eff", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250462090804058}
+{"start-stop": "stop", "_id": "90442ee5-ac38-4278-af73-fa4ba5e61eff", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250462230195450}
+{"start-stop": "stop", "_id": "68c53c12-fc41-4c50-8127-78c6cd75a45e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250462230252243}
+{"start-stop": "stop", "_id": "4b10fa21-ffae-4eea-851c-fc823e42c2d1", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250462231246087}
+{"start-stop": "stop", "_id": "695d0bea-8563-427b-a486-17e000ba4320", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250462231403692}
+{"start-stop": "STOP", "_id": "b9b646bc-aa15-45ea-833e-d5e2774ef2ac", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_1-60d018226bd79e5a68fcb40a", "time": 1624250462231890916}
+{"start-stop": "START", "_id": "aec92988-d596-40b9-b4cf-126be1cb82b8", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_2-60d018286bd79e5a68fcb40c", "time": 1624250462231923689}
+{"start-stop": "start", "_id": "38c4b9ad-3766-45e8-bc36-a55baadca9f0", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250462231962798}
+{"start-stop": "start", "_id": "80d9ff73-e635-437c-8cdf-1d416098f9e7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462232145013}
+{"start-stop": "stop", "_id": "80d9ff73-e635-437c-8cdf-1d416098f9e7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462232192444}
+{"start-stop": "start", "_id": "a650dd2a-6452-409a-98a1-3381d96982f5", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250462241937039}
+{"start-stop": "start", "_id": "94043554-f924-4c08-b87c-a042d4d7c65a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462242376077}
+{"start-stop": "stop", "_id": "94043554-f924-4c08-b87c-a042d4d7c65a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462242417574}
+{"start-stop": "start", "_id": "af4eeb18-1e81-4bef-8376-c7414487ad40", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462244218544}
+{"start-stop": "stop", "_id": "af4eeb18-1e81-4bef-8376-c7414487ad40", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462244251326}
+{"start-stop": "start", "_id": "b9e42dab-4fed-4ead-b138-17260b4d4343", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462245300739}
+{"start-stop": "stop", "_id": "b9e42dab-4fed-4ead-b138-17260b4d4343", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462282987142}
+{"start-stop": "start", "_id": "1319f9f1-0d14-4f8c-b4a4-6b93b148c423", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250462289188876}
+{"start-stop": "start", "_id": "83804784-8356-4722-a448-5fc2d5967894", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250462289240413}
+{"start-stop": "start", "_id": "478a13a1-09a6-4c78-8a0d-fee2aeb1b2dd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462289391201}
+{"start-stop": "stop", "_id": "478a13a1-09a6-4c78-8a0d-fee2aeb1b2dd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462289422229}
+{"start-stop": "start", "_id": "cb5379c2-57b4-4ffd-90ad-055b0808a629", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250462297681947}
+{"start-stop": "start", "_id": "7eb8fab8-2843-4b05-a69c-7ad89df6a060", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462297795153}
+{"start-stop": "stop", "_id": "7eb8fab8-2843-4b05-a69c-7ad89df6a060", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462297818985}
+{"start-stop": "start", "_id": "4f29284d-5249-438f-bd68-7aabf347c571", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462299766797}
+{"start-stop": "stop", "_id": "4f29284d-5249-438f-bd68-7aabf347c571", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462299797083}
+{"start-stop": "start", "_id": "ffd4d8bf-df17-4ee4-9948-a618744c94dc", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462300764416}
+{"start-stop": "stop", "_id": "ffd4d8bf-df17-4ee4-9948-a618744c94dc", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462306778896}
+{"start-stop": "start", "_id": "c7c2d2bf-9104-414b-ba26-3f43d83e7c0d", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250462312833885}
+{"start-stop": "start", "_id": "1fd9dab3-9110-49c5-9773-03f97b68ed2f", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250462312863033}
+{"start-stop": "start", "_id": "42d63f33-9bb6-45c6-b741-d38b6bd4f927", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462312948804}
+{"start-stop": "stop", "_id": "42d63f33-9bb6-45c6-b741-d38b6bd4f927", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462312968267}
+{"start-stop": "start", "_id": "b96cc6ef-9fcc-4e9a-82ff-248f2b54f529", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250462321781290}
+{"start-stop": "start", "_id": "2633e21e-6e5e-46b4-bca1-4c1cbf1d813a", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250462321858267}
+{"start-stop": "start", "_id": "c4dab2e6-ba4a-4e63-8562-c63093e836c7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462321880873}
+{"start-stop": "stop", "_id": "c4dab2e6-ba4a-4e63-8562-c63093e836c7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250462321897511}
+{"start-stop": "start", "_id": "476c9f37-cce3-4234-ba45-20571e800b2b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462323268505}
+{"start-stop": "stop", "_id": "476c9f37-cce3-4234-ba45-20571e800b2b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250462323299970}
+{"start-stop": "start", "_id": "7eb08323-0f58-468f-8b62-f9a7aab217bc", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462324147572}
+{"start-stop": "stop", "_id": "7eb08323-0f58-468f-8b62-f9a7aab217bc", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462324407303}
+{"start-stop": "start", "_id": "f4ceb3fc-d92e-4e03-999e-5f04c63f8a8e", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462324423939}
+{"start-stop": "stop", "_id": "f4ceb3fc-d92e-4e03-999e-5f04c63f8a8e", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250462388329179}
+{"start-stop": "start", "_id": "ccc7c3ab-6e1d-4247-9a16-2f5eb5b2cc94", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250462388389039}
+{"start-stop": "stop", "_id": "ccc7c3ab-6e1d-4247-9a16-2f5eb5b2cc94", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250462388430251}
+{"start-stop": "stop", "_id": "2633e21e-6e5e-46b4-bca1-4c1cbf1d813a", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250462396144708}
+{"start-stop": "start", "_id": "cca11188-5cd3-4704-a289-b74016f49b95", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250462396165726}
+{"start-stop": "start", "_id": "bb7ba45a-fac2-4560-82ab-1e6c8f9538bc", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250462770691309}
+{"start-stop": "stop", "_id": "bb7ba45a-fac2-4560-82ab-1e6c8f9538bc", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250462907646593}
+{"start-stop": "start", "_id": "6fab2547-03b0-4645-ac28-ec04da504a8a", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250462907721658}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "6fab2547-03b0-4645-ac28-ec04da504a8a", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250464200581997}
+{"start-stop": "stop", "_id": "cca11188-5cd3-4704-a289-b74016f49b95", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250464210089667}
+{"start-stop": "stop", "_id": "b96cc6ef-9fcc-4e9a-82ff-248f2b54f529", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250464210113832}
+{"start-stop": "stop", "_id": "1fd9dab3-9110-49c5-9773-03f97b68ed2f", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250464210923677}
+{"start-stop": "stop", "_id": "c7c2d2bf-9104-414b-ba26-3f43d83e7c0d", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250464236679215}
+{"start-stop": "start", "_id": "2ab2b797-c751-4a5b-9ef1-22493e5cd8c9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250464236723498}
+{"start-stop": "start", "_id": "3a198a0a-7e8d-438f-8ef1-0202ec3adfec", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250464236780944}
+{"start-stop": "stop", "_id": "3a198a0a-7e8d-438f-8ef1-0202ec3adfec", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250464379307173}
+{"start-stop": "stop", "_id": "2ab2b797-c751-4a5b-9ef1-22493e5cd8c9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250464379368868}
+{"start-stop": "stop", "_id": "cb5379c2-57b4-4ffd-90ad-055b0808a629", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250464380443040}
+{"start-stop": "stop", "_id": "83804784-8356-4722-a448-5fc2d5967894", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250464380599287}
+{"start-stop": "stop", "_id": "1319f9f1-0d14-4f8c-b4a4-6b93b148c423", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250464401124018}
+{"start-stop": "start", "_id": "488325ef-367a-44d6-9c0b-3885cc28c8d1", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250464401160746}
+{"start-stop": "start", "_id": "c5b2eb06-8073-48f0-b8ad-21df45442b5a", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250464401202252}
+{"start-stop": "stop", "_id": "c5b2eb06-8073-48f0-b8ad-21df45442b5a", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250464538047312}
+{"start-stop": "stop", "_id": "488325ef-367a-44d6-9c0b-3885cc28c8d1", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250464538100683}
+{"start-stop": "stop", "_id": "a650dd2a-6452-409a-98a1-3381d96982f5", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250464539085251}
+{"start-stop": "stop", "_id": "38c4b9ad-3766-45e8-bc36-a55baadca9f0", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250464539242513}
+{"start-stop": "STOP", "_id": "aec92988-d596-40b9-b4cf-126be1cb82b8", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_2-60d018286bd79e5a68fcb40c", "time": 1624250464539592425}
+{"start-stop": "START", "_id": "9e9f3f29-dfb4-4b86-b1a6-ad5fe5994f85", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_3-60d0182e6bd79e5a68fcb40e", "time": 1624250464539612142}
+{"start-stop": "start", "_id": "97ab7535-8aa0-4886-a1fe-74bd4267b05d", "approach": "param_update", "method": "recover_model-60d0182e6bd79e5a68fcb40e", "event": "all", "time": 1624250464539647699}
+{"start-stop": "start", "_id": "d3f10a67-9b2c-4fe4-8301-a8db1e97c3b7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464539796313}
+{"start-stop": "stop", "_id": "d3f10a67-9b2c-4fe4-8301-a8db1e97c3b7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464539829682}
+{"start-stop": "start", "_id": "84e0333f-33a7-4ec4-9c73-7267f9abb513", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250464547911957}
+{"start-stop": "start", "_id": "96aaa0d4-f7d1-4454-852a-1b58885fc168", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464548009401}
+{"start-stop": "stop", "_id": "96aaa0d4-f7d1-4454-852a-1b58885fc168", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464548032968}
+{"start-stop": "start", "_id": "d738d362-e9a4-49d3-98cc-27c4976391a1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464549734086}
+{"start-stop": "stop", "_id": "d738d362-e9a4-49d3-98cc-27c4976391a1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464549761949}
+{"start-stop": "start", "_id": "aa03fb58-b29d-447a-a7cb-54390ce8b751", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464550724993}
+{"start-stop": "stop", "_id": "aa03fb58-b29d-447a-a7cb-54390ce8b751", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464590671259}
+{"start-stop": "start", "_id": "d4bc0e67-5cbe-4851-b92a-eee12b3bd01a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250464596808363}
+{"start-stop": "start", "_id": "44eb35da-a257-42da-a902-e5527bc00725", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250464596853239}
+{"start-stop": "start", "_id": "dc1261d0-0962-4fad-83cf-6e83dd5546b9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464596978932}
+{"start-stop": "stop", "_id": "dc1261d0-0962-4fad-83cf-6e83dd5546b9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464597016248}
+{"start-stop": "start", "_id": "aa5dd7cf-6701-4d34-8d02-dacade011e25", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250464604928254}
+{"start-stop": "start", "_id": "81867244-3c97-4855-b0a8-e0ac3933da03", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464605018627}
+{"start-stop": "stop", "_id": "81867244-3c97-4855-b0a8-e0ac3933da03", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464605039733}
+{"start-stop": "start", "_id": "32547fa5-de6a-491b-bb2a-0c52144b5743", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464606992876}
+{"start-stop": "stop", "_id": "32547fa5-de6a-491b-bb2a-0c52144b5743", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464607021734}
+{"start-stop": "start", "_id": "e62a4201-21f6-4a98-b4e1-ee9d9e35b7bb", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464607975412}
+{"start-stop": "stop", "_id": "e62a4201-21f6-4a98-b4e1-ee9d9e35b7bb", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464613063984}
+{"start-stop": "start", "_id": "b67dbc4f-a923-46a7-b3a0-897b0ca6d361", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250464619039889}
+{"start-stop": "start", "_id": "312f3352-1eb3-444d-9b3e-a700dd70bee7", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250464619067947}
+{"start-stop": "start", "_id": "aa8003b5-4065-4359-b311-11a4fa06f434", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464619147414}
+{"start-stop": "stop", "_id": "aa8003b5-4065-4359-b311-11a4fa06f434", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464619165867}
+{"start-stop": "start", "_id": "9701ece9-5450-4193-94ef-49ae5fdcbc23", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250464626481085}
+{"start-stop": "start", "_id": "feab25ac-2632-4795-ba19-46e2be36b0d9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464626568865}
+{"start-stop": "stop", "_id": "feab25ac-2632-4795-ba19-46e2be36b0d9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464626590984}
+{"start-stop": "start", "_id": "5617b433-1f8f-4bf2-80c5-ba11eccb3557", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464627956221}
+{"start-stop": "stop", "_id": "5617b433-1f8f-4bf2-80c5-ba11eccb3557", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464627986346}
+{"start-stop": "start", "_id": "dce9af33-7a04-47c7-9b06-10e176206012", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464628922299}
+{"start-stop": "stop", "_id": "dce9af33-7a04-47c7-9b06-10e176206012", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464634282412}
+{"start-stop": "start", "_id": "3be75a8c-d7db-413a-8acc-9a5c1b831ffd", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250464681032600}
+{"start-stop": "start", "_id": "89070458-900c-4fe0-b039-5bf4543c53fa", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250464681076886}
+{"start-stop": "start", "_id": "8209c30a-e059-424e-9511-bfe32706924e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464681163619}
+{"start-stop": "stop", "_id": "8209c30a-e059-424e-9511-bfe32706924e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464681182966}
+{"start-stop": "start", "_id": "1e3a6b43-2ec6-44c1-8bec-14f65816dcb5", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250464689269940}
+{"start-stop": "start", "_id": "9c1a73c8-af15-4719-a5ef-d09d78e6981b", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250464689343020}
+{"start-stop": "start", "_id": "1398e303-20b9-49b6-8f73-33ae2091c3b4", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464689364589}
+{"start-stop": "stop", "_id": "1398e303-20b9-49b6-8f73-33ae2091c3b4", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250464689380656}
+{"start-stop": "start", "_id": "0abb2bd8-8110-4471-b60a-21ed6eb3d6e7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464691215172}
+{"start-stop": "stop", "_id": "0abb2bd8-8110-4471-b60a-21ed6eb3d6e7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250464691244068}
+{"start-stop": "start", "_id": "70952eb5-3dba-4840-a4d4-1d0bb6dbc6c4", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464692194926}
+{"start-stop": "stop", "_id": "70952eb5-3dba-4840-a4d4-1d0bb6dbc6c4", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464692795232}
+{"start-stop": "start", "_id": "700fa895-2e59-4d73-a6d3-9ca523a35855", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464692808847}
+{"start-stop": "stop", "_id": "700fa895-2e59-4d73-a6d3-9ca523a35855", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250464746785826}
+{"start-stop": "start", "_id": "92f88e2b-2940-46c9-9a91-a0bdf21e9059", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250464746836348}
+{"start-stop": "stop", "_id": "92f88e2b-2940-46c9-9a91-a0bdf21e9059", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250464746876161}
+{"start-stop": "stop", "_id": "9c1a73c8-af15-4719-a5ef-d09d78e6981b", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250464754267507}
+{"start-stop": "start", "_id": "cbc8cc8b-fc9d-4393-8d60-74753f7b771e", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250464754285440}
+{"start-stop": "start", "_id": "43583e98-4370-45f7-829c-01057db240f7", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250465120289548}
+{"start-stop": "stop", "_id": "43583e98-4370-45f7-829c-01057db240f7", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250465257681653}
+{"start-stop": "start", "_id": "18791a40-214d-4f96-b267-9c86565661b3", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250465257763831}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "18791a40-214d-4f96-b267-9c86565661b3", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250466554708607}
+{"start-stop": "stop", "_id": "cbc8cc8b-fc9d-4393-8d60-74753f7b771e", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250466564059986}
+{"start-stop": "stop", "_id": "1e3a6b43-2ec6-44c1-8bec-14f65816dcb5", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250466564085790}
+{"start-stop": "stop", "_id": "89070458-900c-4fe0-b039-5bf4543c53fa", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250466564956164}
+{"start-stop": "stop", "_id": "3be75a8c-d7db-413a-8acc-9a5c1b831ffd", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250466590922798}
+{"start-stop": "start", "_id": "04a919f7-db5b-44ed-a548-f0e4d288428d", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250466590971677}
+{"start-stop": "start", "_id": "08c6b8f6-3d91-4ce4-a820-1efe0c8acf03", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250466591053049}
+{"start-stop": "stop", "_id": "08c6b8f6-3d91-4ce4-a820-1efe0c8acf03", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250466728341192}
+{"start-stop": "stop", "_id": "04a919f7-db5b-44ed-a548-f0e4d288428d", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250466728401911}
+{"start-stop": "stop", "_id": "9701ece9-5450-4193-94ef-49ae5fdcbc23", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250466729316755}
+{"start-stop": "stop", "_id": "312f3352-1eb3-444d-9b3e-a700dd70bee7", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250466729476117}
+{"start-stop": "stop", "_id": "b67dbc4f-a923-46a7-b3a0-897b0ca6d361", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250466751501605}
+{"start-stop": "start", "_id": "5cd0e9d8-f7ce-46c7-a77a-17697c006cfa", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250466751534603}
+{"start-stop": "start", "_id": "4aa77294-6b1b-4e66-b1fd-9ffba4889786", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250466751577781}
+{"start-stop": "stop", "_id": "4aa77294-6b1b-4e66-b1fd-9ffba4889786", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250466887888915}
+{"start-stop": "stop", "_id": "5cd0e9d8-f7ce-46c7-a77a-17697c006cfa", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250466887947026}
+{"start-stop": "stop", "_id": "aa5dd7cf-6701-4d34-8d02-dacade011e25", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250466888904722}
+{"start-stop": "stop", "_id": "44eb35da-a257-42da-a902-e5527bc00725", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250466889036881}
+{"start-stop": "stop", "_id": "d4bc0e67-5cbe-4851-b92a-eee12b3bd01a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250466910864373}
+{"start-stop": "start", "_id": "620237eb-ebbe-4ba1-948f-4426c6667809", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250466910900207}
+{"start-stop": "start", "_id": "6a4485db-7ba1-4c67-bbf3-cbe1360bf0c7", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250466910939791}
+{"start-stop": "stop", "_id": "6a4485db-7ba1-4c67-bbf3-cbe1360bf0c7", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250467047251147}
+{"start-stop": "stop", "_id": "620237eb-ebbe-4ba1-948f-4426c6667809", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250467047309079}
+{"start-stop": "stop", "_id": "84e0333f-33a7-4ec4-9c73-7267f9abb513", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250467048296659}
+{"start-stop": "stop", "_id": "97ab7535-8aa0-4886-a1fe-74bd4267b05d", "approach": "param_update", "method": "recover_model-60d0182e6bd79e5a68fcb40e", "event": "all", "time": 1624250467048437217}
+{"start-stop": "STOP", "_id": "9e9f3f29-dfb4-4b86-b1a6-ad5fe5994f85", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_3-60d0182e6bd79e5a68fcb40e", "time": 1624250467048797981}
+{"start-stop": "START", "_id": "e9772858-43be-4565-9c36-aae407a0fb41", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_4-60d018346bd79e5a68fcb410", "time": 1624250467048819876}
+{"start-stop": "start", "_id": "3dca6a38-200b-4dae-97e7-7f214bb276ec", "approach": "param_update", "method": "recover_model-60d018346bd79e5a68fcb410", "event": "all", "time": 1624250467048861222}
+{"start-stop": "start", "_id": "19924a7c-f78d-439f-9dd9-acf00b04dffa", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467049007680}
+{"start-stop": "stop", "_id": "19924a7c-f78d-439f-9dd9-acf00b04dffa", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467049041235}
+{"start-stop": "start", "_id": "32cfaa75-963e-4a0e-ba92-e2749dd2550c", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250467057157355}
+{"start-stop": "start", "_id": "326ab8eb-253e-4b6f-8086-116e2cde05c2", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467057254499}
+{"start-stop": "stop", "_id": "326ab8eb-253e-4b6f-8086-116e2cde05c2", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467057278541}
+{"start-stop": "start", "_id": "f8e773b4-5ecb-4c6c-a7f3-18029f009346", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467058939549}
+{"start-stop": "stop", "_id": "f8e773b4-5ecb-4c6c-a7f3-18029f009346", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467058968197}
+{"start-stop": "start", "_id": "dd7a1290-36e4-444d-8345-6c894f7bfa3b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467059954776}
+{"start-stop": "stop", "_id": "dd7a1290-36e4-444d-8345-6c894f7bfa3b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467100593061}
+{"start-stop": "start", "_id": "55b53453-a472-466f-ab99-72c95edccdb8", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250467106724771}
+{"start-stop": "start", "_id": "ad4cede7-45ba-48fa-bedb-9ffbd68a2661", "approach": "param_update", "method": "recover_model-60d0182e6bd79e5a68fcb40e", "event": "all", "time": 1624250467106771206}
+{"start-stop": "start", "_id": "2e09247b-fb0c-4a09-a450-f7d80c713074", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467106878201}
+{"start-stop": "stop", "_id": "2e09247b-fb0c-4a09-a450-f7d80c713074", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467106899947}
+{"start-stop": "start", "_id": "3fa36933-a181-40f0-87f0-b6c18c2d2cde", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250467115053216}
+{"start-stop": "start", "_id": "e1830d6c-a85e-4e4f-87d2-bd78a74b2312", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467115144865}
+{"start-stop": "stop", "_id": "e1830d6c-a85e-4e4f-87d2-bd78a74b2312", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467115168835}
+{"start-stop": "start", "_id": "85cce26f-2ca6-4bb5-bba3-44d8220a8c5a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467116979198}
+{"start-stop": "stop", "_id": "85cce26f-2ca6-4bb5-bba3-44d8220a8c5a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467117008683}
+{"start-stop": "start", "_id": "5dc0fc21-20b8-4081-a7e2-861f5ca32b91", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467117967586}
+{"start-stop": "stop", "_id": "5dc0fc21-20b8-4081-a7e2-861f5ca32b91", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467123140335}
+{"start-stop": "start", "_id": "8779450b-e242-4986-949f-dfd9e9d18d8e", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250467129290165}
+{"start-stop": "start", "_id": "811e3e19-0374-4af3-bb61-3d3f55b7259c", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250467129319295}
+{"start-stop": "start", "_id": "ec3d0d65-2c39-4d75-8f86-3b6cac0617f8", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467129401176}
+{"start-stop": "stop", "_id": "ec3d0d65-2c39-4d75-8f86-3b6cac0617f8", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467129432590}
+{"start-stop": "start", "_id": "7bd5ddf9-1c1c-4833-9065-c1a123bb8442", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250467136892053}
+{"start-stop": "start", "_id": "ae3c4145-fb78-4ea8-b2a0-7fd6b9743cee", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467136973828}
+{"start-stop": "stop", "_id": "ae3c4145-fb78-4ea8-b2a0-7fd6b9743cee", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467136994666}
+{"start-stop": "start", "_id": "a3021ff2-d7f2-499c-95a9-511f49b1c265", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467138937712}
+{"start-stop": "stop", "_id": "a3021ff2-d7f2-499c-95a9-511f49b1c265", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467138967355}
+{"start-stop": "start", "_id": "60117aea-edfe-46b9-a602-daff3aa241ae", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467139869949}
+{"start-stop": "stop", "_id": "60117aea-edfe-46b9-a602-daff3aa241ae", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467144593950}
+{"start-stop": "start", "_id": "09198530-b3c5-4ef4-a9c9-73b52de078e9", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250467150959270}
+{"start-stop": "start", "_id": "b07758e6-998c-4c83-acfd-a923d93ac704", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250467150985624}
+{"start-stop": "start", "_id": "08369ce1-844e-47e7-8978-fb4a3d96eb5a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467151062376}
+{"start-stop": "stop", "_id": "08369ce1-844e-47e7-8978-fb4a3d96eb5a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467151080573}
+{"start-stop": "start", "_id": "012baffe-7c4c-443e-b549-37bbc6761790", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250467159040518}
+{"start-stop": "start", "_id": "9b1c79e3-c6fb-4992-afc2-7a8b2d7b828e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467159122363}
+{"start-stop": "stop", "_id": "9b1c79e3-c6fb-4992-afc2-7a8b2d7b828e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467159143508}
+{"start-stop": "start", "_id": "fab5892e-d631-4c10-8d5b-7d62ddfaf026", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467160986571}
+{"start-stop": "stop", "_id": "fab5892e-d631-4c10-8d5b-7d62ddfaf026", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467161015549}
+{"start-stop": "start", "_id": "ec436f77-22f5-45d2-bf37-79248c8c2def", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467162042912}
+{"start-stop": "stop", "_id": "ec436f77-22f5-45d2-bf37-79248c8c2def", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467172513004}
+{"start-stop": "start", "_id": "94e63bf0-711c-4793-be64-c30d0a9c20f1", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250467178917910}
+{"start-stop": "start", "_id": "87b1f304-d06d-4ccf-baff-c12266612b52", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250467178959874}
+{"start-stop": "start", "_id": "5bcb4224-4aa1-46b8-950d-55736b552f03", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467179054850}
+{"start-stop": "stop", "_id": "5bcb4224-4aa1-46b8-950d-55736b552f03", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467179078300}
+{"start-stop": "start", "_id": "9a510c84-bb59-49a7-86c7-3ddcd6531c4f", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250467187018823}
+{"start-stop": "start", "_id": "459585c1-b0ff-42a0-a08b-f15ef2d4f3dc", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250467187094536}
+{"start-stop": "start", "_id": "4bab8985-1db8-4d2b-b3c1-e39d110d742a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467187115901}
+{"start-stop": "stop", "_id": "4bab8985-1db8-4d2b-b3c1-e39d110d742a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250467187130897}
+{"start-stop": "start", "_id": "5e28b19b-70c8-4c27-98b8-31215a2dbd12", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467188832583}
+{"start-stop": "stop", "_id": "5e28b19b-70c8-4c27-98b8-31215a2dbd12", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250467188861823}
+{"start-stop": "start", "_id": "9bf6407b-e1a3-412f-aaf4-28452d4c8d55", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467189815430}
+{"start-stop": "stop", "_id": "9bf6407b-e1a3-412f-aaf4-28452d4c8d55", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467190058975}
+{"start-stop": "start", "_id": "ee822b81-c007-4ae7-98c5-eb7620c5de5f", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467190073482}
+{"start-stop": "stop", "_id": "ee822b81-c007-4ae7-98c5-eb7620c5de5f", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250467244617776}
+{"start-stop": "start", "_id": "4f79b3cb-9198-4cd0-ac41-022883f74893", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250467244668421}
+{"start-stop": "stop", "_id": "4f79b3cb-9198-4cd0-ac41-022883f74893", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250467244706601}
+{"start-stop": "stop", "_id": "459585c1-b0ff-42a0-a08b-f15ef2d4f3dc", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250467252273608}
+{"start-stop": "start", "_id": "e39703b2-90e2-40eb-be38-9eb9552ebc6a", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250467252292722}
+{"start-stop": "start", "_id": "28d85b4f-3fe5-4aca-9b5d-1994adda14a9", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250467677912540}
+{"start-stop": "stop", "_id": "28d85b4f-3fe5-4aca-9b5d-1994adda14a9", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250467817368627}
+{"start-stop": "start", "_id": "4f52a187-84f0-44ff-a548-dec879f22090", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250467817467609}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "4f52a187-84f0-44ff-a548-dec879f22090", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250469107924185}
+{"start-stop": "stop", "_id": "e39703b2-90e2-40eb-be38-9eb9552ebc6a", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250469117253799}
+{"start-stop": "stop", "_id": "9a510c84-bb59-49a7-86c7-3ddcd6531c4f", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250469117277497}
+{"start-stop": "stop", "_id": "87b1f304-d06d-4ccf-baff-c12266612b52", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250469118192990}
+{"start-stop": "stop", "_id": "94e63bf0-711c-4793-be64-c30d0a9c20f1", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250469149538509}
+{"start-stop": "start", "_id": "1ab075b4-3f34-4c1d-bd84-dcb5dd9ea7db", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469149586455}
+{"start-stop": "start", "_id": "00d61c73-b162-44af-b7f6-8c3da7135a30", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469149666363}
+{"start-stop": "stop", "_id": "00d61c73-b162-44af-b7f6-8c3da7135a30", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469286666142}
+{"start-stop": "stop", "_id": "1ab075b4-3f34-4c1d-bd84-dcb5dd9ea7db", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469286729402}
+{"start-stop": "stop", "_id": "012baffe-7c4c-443e-b549-37bbc6761790", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250469287940500}
+{"start-stop": "stop", "_id": "b07758e6-998c-4c83-acfd-a923d93ac704", "approach": "param_update", "method": "recover_model-60d018226bd79e5a68fcb40a", "event": "all", "time": 1624250469288077782}
+{"start-stop": "stop", "_id": "09198530-b3c5-4ef4-a9c9-73b52de078e9", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250469307928259}
+{"start-stop": "start", "_id": "b135aed3-fe06-4ec3-ba0f-ecc49f344c64", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469307962261}
+{"start-stop": "start", "_id": "970b1850-bbbc-48d2-91a9-b49cde3b007c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469308002272}
+{"start-stop": "stop", "_id": "970b1850-bbbc-48d2-91a9-b49cde3b007c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469451709335}
+{"start-stop": "stop", "_id": "b135aed3-fe06-4ec3-ba0f-ecc49f344c64", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469451773081}
+{"start-stop": "stop", "_id": "7bd5ddf9-1c1c-4833-9065-c1a123bb8442", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250469452694556}
+{"start-stop": "stop", "_id": "811e3e19-0374-4af3-bb61-3d3f55b7259c", "approach": "param_update", "method": "recover_model-60d018286bd79e5a68fcb40c", "event": "all", "time": 1624250469452824050}
+{"start-stop": "stop", "_id": "8779450b-e242-4986-949f-dfd9e9d18d8e", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250469473612335}
+{"start-stop": "start", "_id": "15e7593f-4c5e-4c51-8cb0-3b2f2c1a259e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469473651112}
+{"start-stop": "start", "_id": "cc24d46b-f8fd-4484-af17-4baae39a51db", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469473695118}
+{"start-stop": "stop", "_id": "cc24d46b-f8fd-4484-af17-4baae39a51db", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469610699228}
+{"start-stop": "stop", "_id": "15e7593f-4c5e-4c51-8cb0-3b2f2c1a259e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469610754324}
+{"start-stop": "stop", "_id": "3fa36933-a181-40f0-87f0-b6c18c2d2cde", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250469611701973}
+{"start-stop": "stop", "_id": "ad4cede7-45ba-48fa-bedb-9ffbd68a2661", "approach": "param_update", "method": "recover_model-60d0182e6bd79e5a68fcb40e", "event": "all", "time": 1624250469611836505}
+{"start-stop": "stop", "_id": "55b53453-a472-466f-ab99-72c95edccdb8", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250469631334014}
+{"start-stop": "start", "_id": "5de493c1-8de9-4ee4-98a1-7ac5767cbf0c", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469631371105}
+{"start-stop": "start", "_id": "fc05fe33-bee9-4722-b013-3a089faea5fb", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469631410987}
+{"start-stop": "stop", "_id": "fc05fe33-bee9-4722-b013-3a089faea5fb", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250469768644353}
+{"start-stop": "stop", "_id": "5de493c1-8de9-4ee4-98a1-7ac5767cbf0c", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250469768698995}
+{"start-stop": "stop", "_id": "32cfaa75-963e-4a0e-ba92-e2749dd2550c", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250469769691614}
+{"start-stop": "stop", "_id": "3dca6a38-200b-4dae-97e7-7f214bb276ec", "approach": "param_update", "method": "recover_model-60d018346bd79e5a68fcb410", "event": "all", "time": 1624250469769856118}
+{"start-stop": "STOP", "_id": "e9772858-43be-4565-9c36-aae407a0fb41", "use_case": "U_4", "role": "server", "event": "recover-U_3_1_4-60d018346bd79e5a68fcb410", "time": 1624250469770252373}
+{"start-stop": "START", "_id": "c37ba708-feb5-496b-a6e3-1b2635c9c682", "use_case": "U_4", "role": "server", "event": "recover-U_2-60d0183a9390569ff370240d", "time": 1624250469770291077}
+{"start-stop": "start", "_id": "0eeb9057-3133-42dc-a928-56b34f8e0fbb", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250469770328844}
+{"start-stop": "start", "_id": "0db8f18a-773f-442b-8083-cf2690eba498", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469770486393}
+{"start-stop": "stop", "_id": "0db8f18a-773f-442b-8083-cf2690eba498", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469770526489}
+{"start-stop": "start", "_id": "4ec1f634-6e8d-4478-9525-151972ca5b6e", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250469779118979}
+{"start-stop": "start", "_id": "e3ad09fd-950c-487f-8f8f-244ebfc2dd5e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469779215051}
+{"start-stop": "stop", "_id": "e3ad09fd-950c-487f-8f8f-244ebfc2dd5e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469779238047}
+{"start-stop": "start", "_id": "a5572121-caee-45e0-b675-a29d5f8504cc", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250469780936873}
+{"start-stop": "stop", "_id": "a5572121-caee-45e0-b675-a29d5f8504cc", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250469780965148}
+{"start-stop": "start", "_id": "a972e71b-d4f2-407f-805f-41211b7dfc4c", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469781952217}
+{"start-stop": "stop", "_id": "a972e71b-d4f2-407f-805f-41211b7dfc4c", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469796691517}
+{"start-stop": "start", "_id": "5e26f445-ed19-4a7d-afe7-2a5c1972c377", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250469802747324}
+{"start-stop": "start", "_id": "a6f7a451-73ee-4e67-82fe-a83f0351c6b6", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250469802787563}
+{"start-stop": "start", "_id": "10f6170c-22f7-44f9-9266-57676b3a0784", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469802888289}
+{"start-stop": "stop", "_id": "10f6170c-22f7-44f9-9266-57676b3a0784", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469802910347}
+{"start-stop": "start", "_id": "24a8c7bc-a995-45fe-b92e-b23d56a2e04d", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250469810540629}
+{"start-stop": "start", "_id": "19234e79-9838-49c7-9161-d8d92a030021", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250469810617445}
+{"start-stop": "start", "_id": "6405dd12-c137-4427-b088-506c95871bb3", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469810639097}
+{"start-stop": "stop", "_id": "6405dd12-c137-4427-b088-506c95871bb3", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250469810666094}
+{"start-stop": "start", "_id": "6e03c7d1-88d9-49f7-8106-cbb7bb462a3b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250469812066261}
+{"start-stop": "stop", "_id": "6e03c7d1-88d9-49f7-8106-cbb7bb462a3b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250469812095444}
+{"start-stop": "start", "_id": "a63a2315-6ff9-4af3-8d0e-183a5f083caa", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469812997571}
+{"start-stop": "stop", "_id": "a63a2315-6ff9-4af3-8d0e-183a5f083caa", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469813233168}
+{"start-stop": "start", "_id": "d638a61f-11aa-4508-ae10-eebc87775210", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469813247247}
+{"start-stop": "stop", "_id": "d638a61f-11aa-4508-ae10-eebc87775210", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250469867500562}
+{"start-stop": "start", "_id": "c060eb5a-772d-43a5-9c09-59ee341eae3b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250469867549299}
+{"start-stop": "stop", "_id": "c060eb5a-772d-43a5-9c09-59ee341eae3b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250469867589123}
+{"start-stop": "stop", "_id": "19234e79-9838-49c7-9161-d8d92a030021", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250469875370760}
+{"start-stop": "start", "_id": "937cb876-a42c-4380-88c9-dadb1add1566", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250469875388861}
+{"start-stop": "start", "_id": "922cd073-1a04-4db7-9bae-82429a9717d9", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250470239281895}
+{"start-stop": "stop", "_id": "922cd073-1a04-4db7-9bae-82429a9717d9", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250470380716378}
+{"start-stop": "start", "_id": "da9994f0-6bc7-4d7f-a9b9-25619f75be91", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250470380788607}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "da9994f0-6bc7-4d7f-a9b9-25619f75be91", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250471653019071}
+{"start-stop": "stop", "_id": "937cb876-a42c-4380-88c9-dadb1add1566", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250471662539362}
+{"start-stop": "stop", "_id": "24a8c7bc-a995-45fe-b92e-b23d56a2e04d", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250471662565338}
+{"start-stop": "stop", "_id": "a6f7a451-73ee-4e67-82fe-a83f0351c6b6", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250471663402028}
+{"start-stop": "stop", "_id": "5e26f445-ed19-4a7d-afe7-2a5c1972c377", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250471688726862}
+{"start-stop": "start", "_id": "47851866-059f-4c3e-8e7d-e63e46725259", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250471688775569}
+{"start-stop": "start", "_id": "1cb84a2e-5abe-4377-9c63-283145900bfe", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250471688833688}
+{"start-stop": "stop", "_id": "1cb84a2e-5abe-4377-9c63-283145900bfe", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250471825796831}
+{"start-stop": "stop", "_id": "47851866-059f-4c3e-8e7d-e63e46725259", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250471825855388}
+{"start-stop": "stop", "_id": "4ec1f634-6e8d-4478-9525-151972ca5b6e", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250471826810311}
+{"start-stop": "stop", "_id": "0eeb9057-3133-42dc-a928-56b34f8e0fbb", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250471826978522}
+{"start-stop": "STOP", "_id": "c37ba708-feb5-496b-a6e3-1b2635c9c682", "use_case": "U_4", "role": "server", "event": "recover-U_2-60d0183a9390569ff370240d", "time": 1624250471827358040}
+{"start-stop": "START", "_id": "fac4d95e-9670-41aa-9106-c47949ca0d7c", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_1-60d018436bd79e5a68fcb412", "time": 1624250471827377927}
+{"start-stop": "start", "_id": "8f67bdc4-30c2-47fb-bb6f-b6211b203a85", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250471827412694}
+{"start-stop": "start", "_id": "e88cdfd5-1e6f-4c34-844c-08ba1a9dbf46", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471827550410}
+{"start-stop": "stop", "_id": "e88cdfd5-1e6f-4c34-844c-08ba1a9dbf46", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471827585525}
+{"start-stop": "start", "_id": "43018a45-3f84-48b1-bfb0-e4baba83f8de", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250471836120387}
+{"start-stop": "start", "_id": "2f07a71d-8188-4a55-80c7-3eb4b268b6dd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471836225918}
+{"start-stop": "stop", "_id": "2f07a71d-8188-4a55-80c7-3eb4b268b6dd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471836249055}
+{"start-stop": "start", "_id": "69f8fee5-1a78-4fdd-ae22-0b7dd9b7648b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471837785275}
+{"start-stop": "stop", "_id": "69f8fee5-1a78-4fdd-ae22-0b7dd9b7648b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471837813276}
+{"start-stop": "start", "_id": "3f9fb0bd-73d2-48d0-8508-554aff213743", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471838783321}
+{"start-stop": "stop", "_id": "3f9fb0bd-73d2-48d0-8508-554aff213743", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471880499480}
+{"start-stop": "start", "_id": "320b02b3-e226-48ab-bc40-24b169705aeb", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250471886670439}
+{"start-stop": "start", "_id": "589895dc-7fc8-4da1-97d1-63c6b3995663", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250471886726328}
+{"start-stop": "start", "_id": "ee1dabde-b909-4e20-a75a-9a21be686ab6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471886838502}
+{"start-stop": "stop", "_id": "ee1dabde-b909-4e20-a75a-9a21be686ab6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471886862418}
+{"start-stop": "start", "_id": "4a17c10d-c1de-4b27-b463-36a805809785", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250471895297282}
+{"start-stop": "start", "_id": "71601975-9433-4fa5-b655-7976a2f3ab75", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471895389035}
+{"start-stop": "stop", "_id": "71601975-9433-4fa5-b655-7976a2f3ab75", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471895410430}
+{"start-stop": "start", "_id": "77b19ad4-0104-4d72-80a3-c3eb607f9a7d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471897279303}
+{"start-stop": "stop", "_id": "77b19ad4-0104-4d72-80a3-c3eb607f9a7d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471897308795}
+{"start-stop": "start", "_id": "7a470866-a218-4624-9392-b5995143dd1c", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471898286976}
+{"start-stop": "stop", "_id": "7a470866-a218-4624-9392-b5995143dd1c", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471903346042}
+{"start-stop": "start", "_id": "2a043755-d53d-4a3e-9682-d9bc4e1fa9d4", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250471909343164}
+{"start-stop": "start", "_id": "39309f8b-2d47-4f40-a6cb-26075adfadca", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250471909371333}
+{"start-stop": "start", "_id": "5bdb89f9-f01a-4c8b-a519-69fd9e028bf7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471909449139}
+{"start-stop": "stop", "_id": "5bdb89f9-f01a-4c8b-a519-69fd9e028bf7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471909467817}
+{"start-stop": "start", "_id": "53b54264-e964-4f07-b873-fb17ab0f42a7", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250471917103866}
+{"start-stop": "start", "_id": "c6350373-86d3-4cb9-992d-09af920d7505", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250471917176512}
+{"start-stop": "start", "_id": "5a1a8d88-1167-4de2-95b2-88f8fa5f5842", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471917198186}
+{"start-stop": "stop", "_id": "5a1a8d88-1167-4de2-95b2-88f8fa5f5842", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250471917213796}
+{"start-stop": "start", "_id": "c28a0ed2-04bc-47af-ac09-623ebcd3470d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471918547704}
+{"start-stop": "stop", "_id": "c28a0ed2-04bc-47af-ac09-623ebcd3470d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250471918577406}
+{"start-stop": "start", "_id": "7acf2663-9597-4e8a-8d90-627281f6d8eb", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471919550485}
+{"start-stop": "stop", "_id": "7acf2663-9597-4e8a-8d90-627281f6d8eb", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471919877572}
+{"start-stop": "start", "_id": "01a120a9-5b00-45ca-9d34-36b1bb1c1574", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471919892951}
+{"start-stop": "stop", "_id": "01a120a9-5b00-45ca-9d34-36b1bb1c1574", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250471974351801}
+{"start-stop": "start", "_id": "b6abad80-1198-4079-be2a-5e45ad628310", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250471974539798}
+{"start-stop": "stop", "_id": "b6abad80-1198-4079-be2a-5e45ad628310", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250471974673460}
+{"start-stop": "stop", "_id": "c6350373-86d3-4cb9-992d-09af920d7505", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250471983384667}
+{"start-stop": "start", "_id": "8b88db9c-3e2b-4526-b95b-e91167eedf9c", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250471983409936}
+{"start-stop": "start", "_id": "1ef622a1-011c-4794-b817-0eb49a2dd20b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250472353248327}
+{"start-stop": "stop", "_id": "1ef622a1-011c-4794-b817-0eb49a2dd20b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250472494617998}
+{"start-stop": "start", "_id": "5326012b-0476-450d-b47b-172deaad85e7", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250472494686108}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "5326012b-0476-450d-b47b-172deaad85e7", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250473781645549}
+{"start-stop": "stop", "_id": "8b88db9c-3e2b-4526-b95b-e91167eedf9c", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250474182714899}
+{"start-stop": "stop", "_id": "53b54264-e964-4f07-b873-fb17ab0f42a7", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250474182746309}
+{"start-stop": "stop", "_id": "39309f8b-2d47-4f40-a6cb-26075adfadca", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250474183724675}
+{"start-stop": "stop", "_id": "2a043755-d53d-4a3e-9682-d9bc4e1fa9d4", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250474218501109}
+{"start-stop": "start", "_id": "dd34edec-f365-4d1c-b569-a483b9060ef9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250474218616408}
+{"start-stop": "start", "_id": "cc2db9b2-edf4-49f5-9e72-d0cd7c260d7c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250474218703957}
+{"start-stop": "stop", "_id": "cc2db9b2-edf4-49f5-9e72-d0cd7c260d7c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250474366347855}
+{"start-stop": "stop", "_id": "dd34edec-f365-4d1c-b569-a483b9060ef9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250474366405423}
+{"start-stop": "stop", "_id": "4a17c10d-c1de-4b27-b463-36a805809785", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250474367399919}
+{"start-stop": "stop", "_id": "589895dc-7fc8-4da1-97d1-63c6b3995663", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250474367600899}
+{"start-stop": "stop", "_id": "320b02b3-e226-48ab-bc40-24b169705aeb", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250474389725206}
+{"start-stop": "start", "_id": "ca6a62ae-8e4f-4774-94c7-983a6008131b", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250474389759797}
+{"start-stop": "start", "_id": "de67bce9-02d1-4cfa-ac49-0126c372efa8", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250474389799140}
+{"start-stop": "stop", "_id": "de67bce9-02d1-4cfa-ac49-0126c372efa8", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250474527191541}
+{"start-stop": "stop", "_id": "ca6a62ae-8e4f-4774-94c7-983a6008131b", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250474527244519}
+{"start-stop": "stop", "_id": "43018a45-3f84-48b1-bfb0-e4baba83f8de", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250474528243733}
+{"start-stop": "stop", "_id": "8f67bdc4-30c2-47fb-bb6f-b6211b203a85", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250474528440941}
+{"start-stop": "STOP", "_id": "fac4d95e-9670-41aa-9106-c47949ca0d7c", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_1-60d018436bd79e5a68fcb412", "time": 1624250474528848760}
+{"start-stop": "START", "_id": "e32d194f-a19b-4efd-a422-7cc882a98b59", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_2-60d018496bd79e5a68fcb414", "time": 1624250474528875482}
+{"start-stop": "start", "_id": "bbec9e7d-198c-46df-bb27-aa2e74b7f1f5", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250474528917558}
+{"start-stop": "start", "_id": "91966ac5-04c1-4e6c-8c91-ec6cbcdb419e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474529145457}
+{"start-stop": "stop", "_id": "91966ac5-04c1-4e6c-8c91-ec6cbcdb419e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474529192622}
+{"start-stop": "start", "_id": "3235536e-907c-49aa-baa6-42f0729581be", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250474537592950}
+{"start-stop": "start", "_id": "0a1fd29b-02c3-4295-aa7f-5bd6fa75de74", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474537686364}
+{"start-stop": "stop", "_id": "0a1fd29b-02c3-4295-aa7f-5bd6fa75de74", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474537709370}
+{"start-stop": "start", "_id": "ec47ec11-fef8-4cc1-a8af-4ca2b3a19828", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474539167434}
+{"start-stop": "stop", "_id": "ec47ec11-fef8-4cc1-a8af-4ca2b3a19828", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474539197382}
+{"start-stop": "start", "_id": "1be79966-9326-4c2e-8636-bcb0bcce6b73", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474540123843}
+{"start-stop": "stop", "_id": "1be79966-9326-4c2e-8636-bcb0bcce6b73", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474582965979}
+{"start-stop": "start", "_id": "2c30c0d9-cc97-47d4-be91-97eb58a8d16a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250474589113666}
+{"start-stop": "start", "_id": "a35f95bc-f228-4b24-9871-3f1b2abc0dbe", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250474589157611}
+{"start-stop": "start", "_id": "af5c6a76-dd2f-4291-bba3-d6f2344998c9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474589266098}
+{"start-stop": "stop", "_id": "af5c6a76-dd2f-4291-bba3-d6f2344998c9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474589289751}
+{"start-stop": "start", "_id": "1c8909b1-9739-467d-a6a9-201ea4f2863b", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250474599558388}
+{"start-stop": "start", "_id": "abca0409-4ef4-4177-bd8c-41ee1b64c65c", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474599658375}
+{"start-stop": "stop", "_id": "abca0409-4ef4-4177-bd8c-41ee1b64c65c", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474599683031}
+{"start-stop": "start", "_id": "ea2a7155-c5c9-44f4-8aeb-50ec3ea9088d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474601323932}
+{"start-stop": "stop", "_id": "ea2a7155-c5c9-44f4-8aeb-50ec3ea9088d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474601353465}
+{"start-stop": "start", "_id": "01681ac4-f66d-42d8-bdea-f696661d1b24", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474602269625}
+{"start-stop": "stop", "_id": "01681ac4-f66d-42d8-bdea-f696661d1b24", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474607050870}
+{"start-stop": "start", "_id": "be175afa-6531-49ed-b2ce-09fa7729910a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250474613059777}
+{"start-stop": "start", "_id": "00425869-e402-4621-aeb9-c84e8450478a", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250474613089301}
+{"start-stop": "start", "_id": "20fdd392-1c0e-45ec-b94d-2c0bd43d95af", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474613174111}
+{"start-stop": "stop", "_id": "20fdd392-1c0e-45ec-b94d-2c0bd43d95af", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474613192865}
+{"start-stop": "start", "_id": "8b088e4c-a3ef-4588-b2b4-3d27ca99ee10", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250474620773222}
+{"start-stop": "start", "_id": "0d20764a-6a29-4fd6-bdef-b6d6909cd12a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474620851606}
+{"start-stop": "stop", "_id": "0d20764a-6a29-4fd6-bdef-b6d6909cd12a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474620873192}
+{"start-stop": "start", "_id": "b24cf95a-fc7a-4d99-8caf-91a4cb8ece62", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474622336795}
+{"start-stop": "stop", "_id": "b24cf95a-fc7a-4d99-8caf-91a4cb8ece62", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474622366723}
+{"start-stop": "start", "_id": "fa61772f-1d9e-44b6-b39b-3a5749b98bfa", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474623270382}
+{"start-stop": "stop", "_id": "fa61772f-1d9e-44b6-b39b-3a5749b98bfa", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474627981159}
+{"start-stop": "start", "_id": "7e2b5c38-eb78-4c56-9ee9-e7bde6efd042", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250474633940176}
+{"start-stop": "start", "_id": "b4bc265a-b8b8-4905-b51b-e0ae0ef92b6a", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250474633967940}
+{"start-stop": "start", "_id": "b5e9f3aa-4812-40ea-a743-6bf5bb7347b5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474634044349}
+{"start-stop": "stop", "_id": "b5e9f3aa-4812-40ea-a743-6bf5bb7347b5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474634062803}
+{"start-stop": "start", "_id": "c5aa3301-511b-4c06-9a11-cf2ecbf8d358", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250474641716931}
+{"start-stop": "start", "_id": "fd8634d0-15c6-4c73-93a8-491ffb0dfda7", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250474641788105}
+{"start-stop": "start", "_id": "71c7bd0a-9a93-498f-be81-5ee7a9ef50fc", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474641809028}
+{"start-stop": "stop", "_id": "71c7bd0a-9a93-498f-be81-5ee7a9ef50fc", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250474641823968}
+{"start-stop": "start", "_id": "916dab83-e975-4d47-aa3d-95469866f29a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474643643084}
+{"start-stop": "stop", "_id": "916dab83-e975-4d47-aa3d-95469866f29a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250474643673551}
+{"start-stop": "start", "_id": "d8fea2f1-46c3-421f-a4e1-d7bd7a9d5d88", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474644628486}
+{"start-stop": "stop", "_id": "d8fea2f1-46c3-421f-a4e1-d7bd7a9d5d88", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474645226939}
+{"start-stop": "start", "_id": "994a30fd-86d9-4259-9f81-46207bc88c7a", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474645240460}
+{"start-stop": "stop", "_id": "994a30fd-86d9-4259-9f81-46207bc88c7a", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250474699376885}
+{"start-stop": "start", "_id": "093a35e9-3c39-4004-8efa-4875f98e228a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250474699430156}
+{"start-stop": "stop", "_id": "093a35e9-3c39-4004-8efa-4875f98e228a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250474699470616}
+{"start-stop": "stop", "_id": "fd8634d0-15c6-4c73-93a8-491ffb0dfda7", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250474706756312}
+{"start-stop": "start", "_id": "ec716d90-a4ed-4924-a8f9-59d256a1066b", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250474706789791}
+{"start-stop": "start", "_id": "7a2b93e5-39ab-4882-88e1-693fb9791ed1", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250475112618456}
+{"start-stop": "stop", "_id": "7a2b93e5-39ab-4882-88e1-693fb9791ed1", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250475249519090}
+{"start-stop": "start", "_id": "00af413f-e1d7-4713-b780-4620de92264e", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250475249582463}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "00af413f-e1d7-4713-b780-4620de92264e", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250476535134401}
+{"start-stop": "stop", "_id": "ec716d90-a4ed-4924-a8f9-59d256a1066b", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250476544504002}
+{"start-stop": "stop", "_id": "c5aa3301-511b-4c06-9a11-cf2ecbf8d358", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250476544527129}
+{"start-stop": "stop", "_id": "b4bc265a-b8b8-4905-b51b-e0ae0ef92b6a", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250476545350778}
+{"start-stop": "stop", "_id": "7e2b5c38-eb78-4c56-9ee9-e7bde6efd042", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250476571539349}
+{"start-stop": "start", "_id": "b4a63a99-ca61-4f88-bf9d-a0db793ac302", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250476571584977}
+{"start-stop": "start", "_id": "2c9bb5f6-a4e5-46bb-80fb-16cb227c0028", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250476571639247}
+{"start-stop": "stop", "_id": "2c9bb5f6-a4e5-46bb-80fb-16cb227c0028", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250476709480869}
+{"start-stop": "stop", "_id": "b4a63a99-ca61-4f88-bf9d-a0db793ac302", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250476709541331}
+{"start-stop": "stop", "_id": "8b088e4c-a3ef-4588-b2b4-3d27ca99ee10", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250476710438443}
+{"start-stop": "stop", "_id": "00425869-e402-4621-aeb9-c84e8450478a", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250476710553074}
+{"start-stop": "stop", "_id": "be175afa-6531-49ed-b2ce-09fa7729910a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250476733985381}
+{"start-stop": "start", "_id": "79d48626-e76b-46ca-9e0b-fd4f9ec58acf", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250476734020697}
+{"start-stop": "start", "_id": "00b8ec46-a742-4bb2-8f47-7eeb6d561c0b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250476734063602}
+{"start-stop": "stop", "_id": "00b8ec46-a742-4bb2-8f47-7eeb6d561c0b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250476870291087}
+{"start-stop": "stop", "_id": "79d48626-e76b-46ca-9e0b-fd4f9ec58acf", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250476870344355}
+{"start-stop": "stop", "_id": "1c8909b1-9739-467d-a6a9-201ea4f2863b", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250476871266994}
+{"start-stop": "stop", "_id": "a35f95bc-f228-4b24-9871-3f1b2abc0dbe", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250476871383208}
+{"start-stop": "stop", "_id": "2c30c0d9-cc97-47d4-be91-97eb58a8d16a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250476894739204}
+{"start-stop": "start", "_id": "b0b0c0d8-6af3-403b-936f-7da4d87b8705", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250476894779091}
+{"start-stop": "start", "_id": "f3749a4c-f126-47e6-8d92-8773b0f83a73", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250476894818455}
+{"start-stop": "stop", "_id": "f3749a4c-f126-47e6-8d92-8773b0f83a73", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250477031033067}
+{"start-stop": "stop", "_id": "b0b0c0d8-6af3-403b-936f-7da4d87b8705", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250477031087719}
+{"start-stop": "stop", "_id": "3235536e-907c-49aa-baa6-42f0729581be", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250477032040509}
+{"start-stop": "stop", "_id": "bbec9e7d-198c-46df-bb27-aa2e74b7f1f5", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250477032183791}
+{"start-stop": "STOP", "_id": "e32d194f-a19b-4efd-a422-7cc882a98b59", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_2-60d018496bd79e5a68fcb414", "time": 1624250477032539030}
+{"start-stop": "START", "_id": "080fe707-6fdb-4c74-b63a-2495cac4fdee", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_3-60d0184f6bd79e5a68fcb416", "time": 1624250477032557678}
+{"start-stop": "start", "_id": "1d4f83bb-9f0d-427c-846c-973f89d2f4af", "approach": "param_update", "method": "recover_model-60d0184f6bd79e5a68fcb416", "event": "all", "time": 1624250477032592442}
+{"start-stop": "start", "_id": "9f11bddb-4294-47ea-b10b-8863806e0557", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477032724279}
+{"start-stop": "stop", "_id": "9f11bddb-4294-47ea-b10b-8863806e0557", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477032755297}
+{"start-stop": "start", "_id": "17c1e4fd-4d3a-4b88-9c34-3ecebff52f0c", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250477041325858}
+{"start-stop": "start", "_id": "1b381cef-5cc7-4ffb-9974-ddd0b4d3649d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477041416372}
+{"start-stop": "stop", "_id": "1b381cef-5cc7-4ffb-9974-ddd0b4d3649d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477041438016}
+{"start-stop": "start", "_id": "54471574-036c-4341-8762-caff94051bb5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477043264154}
+{"start-stop": "stop", "_id": "54471574-036c-4341-8762-caff94051bb5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477043293567}
+{"start-stop": "start", "_id": "e964ea3b-b3f9-41db-9718-e4f19ad7633b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477044267051}
+{"start-stop": "stop", "_id": "e964ea3b-b3f9-41db-9718-e4f19ad7633b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477074912526}
+{"start-stop": "start", "_id": "e09034a7-695c-4d19-8622-fc6c17ad187b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250477081004936}
+{"start-stop": "start", "_id": "d9514515-284b-4a55-bb71-474cc5c5a7ea", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250477081051685}
+{"start-stop": "start", "_id": "644e0696-c455-4951-861b-2d988cd60ea9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477081154041}
+{"start-stop": "stop", "_id": "644e0696-c455-4951-861b-2d988cd60ea9", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477081177193}
+{"start-stop": "start", "_id": "9d865401-a4a3-469f-82b6-2a88c6773f50", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250477089392891}
+{"start-stop": "start", "_id": "449626dd-a468-43cf-9abf-f8a971c3f304", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477089487421}
+{"start-stop": "stop", "_id": "449626dd-a468-43cf-9abf-f8a971c3f304", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477089510285}
+{"start-stop": "start", "_id": "81401feb-71ca-4e6b-83cb-e38b298ec818", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477090990052}
+{"start-stop": "stop", "_id": "81401feb-71ca-4e6b-83cb-e38b298ec818", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477091019941}
+{"start-stop": "start", "_id": "daf870e1-4cd0-449b-ba78-55f12d589777", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477091967692}
+{"start-stop": "stop", "_id": "daf870e1-4cd0-449b-ba78-55f12d589777", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477096669292}
+{"start-stop": "start", "_id": "185ba532-a39a-4bf4-82ae-e932f9ab781a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250477102656451}
+{"start-stop": "start", "_id": "d9c64b9b-5f3c-44aa-9e68-18883796bcd2", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250477102686697}
+{"start-stop": "start", "_id": "f61e58cb-3b89-44e2-92ad-e32c701651de", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477102774538}
+{"start-stop": "stop", "_id": "f61e58cb-3b89-44e2-92ad-e32c701651de", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477102794084}
+{"start-stop": "start", "_id": "e4670b6b-97a7-4025-9e24-f998eafaeaa9", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250477110287148}
+{"start-stop": "start", "_id": "41acac73-f5c2-48cc-b482-9cc9a82e8158", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477110375506}
+{"start-stop": "stop", "_id": "41acac73-f5c2-48cc-b482-9cc9a82e8158", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477110397697}
+{"start-stop": "start", "_id": "1cf3012e-c095-4b22-bf90-9e5c33c63bcb", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477112379858}
+{"start-stop": "stop", "_id": "1cf3012e-c095-4b22-bf90-9e5c33c63bcb", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477112410431}
+{"start-stop": "start", "_id": "fd075cfd-5a14-4ca6-bc65-a166a50e545f", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477113347899}
+{"start-stop": "stop", "_id": "fd075cfd-5a14-4ca6-bc65-a166a50e545f", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477118402960}
+{"start-stop": "start", "_id": "8e2e3ec2-11a6-48d8-8787-681f88932e5e", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250477124345162}
+{"start-stop": "start", "_id": "643e5163-dbc2-47b8-a4cc-c67ae62eaf00", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250477124371916}
+{"start-stop": "start", "_id": "a75a1498-ae1c-4130-abb2-ceaafb3f7d82", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477124441700}
+{"start-stop": "stop", "_id": "a75a1498-ae1c-4130-abb2-ceaafb3f7d82", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477124459932}
+{"start-stop": "start", "_id": "fcf43537-d92b-4483-adf8-d62baf8129e1", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250477132131819}
+{"start-stop": "start", "_id": "5507fc6e-6672-4e15-aa86-0fb2b9c8a62f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477132213664}
+{"start-stop": "stop", "_id": "5507fc6e-6672-4e15-aa86-0fb2b9c8a62f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477132236063}
+{"start-stop": "start", "_id": "0599524d-8d42-452c-9e08-3ca1ed04bfde", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477134039143}
+{"start-stop": "stop", "_id": "0599524d-8d42-452c-9e08-3ca1ed04bfde", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477134068549}
+{"start-stop": "start", "_id": "58a9067a-ab48-41c4-a9f3-4128f6495457", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477135032985}
+{"start-stop": "stop", "_id": "58a9067a-ab48-41c4-a9f3-4128f6495457", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477139668923}
+{"start-stop": "start", "_id": "807d6e42-fa86-49bc-b366-3316e6224d3b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250477170495744}
+{"start-stop": "start", "_id": "ad78190a-b32d-4b6f-8157-c8ce8d66d3ee", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250477170539771}
+{"start-stop": "start", "_id": "1e9f52e7-6e35-42c4-86f5-94b0e5d380b0", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477170628791}
+{"start-stop": "stop", "_id": "1e9f52e7-6e35-42c4-86f5-94b0e5d380b0", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477170648967}
+{"start-stop": "start", "_id": "5414b09f-ff81-408c-b541-3cb033cbed83", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250477178654062}
+{"start-stop": "start", "_id": "de806f05-9407-4d7d-9f5e-30e327ceec36", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250477178728652}
+{"start-stop": "start", "_id": "a8420ac3-bb80-458b-919a-647cb7b27a8f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477178749417}
+{"start-stop": "stop", "_id": "a8420ac3-bb80-458b-919a-647cb7b27a8f", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250477178764741}
+{"start-stop": "start", "_id": "b395d4f6-0b8f-4670-9b8b-b5f9d3284d50", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477180308973}
+{"start-stop": "stop", "_id": "b395d4f6-0b8f-4670-9b8b-b5f9d3284d50", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250477180340131}
+{"start-stop": "start", "_id": "e604cd89-c2fc-4afb-b121-ac1bd9559f39", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477181294999}
+{"start-stop": "stop", "_id": "e604cd89-c2fc-4afb-b121-ac1bd9559f39", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477181516191}
+{"start-stop": "start", "_id": "a647fb12-dacb-4557-a1ef-4ffc1d94fa64", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477181529932}
+{"start-stop": "stop", "_id": "a647fb12-dacb-4557-a1ef-4ffc1d94fa64", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250477235605072}
+{"start-stop": "start", "_id": "ce93b7c5-ea4c-46a7-83e4-019bf03b34d6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250477235656391}
+{"start-stop": "stop", "_id": "ce93b7c5-ea4c-46a7-83e4-019bf03b34d6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250477235697305}
+{"start-stop": "stop", "_id": "de806f05-9407-4d7d-9f5e-30e327ceec36", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250477243371923}
+{"start-stop": "start", "_id": "6101ecb6-261f-4395-93dc-63c32ab8d8fe", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250477243405360}
+{"start-stop": "start", "_id": "a5417a01-632c-441e-acb9-7926be1f1735", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250477619140010}
+{"start-stop": "stop", "_id": "a5417a01-632c-441e-acb9-7926be1f1735", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250477757594441}
+{"start-stop": "start", "_id": "acb2bc57-888f-4457-bdcd-dba19ac78fd1", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250477757676016}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "acb2bc57-888f-4457-bdcd-dba19ac78fd1", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250479033824006}
+{"start-stop": "stop", "_id": "6101ecb6-261f-4395-93dc-63c32ab8d8fe", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250479043143103}
+{"start-stop": "stop", "_id": "5414b09f-ff81-408c-b541-3cb033cbed83", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250479043165360}
+{"start-stop": "stop", "_id": "ad78190a-b32d-4b6f-8157-c8ce8d66d3ee", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250479044010638}
+{"start-stop": "stop", "_id": "807d6e42-fa86-49bc-b366-3316e6224d3b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479070241046}
+{"start-stop": "start", "_id": "1ea667d6-a3d8-4ff6-807a-ba6a99cd28e4", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479070284974}
+{"start-stop": "start", "_id": "277901fc-afd9-4c84-a75d-378f62015653", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479070340131}
+{"start-stop": "stop", "_id": "277901fc-afd9-4c84-a75d-378f62015653", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479207337013}
+{"start-stop": "stop", "_id": "1ea667d6-a3d8-4ff6-807a-ba6a99cd28e4", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479207398878}
+{"start-stop": "stop", "_id": "fcf43537-d92b-4483-adf8-d62baf8129e1", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479208314052}
+{"start-stop": "stop", "_id": "643e5163-dbc2-47b8-a4cc-c67ae62eaf00", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250479208468478}
+{"start-stop": "stop", "_id": "8e2e3ec2-11a6-48d8-8787-681f88932e5e", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479231955888}
+{"start-stop": "start", "_id": "34bbe1a6-048c-4f72-bfc0-1e9da8d7ee4f", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479231991879}
+{"start-stop": "start", "_id": "b54fa4ff-ca2b-4e30-9da2-1d18edc71c3c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479232031502}
+{"start-stop": "stop", "_id": "b54fa4ff-ca2b-4e30-9da2-1d18edc71c3c", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479373667514}
+{"start-stop": "stop", "_id": "34bbe1a6-048c-4f72-bfc0-1e9da8d7ee4f", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479373728859}
+{"start-stop": "stop", "_id": "e4670b6b-97a7-4025-9e24-f998eafaeaa9", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479374634966}
+{"start-stop": "stop", "_id": "d9c64b9b-5f3c-44aa-9e68-18883796bcd2", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250479374756831}
+{"start-stop": "stop", "_id": "185ba532-a39a-4bf4-82ae-e932f9ab781a", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479397210173}
+{"start-stop": "start", "_id": "d21b3aba-8844-497a-a6c8-286d9aae438d", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479397248477}
+{"start-stop": "start", "_id": "5eb41b99-9fd6-4d7b-8668-8ece954b78a0", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479397292209}
+{"start-stop": "stop", "_id": "5eb41b99-9fd6-4d7b-8668-8ece954b78a0", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479534242663}
+{"start-stop": "stop", "_id": "d21b3aba-8844-497a-a6c8-286d9aae438d", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479534301432}
+{"start-stop": "stop", "_id": "9d865401-a4a3-469f-82b6-2a88c6773f50", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479535221000}
+{"start-stop": "stop", "_id": "d9514515-284b-4a55-bb71-474cc5c5a7ea", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250479535338499}
+{"start-stop": "stop", "_id": "e09034a7-695c-4d19-8622-fc6c17ad187b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479557115960}
+{"start-stop": "start", "_id": "c51363ff-1256-461d-b18e-f8e5ffbf02d6", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479557154164}
+{"start-stop": "start", "_id": "a13f4c46-b9f6-4a50-a6d2-614a6106abbb", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479557193989}
+{"start-stop": "stop", "_id": "a13f4c46-b9f6-4a50-a6d2-614a6106abbb", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250479693524762}
+{"start-stop": "stop", "_id": "c51363ff-1256-461d-b18e-f8e5ffbf02d6", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250479693583379}
+{"start-stop": "stop", "_id": "17c1e4fd-4d3a-4b88-9c34-3ecebff52f0c", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479694551574}
+{"start-stop": "stop", "_id": "1d4f83bb-9f0d-427c-846c-973f89d2f4af", "approach": "param_update", "method": "recover_model-60d0184f6bd79e5a68fcb416", "event": "all", "time": 1624250479694679315}
+{"start-stop": "STOP", "_id": "080fe707-6fdb-4c74-b63a-2495cac4fdee", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_3-60d0184f6bd79e5a68fcb416", "time": 1624250479695037315}
+{"start-stop": "START", "_id": "8d85c880-d311-4a7b-b64b-35d8e10af35c", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_4-60d018546bd79e5a68fcb418", "time": 1624250479695065203}
+{"start-stop": "start", "_id": "9f2d75ad-2a94-4483-be57-0f868160e6a1", "approach": "param_update", "method": "recover_model-60d018546bd79e5a68fcb418", "event": "all", "time": 1624250479695100874}
+{"start-stop": "start", "_id": "fec89786-a841-41ce-8647-52f65dc2c3e1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479695242567}
+{"start-stop": "stop", "_id": "fec89786-a841-41ce-8647-52f65dc2c3e1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479695274542}
+{"start-stop": "start", "_id": "396d92d7-6481-40b5-9fdf-ee033565b748", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479703574969}
+{"start-stop": "start", "_id": "27fc9c7e-50b1-4a31-a0e2-4d4d11022507", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479703666254}
+{"start-stop": "stop", "_id": "27fc9c7e-50b1-4a31-a0e2-4d4d11022507", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479703688972}
+{"start-stop": "start", "_id": "c3c82317-424b-46e7-b948-7737e8f1d3cd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479705513846}
+{"start-stop": "stop", "_id": "c3c82317-424b-46e7-b948-7737e8f1d3cd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479705560823}
+{"start-stop": "start", "_id": "0dad92da-fb18-4a4e-9d15-577f3726177b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479706529869}
+{"start-stop": "stop", "_id": "0dad92da-fb18-4a4e-9d15-577f3726177b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479746251158}
+{"start-stop": "start", "_id": "c7fce109-c75a-4718-83e9-f87209a81f88", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479752328663}
+{"start-stop": "start", "_id": "ec6ed58e-fc06-4c87-8ffd-a0ce1cf4f894", "approach": "param_update", "method": "recover_model-60d0184f6bd79e5a68fcb416", "event": "all", "time": 1624250479752372473}
+{"start-stop": "start", "_id": "6d52f799-1dd2-4797-a91d-63f5a982de88", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479752478475}
+{"start-stop": "stop", "_id": "6d52f799-1dd2-4797-a91d-63f5a982de88", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479752502061}
+{"start-stop": "start", "_id": "005c9fb6-c7ab-41ca-b466-63afc9e04b96", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479760688007}
+{"start-stop": "start", "_id": "f00c237b-86ab-4f47-9dc3-76c5ebe78c70", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479760778313}
+{"start-stop": "stop", "_id": "f00c237b-86ab-4f47-9dc3-76c5ebe78c70", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479760801645}
+{"start-stop": "start", "_id": "d9bf72eb-7410-47fa-8f91-057a8369e436", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479762650068}
+{"start-stop": "stop", "_id": "d9bf72eb-7410-47fa-8f91-057a8369e436", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479762680664}
+{"start-stop": "start", "_id": "844172da-dcb1-4298-a3c8-fa45be690746", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479763648615}
+{"start-stop": "stop", "_id": "844172da-dcb1-4298-a3c8-fa45be690746", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479768768533}
+{"start-stop": "start", "_id": "45081759-44b8-46f2-ad44-5433cd54281b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479774816050}
+{"start-stop": "start", "_id": "2ebc5055-b338-42cc-bc40-2cc04ab2715a", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250479774844487}
+{"start-stop": "start", "_id": "59d8b8d9-596b-4fba-b441-f50410ba8359", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479774924804}
+{"start-stop": "stop", "_id": "59d8b8d9-596b-4fba-b441-f50410ba8359", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479774943508}
+{"start-stop": "start", "_id": "ce6d9ae0-7255-4ce6-bac8-8ad7108ae8a6", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479782511546}
+{"start-stop": "start", "_id": "81c44d12-ab85-4184-8bcc-9c5e2ff081d6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479782593552}
+{"start-stop": "stop", "_id": "81c44d12-ab85-4184-8bcc-9c5e2ff081d6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479782614673}
+{"start-stop": "start", "_id": "f94fdb97-5632-4f4a-955d-39bceb35c1ce", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479784541553}
+{"start-stop": "stop", "_id": "f94fdb97-5632-4f4a-955d-39bceb35c1ce", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479784571705}
+{"start-stop": "start", "_id": "28a1f12c-82e1-4a65-aaa5-e2968274e3ea", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479785531302}
+{"start-stop": "stop", "_id": "28a1f12c-82e1-4a65-aaa5-e2968274e3ea", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479790694609}
+{"start-stop": "start", "_id": "624d2f66-f324-4df6-8656-a95d4175b9ef", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479796676096}
+{"start-stop": "start", "_id": "0d591400-f5fb-4d71-bc60-1af73346a4da", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250479796703381}
+{"start-stop": "start", "_id": "5cd76ac2-690e-4484-b023-848d6ecc9d05", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479796778046}
+{"start-stop": "stop", "_id": "5cd76ac2-690e-4484-b023-848d6ecc9d05", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479796796487}
+{"start-stop": "start", "_id": "5b17513a-2e02-40b7-ad8d-d30d4ba9e521", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479804667603}
+{"start-stop": "start", "_id": "5f41c576-131f-410b-b21d-5d728b8bc58d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479804744772}
+{"start-stop": "stop", "_id": "5f41c576-131f-410b-b21d-5d728b8bc58d", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479804765562}
+{"start-stop": "start", "_id": "8e6eb5c2-d659-48f7-b97a-9ebe720e91a1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479806602379}
+{"start-stop": "stop", "_id": "8e6eb5c2-d659-48f7-b97a-9ebe720e91a1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479806631652}
+{"start-stop": "start", "_id": "9879115e-d952-46a5-955e-384421814844", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479807541583}
+{"start-stop": "stop", "_id": "9879115e-d952-46a5-955e-384421814844", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479812169250}
+{"start-stop": "start", "_id": "493245b9-ecda-4580-8595-59e26ba542e5", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479818408892}
+{"start-stop": "start", "_id": "6b2a567b-1c10-4123-a25c-f2ab68bb7068", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250479818438229}
+{"start-stop": "start", "_id": "c8f41f3f-7ff8-4741-89db-aa59251569fd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479818520363}
+{"start-stop": "stop", "_id": "c8f41f3f-7ff8-4741-89db-aa59251569fd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479818538686}
+{"start-stop": "start", "_id": "5ffc85e4-89bf-46f7-afc0-31931d6350d5", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250479826609878}
+{"start-stop": "start", "_id": "3ab99210-eeb9-4654-be77-62f479ddd47b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479826689253}
+{"start-stop": "stop", "_id": "3ab99210-eeb9-4654-be77-62f479ddd47b", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479826709505}
+{"start-stop": "start", "_id": "c95220ed-4655-440d-a226-a49b3f14a2b5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479828686980}
+{"start-stop": "stop", "_id": "c95220ed-4655-440d-a226-a49b3f14a2b5", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479828716411}
+{"start-stop": "start", "_id": "dd102009-ca5d-4a61-bf05-be3e363a7d6b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479829526597}
+{"start-stop": "stop", "_id": "dd102009-ca5d-4a61-bf05-be3e363a7d6b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479834174579}
+{"start-stop": "start", "_id": "ff1f43f8-53b6-4271-873a-6985fcd92c8b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250479840186438}
+{"start-stop": "start", "_id": "b3489413-7e72-4133-bc4f-169f33a58839", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250479840213300}
+{"start-stop": "start", "_id": "af4a0ae3-5461-4bbc-9f35-b1f91bba7fe1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479840287416}
+{"start-stop": "stop", "_id": "af4a0ae3-5461-4bbc-9f35-b1f91bba7fe1", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479840305745}
+{"start-stop": "start", "_id": "e7c40602-e460-465f-9eb8-bd4c87111c9f", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250479847859880}
+{"start-stop": "start", "_id": "da232150-d533-4e20-a3e9-a76dca2fa34f", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250479847932909}
+{"start-stop": "start", "_id": "06c3c25e-a9db-414d-86d3-a8bf889c2d5e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479847953869}
+{"start-stop": "stop", "_id": "06c3c25e-a9db-414d-86d3-a8bf889c2d5e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250479847969021}
+{"start-stop": "start", "_id": "13f858d7-58b0-4a40-89a0-712745c8de7a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479849516164}
+{"start-stop": "stop", "_id": "13f858d7-58b0-4a40-89a0-712745c8de7a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250479849545493}
+{"start-stop": "start", "_id": "059a05fa-1a05-499d-933a-857157a93d14", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479850486280}
+{"start-stop": "stop", "_id": "059a05fa-1a05-499d-933a-857157a93d14", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479850704414}
+{"start-stop": "start", "_id": "eef1b27b-76c3-42a4-800d-370fbd2ea68b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479850717974}
+{"start-stop": "stop", "_id": "eef1b27b-76c3-42a4-800d-370fbd2ea68b", "service": "mmlib_file_pers", "method": "recover_file", "time": 1624250479904931053}
+{"start-stop": "start", "_id": "45888668-437c-4c65-957a-bdb809132426", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250479904979925}
+{"start-stop": "stop", "_id": "45888668-437c-4c65-957a-bdb809132426", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250479905020970}
+{"start-stop": "stop", "_id": "da232150-d533-4e20-a3e9-a76dca2fa34f", "approach": "baseline", "method": "recover_model", "event": "load_model_info_rec_files", "time": 1624250479912368003}
+{"start-stop": "start", "_id": "a8110ed4-95ab-4c11-840b-4be74e587805", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250479912387083}
+{"start-stop": "start", "_id": "0e9e69da-2d60-4b4b-81c3-6bc26adf543b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250480275656116}
+{"start-stop": "stop", "_id": "0e9e69da-2d60-4b4b-81c3-6bc26adf543b", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250480420153749}
+{"start-stop": "start", "_id": "6c1dffad-28e1-4b3f-859a-6c2eefaf1726", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250480420266724}
+get_pytorch_env -- takes relatively long...
+{"start-stop": "stop", "_id": "6c1dffad-28e1-4b3f-859a-6c2eefaf1726", "approach": "baseline", "method": "_check_env", "event": "_all", "time": 1624250481696658171}
+{"start-stop": "stop", "_id": "a8110ed4-95ab-4c11-840b-4be74e587805", "approach": "baseline", "method": "recover_model", "event": "recover_from_info", "time": 1624250481705999343}
+{"start-stop": "stop", "_id": "e7c40602-e460-465f-9eb8-bd4c87111c9f", "approach": "baseline", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250481706023578}
+{"start-stop": "stop", "_id": "b3489413-7e72-4133-bc4f-169f33a58839", "approach": "param_update", "method": "recover_model-60d018199390569ff370240a", "event": "all", "time": 1624250481706903324}
+{"start-stop": "stop", "_id": "ff1f43f8-53b6-4271-873a-6985fcd92c8b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250481733413857}
+{"start-stop": "start", "_id": "6f35b1b1-4e09-4769-a585-0c895864575c", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250481733459988}
+{"start-stop": "start", "_id": "eb8e33b9-25b0-4e21-a534-705d8971908e", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250481733518375}
+{"start-stop": "stop", "_id": "eb8e33b9-25b0-4e21-a534-705d8971908e", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250481870541958}
+{"start-stop": "stop", "_id": "6f35b1b1-4e09-4769-a585-0c895864575c", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250481870601725}
+{"start-stop": "stop", "_id": "5ffc85e4-89bf-46f7-afc0-31931d6350d5", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250481871453470}
+{"start-stop": "stop", "_id": "6b2a567b-1c10-4123-a25c-f2ab68bb7068", "approach": "param_update", "method": "recover_model-60d0183a9390569ff370240d", "event": "all", "time": 1624250481871601266}
+{"start-stop": "stop", "_id": "493245b9-ecda-4580-8595-59e26ba542e5", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250481894491558}
+{"start-stop": "start", "_id": "18c3d5f9-af03-4850-a160-e0a1f095bff9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250481894533713}
+{"start-stop": "start", "_id": "28ffebb4-d97d-4d49-a204-d070be1fbfa0", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250481894574281}
+{"start-stop": "stop", "_id": "28ffebb4-d97d-4d49-a204-d070be1fbfa0", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482031112162}
+{"start-stop": "stop", "_id": "18c3d5f9-af03-4850-a160-e0a1f095bff9", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482031169038}
+{"start-stop": "stop", "_id": "5b17513a-2e02-40b7-ad8d-d30d4ba9e521", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250482032040185}
+{"start-stop": "stop", "_id": "0d591400-f5fb-4d71-bc60-1af73346a4da", "approach": "param_update", "method": "recover_model-60d018436bd79e5a68fcb412", "event": "all", "time": 1624250482032192172}
+{"start-stop": "stop", "_id": "624d2f66-f324-4df6-8656-a95d4175b9ef", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250482054063447}
+{"start-stop": "start", "_id": "08b5b771-77c2-4563-aa70-c98cd68c3344", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482054099925}
+{"start-stop": "start", "_id": "10406338-d3ef-4bac-addc-42c9b526e760", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482054139352}
+{"start-stop": "stop", "_id": "10406338-d3ef-4bac-addc-42c9b526e760", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482190538762}
+{"start-stop": "stop", "_id": "08b5b771-77c2-4563-aa70-c98cd68c3344", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482190595036}
+{"start-stop": "stop", "_id": "ce6d9ae0-7255-4ce6-bac8-8ad7108ae8a6", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250482191500252}
+{"start-stop": "stop", "_id": "2ebc5055-b338-42cc-bc40-2cc04ab2715a", "approach": "param_update", "method": "recover_model-60d018496bd79e5a68fcb414", "event": "all", "time": 1624250482191662035}
+{"start-stop": "stop", "_id": "45081759-44b8-46f2-ad44-5433cd54281b", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250482213467368}
+{"start-stop": "start", "_id": "195cdc11-c0c3-4c9a-bd74-1aa9db71156e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482213505764}
+{"start-stop": "start", "_id": "813e94b8-b7df-4cc0-84b9-0de52af8611e", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482213549682}
+{"start-stop": "stop", "_id": "813e94b8-b7df-4cc0-84b9-0de52af8611e", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482353981249}
+{"start-stop": "stop", "_id": "195cdc11-c0c3-4c9a-bd74-1aa9db71156e", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482354037411}
+{"start-stop": "stop", "_id": "005c9fb6-c7ab-41ca-b466-63afc9e04b96", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250482354942246}
+{"start-stop": "stop", "_id": "ec6ed58e-fc06-4c87-8ffd-a0ce1cf4f894", "approach": "param_update", "method": "recover_model-60d0184f6bd79e5a68fcb416", "event": "all", "time": 1624250482355086733}
+{"start-stop": "stop", "_id": "c7fce109-c75a-4718-83e9-f87209a81f88", "approach": "param_update", "method": "_recover_from_parameter_patch", "event": "all", "time": 1624250482377466851}
+{"start-stop": "start", "_id": "3a627c1d-a295-45fb-848d-a6b3b02379e2", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482377504215}
+{"start-stop": "start", "_id": "a68fdd58-f62a-47ef-8729-6956eb3ccdc2", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482377545074}
+{"start-stop": "stop", "_id": "a68fdd58-f62a-47ef-8729-6956eb3ccdc2", "approach": "baseline", "method": "_check_weights", "event": "_all", "time": 1624250482515785423}
+{"start-stop": "stop", "_id": "3a627c1d-a295-45fb-848d-a6b3b02379e2", "approach": "param_update", "method": "_recover_from_weight_update", "event": "_check_weights", "time": 1624250482515842042}
+{"start-stop": "stop", "_id": "396d92d7-6481-40b5-9fdf-ee033565b748", "approach": "param_update", "method": "recover_model", "event": "_recover_from_weight_update", "time": 1624250482516806022}
+{"start-stop": "stop", "_id": "9f2d75ad-2a94-4483-be57-0f868160e6a1", "approach": "param_update", "method": "recover_model-60d018546bd79e5a68fcb418", "event": "all", "time": 1624250482516966414}
+{"start-stop": "STOP", "_id": "8d85c880-d311-4a7b-b64b-35d8e10af35c", "use_case": "U_4", "role": "server", "event": "recover-U_3_2_4-60d018546bd79e5a68fcb418", "time": 1624250482517327348}
+{"start-stop": "STOP", "_id": "149b88e1-7086-4b1d-92e9-f9a998ee9290", "use_case": "U_4", "role": "server", "event": "recover_models", "time": 1624250482517341843}
+{"start-stop": "start", "_id": "d30e0081-8f0b-4578-83b2-8116953b8f7e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487527194063}
+{"start-stop": "stop", "_id": "d30e0081-8f0b-4578-83b2-8116953b8f7e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487527263666}
+{"start-stop": "start", "_id": "09ed49d9-ce8f-42f0-a8a4-e7df2a121fd7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487536871440}
+{"start-stop": "stop", "_id": "09ed49d9-ce8f-42f0-a8a4-e7df2a121fd7", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487536971403}
+{"start-stop": "start", "_id": "7d05b5c1-8e0c-444a-95ba-75280097a254", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250487539696664}
+{"start-stop": "stop", "_id": "7d05b5c1-8e0c-444a-95ba-75280097a254", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "environment", "time": 1624250487539807493}
+size-info-60d018199390569ff370240a-{"metadata_size": 69315, "recover_info": {"metadata_size": 244, "environment": {"metadata_size": 2654}, "model_code": 7387, "parameters": 102548079}}
+{"start-stop": "start", "_id": "ad8ad10c-cba1-402f-83e1-24fe0c7c0b82", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487544665393}
+{"start-stop": "stop", "_id": "ad8ad10c-cba1-402f-83e1-24fe0c7c0b82", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487544703757}
+{"start-stop": "start", "_id": "7438f765-1589-4007-945f-fb902685c32e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487553748451}
+{"start-stop": "stop", "_id": "7438f765-1589-4007-945f-fb902685c32e", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487553781342}
+size-info-60d018226bd79e5a68fcb40a-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "3dc554dd-c4ae-45e8-9e71-2772cdd3fe13", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487558057375}
+{"start-stop": "stop", "_id": "3dc554dd-c4ae-45e8-9e71-2772cdd3fe13", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487558093105}
+{"start-stop": "start", "_id": "1db39129-d455-470f-9b6a-54d37b2d82df", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487567125774}
+{"start-stop": "stop", "_id": "1db39129-d455-470f-9b6a-54d37b2d82df", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487567219589}
+size-info-60d018286bd79e5a68fcb40c-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "8391f81b-f91d-4aa0-aa1a-c274a4961823", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487571804647}
+{"start-stop": "stop", "_id": "8391f81b-f91d-4aa0-aa1a-c274a4961823", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487571839809}
+{"start-stop": "start", "_id": "39044823-1227-4174-8de1-68b8eb5c0f27", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487580838811}
+{"start-stop": "stop", "_id": "39044823-1227-4174-8de1-68b8eb5c0f27", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487580931904}
+size-info-60d0182e6bd79e5a68fcb40e-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "6c964fa6-e2e6-41cb-a173-1f02eb8e7118", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487585118306}
+{"start-stop": "stop", "_id": "6c964fa6-e2e6-41cb-a173-1f02eb8e7118", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487585152155}
+{"start-stop": "start", "_id": "92594291-6ecb-4d97-9d69-9154a9945c56", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487593714414}
+{"start-stop": "stop", "_id": "92594291-6ecb-4d97-9d69-9154a9945c56", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487593744531}
+size-info-60d018346bd79e5a68fcb410-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "81a6ea20-a75a-468f-949c-1d80f4b34ee8", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487598066023}
+{"start-stop": "stop", "_id": "81a6ea20-a75a-468f-949c-1d80f4b34ee8", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487598098149}
+{"start-stop": "start", "_id": "367361be-9020-4d65-bb2b-ecda5c2a111a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487607103829}
+{"start-stop": "stop", "_id": "367361be-9020-4d65-bb2b-ecda5c2a111a", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487607195772}
+size-info-60d0183a9390569ff370240d-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "620effb5-67d9-4628-b85a-6b4182d797b6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487611252479}
+{"start-stop": "stop", "_id": "620effb5-67d9-4628-b85a-6b4182d797b6", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487611284395}
+{"start-stop": "start", "_id": "44cb74ca-f3f7-4658-ada8-5f941929b813", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487619874934}
+{"start-stop": "stop", "_id": "44cb74ca-f3f7-4658-ada8-5f941929b813", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487619903452}
+size-info-60d018436bd79e5a68fcb412-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "712c2fc9-46df-47ce-bf23-cd84377e3f38", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487624107844}
+{"start-stop": "stop", "_id": "712c2fc9-46df-47ce-bf23-cd84377e3f38", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487624139421}
+{"start-stop": "start", "_id": "4d556af9-7045-4b07-8b51-2624423e4b94", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487632864716}
+{"start-stop": "stop", "_id": "4d556af9-7045-4b07-8b51-2624423e4b94", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487632955239}
+size-info-60d018496bd79e5a68fcb414-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "7c517d0a-cc92-48d4-8aa0-a02432f050fd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487637309851}
+{"start-stop": "stop", "_id": "7c517d0a-cc92-48d4-8aa0-a02432f050fd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487637340164}
+{"start-stop": "start", "_id": "d2512e6e-a896-43f3-bb6e-678d3d60ddcd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487646170422}
+{"start-stop": "stop", "_id": "d2512e6e-a896-43f3-bb6e-678d3d60ddcd", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487646260633}
+size-info-60d0184f6bd79e5a68fcb416-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+{"start-stop": "start", "_id": "5256d3c9-6f98-4888-bc11-825672772801", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487650200177}
+{"start-stop": "stop", "_id": "5256d3c9-6f98-4888-bc11-825672772801", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "model_info", "time": 1624250487650230342}
+{"start-stop": "start", "_id": "aea8fcbd-34a5-43dc-8e90-053504cdd903", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487658747706}
+{"start-stop": "stop", "_id": "aea8fcbd-34a5-43dc-8e90-053504cdd903", "service": "mmlib_dict_pers", "method": "recover_dict", "collection": "recover_info", "time": 1624250487658837135}
+size-info-60d018546bd79e5a68fcb418-{"metadata_size": 69358, "recover_info": {"metadata_size": 143, "update": 8197057}}
+DONE
