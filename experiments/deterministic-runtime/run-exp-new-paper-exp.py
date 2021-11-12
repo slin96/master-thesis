@@ -25,7 +25,7 @@ def main(args):
     for i in range(runs):
         for model in [RESNET_18, RESNET_50, RESNET_152]:
             non_determ_out_file = F"non-deterministic-{model}-{i}.txt"
-            determ_out_file = F"deterministic-{model}-{i}"
+            determ_out_file = F"deterministic-{model}-{i}.txt"
 
             base_command = F"CUDA_VISIBLE_DEVICES={visible_devices} " \
                            F"python time_training.py " \
