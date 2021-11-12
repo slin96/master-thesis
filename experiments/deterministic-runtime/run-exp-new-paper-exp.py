@@ -6,9 +6,9 @@ from experiments.evaluation_flow.shared import RESNET_18, RESNET_50, RESNET_152
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Script to measure the time used for training a model')
-    parser.add_argument('--coco-root', type=str, help='root directory for the coco data')
-    parser.add_argument('--coco-annotations', type=str, help='path to the coco_meta.json file')
-    parser.add_argument('--visible-devices', type=str, help='string to indicate the visible GPUSs')
+    parser.add_argument('--coco-root', type=str, help='root directory for the coco data', required=True)
+    parser.add_argument('--coco-annotations', type=str, help='path to the coco_meta.json file', required=True)
+    parser.add_argument('--visible-devices', type=str, help='string to indicate the visible GPUSs', required=True)
 
     args = parser.parse_args()
 
