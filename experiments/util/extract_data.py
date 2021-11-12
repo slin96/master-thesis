@@ -53,7 +53,6 @@ def extract_data(data_file):
     to_device = data_frame.filter(like='to_device', axis=0)
     forward_path = data_frame.filter(like='forward_path', axis=0)
     backward_path = data_frame.filter(like='backward_path', axis=0)
-    epochs = data_frame.filter(like="epoch,epoch", axis=0)
 
     return batches, load_data, to_device, forward_path, backward_path
 
@@ -67,5 +66,22 @@ def median_values(extracted_data):
     backward_path_median = backward_path[DIFF].median()
     return [batches_median, load_data_median, to_device_median, forward_path_median, backward_path_median]
 
+
+def sum_values(extracted_data):
+    cleaned = []
+    for df in extracted_data:
+        cdf = df.filter(regex='^(?!.*,epoch-0,batch-0).*', axis=0)
+        cleaned.append(cdf)
+
+    batches, load_data, to_device, forward_path, backward_path = cleaned
+    batches_sum = batches.sum()
+    load_data_sum = load_data[DIFF].sum()
+    to_device_sum = to_device[DIFF].sum()
+    forward_path_sum = forward_path[DIFF].sum()
+    backward_path_sum = backward_path[DIFF].sum()
+    return [batches_sum, load_data_sum, to_device_sum, forward_path_sum, backward_path_sum]
+
+
 if __name__ == '__main__':
-    extract_data('/Users/nils/uni/mmlib-paper/master-thesis/experiments/deterministic-runtime/results/deterministic-resnet152.txt')
+    extract_data(
+        '/Users/nils/uni/mmlib-paper/master-thesis/experiments/deterministic-runtime/results/deterministic-resnet152.txt')
