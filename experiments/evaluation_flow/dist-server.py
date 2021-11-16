@@ -69,6 +69,9 @@ class ServerState:
         self.server_environment = track_current_environment()
         self.dummy_train_kwargs = get_dummy_train_kwargs()
 
+        # TODO should be read from args
+        self.simulated_nodes = 2
+
         if approach == PROVENANCE:
             os.environ[MMLIB_CONFIG] = config
 
@@ -162,7 +165,8 @@ def use_case_2():
             model=model
         )
     else:
-        model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment, base_model_id=init_model_id)
+        model_id = save_model(SERVER, server_state, model, server_state.save_service, server_state.server_environment,
+                              base_model_id=init_model_id)
     log_stop(log)
 
     server_state.saved_model_ids[model_id] = server_state.state_description
@@ -206,6 +210,8 @@ def next_state(text=None):
             use_case_2()
         else:
             server_state.u3_counter += 1
+            if server_state.u3_counter > server_state.simulated_nodes:
+                server_state.u3_counter = 1
             listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_2:
         server_state.state_description = U_3_2
@@ -217,6 +223,8 @@ def next_state(text=None):
             use_case_4()
         else:
             server_state.u3_counter += 1
+            if server_state.u3_counter > server_state.simulated_nodes:
+                server_state.u3_counter = 1
             listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_4:
         log_sizes()
