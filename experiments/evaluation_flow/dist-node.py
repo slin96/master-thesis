@@ -175,6 +175,7 @@ def next_state():
         else:
             node_state.state_description = U_2
             node_state.u3_counter = 0
+            node_state.simulated_node_counter = 1
             listen(sock=node_state.socket, callback=use_case_2)
     elif node_state.state_description == U_2:
         node_state.state_description = U_3_2
@@ -183,15 +184,12 @@ def next_state():
     elif node_state.state_description == U_3_2:
         if node_state.u3_counter < node_state.u3_repeat:
             node_state.u3_counter += 1
-            last_u3 = node_state.u3_counter == node_state.u3_repeat
-            last_node = node_state.simulated_nodes == node_state.simulated_node_counter
-            last_time = last_u3 and last_node
-            if last_u3:
-                node_state.u3_counter = 1
-                node_state.simulated_node_counter += 1
-                node_state.last_model_id = node_state.u2_model_id
-                node_state.last_recovered_model = node_state.u2_last_recovered_model
-            use_case_3(done=last_time)
+            use_case_3(done=node_state.u3_counter == node_state.u3_repeat and
+                            node_state.simulated_node_counter == node_state.simulated_nodes)
+        elif node_state.simulated_node_counter < node_state.simulated_nodes:
+            node_state.u3_counter = 1
+            node_state.simulated_node_counter += 1
+            use_case_3()
         else:
             print('DONE')
 
