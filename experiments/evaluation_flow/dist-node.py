@@ -33,7 +33,7 @@ USE_CASE_1_PT = 'use-case-1.pt'
 
 
 class NodeState:
-    def __init__(self, approach, u3_repeat, ip, port, model_class, model_snapshots, snapshot_types,
+    def __init__(self, approach, u3_repeat, node_repeat, ip, port, model_class, model_snapshots, snapshot_types,
                  training_data_path=None, config=None):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -72,8 +72,7 @@ class NodeState:
         self.node_environment = track_current_environment()
         self.dummy_train_kwargs = get_dummy_train_kwargs()
 
-        # TODO should be read from args
-        self.simulated_nodes = 2
+        self.simulated_nodes = node_repeat
         self.simulated_node_counter = 1
 
 
@@ -83,9 +82,9 @@ node_state: NodeState = None
 def main(args):
     print(args)
     global node_state
-    node_state = NodeState(args.approach, args.u3_count, args.node_ip, args.node_port, MODELS_DICT[args.model],
-                           args.model_snapshots, args.snapshot_type, training_data_path=args.training_data_path,
-                           config=args.config)
+    node_state = NodeState(args.approach, args.u3_count, args.node_repeat, args.node_ip, args.node_port,
+                           MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,
+                           training_data_path=args.training_data_path, config=args.config)
 
     # U1- node: listen for models to be in DB
     listen(sock=node_state.socket, callback=use_case_1)
@@ -263,6 +262,7 @@ def parse_args():
     add_mongo_ip(parser)
     add_approach(parser)
     add_u3_count(parser)
+    add_node_repeat(parser)
     add_training_data_path(parser)
     add_config(parser)
     _args = parser.parse_args()

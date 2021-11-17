@@ -102,6 +102,10 @@ def add_u3_count(parser):
     parser.add_argument('--u3_count', help='The amount of times u3 is repeated', type=int, required=True)
 
 
+def add_node_repeat(parser):
+    parser.add_argument('--node_repeat', help='The number of nodes we simulate', type=int, required=True)
+
+
 def add_training_data_path(parser):
     parser.add_argument('--training_data_path', help='The path to the data used to retrain the models', type=str)
 
@@ -121,6 +125,7 @@ def add_evaluation_parameters(parser):
     add_mongo_ip(parser)
     add_paths(parser)
     add_u3_count(parser)
+    add_node_repeat(parser)
     add_node_and_server_config(parser)
 
 

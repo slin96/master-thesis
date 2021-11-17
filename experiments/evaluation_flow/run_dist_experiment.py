@@ -33,6 +33,7 @@ def main(args):
     node_ip_arg = "--node_ip {}".format(args.node_ip)
 
     u3_count_arg = "--u3_count {}".format(args.u3_count)
+    node_repeat_arg = "--node_repeat_arg {}".format(args.node_repeat_arg)
 
     done_path = '{}/done.txt'.format(args.server_script_root)
 
@@ -89,7 +90,7 @@ def main(args):
                         ####################################################
                         node_parameters = [tmp_dir_arg, node_ip_arg, server_ip_arg, mongo_host_arg, model_arg,
                                            approach_arg, model_snapshot_args, snapshot_type_arg, u3_count_arg,
-                                           node_out_file]
+                                           node_repeat_arg, node_out_file]
 
                         if approach == PROVENANCE:
                             node_parameters.append(node_training_data_path_arg)
