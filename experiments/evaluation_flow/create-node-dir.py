@@ -16,6 +16,7 @@ if __name__ == '__main__':
 
     files_to_copy = [
         (os.path.join(FILE_PATH, './node.py'), os.path.join(BASELINE_FLOW, './node.py')),
+        (os.path.join(FILE_PATH, './dist-node.py'), os.path.join(BASELINE_FLOW, './dist-node.py')),
         (os.path.join(FILE_PATH, './shared.py'), os.path.join(BASELINE_FLOW, './shared.py')),
         (os.path.join(FILE_PATH, './custom_coco.py'), os.path.join(BASELINE_FLOW, './custom_coco.py')),
         (os.path.join(FILE_PATH, './create_finetuned.py'), os.path.join(BASELINE_FLOW, './create_finetuned.py')),
