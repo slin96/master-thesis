@@ -72,7 +72,8 @@
 
 ## Run evaluation
 - after preparing all the models, datasets, and the code we can run our experiments using the script
-  - `run-experiment.py`
+  - `run_experiment.py` or `run_dist_experiment.py`
+  - see example call with params [here](./cmds.txt)
   
 ## Environments
 
