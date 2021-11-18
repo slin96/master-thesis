@@ -37,6 +37,7 @@ class NodeState:
                  training_data_path=None, config=None):
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
+        print("the use ip is: " + ip)
 
         # initialize a service to save files
         abs_tmp_path = os.path.abspath(args.tmp_dir)

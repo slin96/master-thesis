@@ -1,5 +1,9 @@
 from experiments.evaluation_flow.run_experiment import *
 
+DIST_NODE_PY = "dist-node.py"
+
+DIST_SERVER_PY = "dist-server.py"
+
 MODELS = [MOBILENET]
 
 APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
@@ -29,7 +33,7 @@ def main(args):
     node_ip_arg = "--node_ip {}".format(args.node_ip)
 
     u3_count_arg = "--u3_count {}".format(args.u3_count)
-    node_repeat_arg = "--node_repeat_arg {}".format(args.node_repeat)
+    node_repeat = "--node_repeat {}".format(args.node_repeat)
 
     done_path = '{}/done.txt'.format(args.server_script_root)
 
@@ -86,13 +90,13 @@ def main(args):
                         ####################################################
                         node_parameters = [tmp_dir_arg, node_ip_arg, server_ip_arg, mongo_host_arg, model_arg,
                                            approach_arg, model_snapshot_args, snapshot_type_arg, u3_count_arg,
-                                           node_repeat_arg, node_out_file]
+                                           node_repeat, node_out_file]
 
                         if approach == PROVENANCE:
                             node_parameters.append(node_training_data_path_arg)
                             node_parameters.append(node_config_arg)
 
-                        run_node_cmd = "python dist-node.py {}".format(" ".join(node_parameters))
+                        run_node_cmd = "python {} {}".format(DIST_NODE_PY, " ".join(node_parameters))
 
                         server_parameters = [tmp_dir_arg, server_ip_arg, node_ip_arg, mongo_host_arg, model_arg,
                                              approach_arg, model_snapshot_args, snapshot_type_arg, server_out_file]
@@ -101,7 +105,7 @@ def main(args):
                             server_parameters.append(server_training_data_path_arg)
                             server_parameters.append(server_config_arg)
 
-                        run_server_cmd = "python dist-server.py {}".format(" ".join(server_parameters))
+                        run_server_cmd = "python {} {}".format(DIST_SERVER_PY, " ".join(server_parameters))
 
                         ####################################################
                         # run experiment
@@ -138,8 +142,8 @@ def main(args):
 
                         # when done, stop all processes and clean up tmp directory
                         os.system('ssh -t {} pkill -f mongo'.format(args.mongo_host_name))
-                        os.system('ssh -t {} pkill -f server.py'.format(args.server_host_name))
-                        os.system('ssh -t {} pkill -f node.py'.format(args.node_host_name))
+                        os.system('ssh -t {} pkill -f {}'.format(args.server_host_name, DIST_SERVER_PY))
+                        os.system('ssh -t {} pkill -f {}'.format(args.node_host_name, DIST_NODE_PY))
 
                         # the pattern *-*-*-*-* should cover all uuids
                         assert not args.tmp_dir == '' and not args.tmp_dir == '.'
