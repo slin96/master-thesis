@@ -178,6 +178,7 @@ def main(args):
                         os.system('ssh -t {} pkill -f node.py'.format(args.node_host_name))
 
                         # the pattern *-*-*-*-* should cover all uuids
+                        assert not args.tmp_dir == '' and not args.tmp_dir == '.'
                         os.system("ssh -t {} 'cd {}; rm -rf *-*-*-*-*'".format(args.mongo_host_name, args.tmp_dir))
                         print('wait before starting new experiment')
                         time.sleep(30)

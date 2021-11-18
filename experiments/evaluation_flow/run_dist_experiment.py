@@ -1,7 +1,3 @@
-import argparse
-import os
-
-from experiments.evaluation_flow.shared import *
 from experiments.evaluation_flow.run_experiment import *
 
 MODELS = [MOBILENET]
@@ -33,7 +29,7 @@ def main(args):
     node_ip_arg = "--node_ip {}".format(args.node_ip)
 
     u3_count_arg = "--u3_count {}".format(args.u3_count)
-    node_repeat_arg = "--node_repeat_arg {}".format(args.node_repeat_arg)
+    node_repeat_arg = "--node_repeat_arg {}".format(args.node_repeat)
 
     done_path = '{}/done.txt'.format(args.server_script_root)
 
@@ -146,6 +142,7 @@ def main(args):
                         os.system('ssh -t {} pkill -f node.py'.format(args.node_host_name))
 
                         # the pattern *-*-*-*-* should cover all uuids
+                        assert not args.tmp_dir == '' and not args.tmp_dir == '.'
                         os.system("ssh -t {} 'cd {}; rm -rf *-*-*-*-*'".format(args.mongo_host_name, args.tmp_dir))
                         print('wait before starting new experiment')
                         time.sleep(30)
