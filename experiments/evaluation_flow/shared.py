@@ -100,6 +100,7 @@ def add_model_snapshot_args(parser):
 
 def add_u3_count(parser):
     parser.add_argument('--u3_count', help='The amount of times u3 is repeated', type=int, required=True)
+    parser.add_argument('--node_repeat', help='The amount of simulated nodes', type=int, required=True)
 
 
 def add_node_repeat(parser):

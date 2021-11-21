@@ -35,7 +35,6 @@ USE_CASE_1_PT = 'use-case-1.pt'
 class NodeState:
     def __init__(self, approach, u3_repeat, node_repeat, ip, port, model_class, model_snapshots, snapshot_types,
                  training_data_path=None, config=None):
-        print("the use ip is: " + ip)
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 

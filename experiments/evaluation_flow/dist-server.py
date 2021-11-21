@@ -22,7 +22,8 @@ from experiments.evaluation_flow.shared import save_model, add_paths, inform, ge
     listen, reusable_udp_socket, extract_fields, add_mongo_ip, add_server_connection_arguments, \
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
     add_model_snapshot_args, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
-    add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model, FINE_TUNED, VERSION
+    add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model, FINE_TUNED, VERSION, \
+    add_u3_count
 
 DONE_TXT = 'done.txt'
 
@@ -283,6 +284,7 @@ def parse_args():
     add_approach(parser)
     add_training_data_path(parser)
     add_config(parser)
+    add_u3_count(parser)
     _args = parser.parse_args()
 
     return _args

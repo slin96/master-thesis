@@ -6,8 +6,7 @@ DIST_SERVER_PY = "dist-server.py"
 
 MODELS = [MOBILENET]
 
-# APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [PROVENANCE]
+APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -100,7 +99,8 @@ def main(args):
                         run_node_cmd = "python {} {}".format(DIST_NODE_PY, " ".join(node_parameters))
 
                         server_parameters = [tmp_dir_arg, server_ip_arg, node_ip_arg, mongo_host_arg, model_arg,
-                                             approach_arg, model_snapshot_args, snapshot_type_arg, server_out_file]
+                                             u3_count_arg, node_repeat, approach_arg, model_snapshot_args,
+                                             snapshot_type_arg, server_out_file]
 
                         if approach == PROVENANCE:
                             server_parameters.append(server_training_data_path_arg)
