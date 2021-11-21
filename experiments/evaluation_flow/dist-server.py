@@ -272,7 +272,7 @@ def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Script modeling server for workflow using baseline appraoch')
+    parser = argparse.ArgumentParser(description='Script modeling server for workflow using baseline approach')
 
     add_server_connection_arguments(parser)
     add_node_connection_arguments(parser)

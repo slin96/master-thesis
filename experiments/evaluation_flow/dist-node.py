@@ -39,7 +39,6 @@ class NodeState:
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
 
-
         # initialize a service to save files
         abs_tmp_path = os.path.abspath(args.tmp_dir)
         file_pers_service = FileSystemPersistenceService(abs_tmp_path)
@@ -53,7 +52,7 @@ class NodeState:
 
         self.state_description = U_1
         self.u3_repeat = u3_repeat
-        self.u3_counter = 0
+        self.u3_counter = 1
 
         self.model_class = model_class
         self.model_snapshots = model_snapshots
@@ -159,40 +158,41 @@ def use_case_3(last_time=False, done=False):
 
 
 def next_state():
+    last_time = False
     time.sleep(5)
     if node_state.state_description == U_1:
         node_state.state_description = U_3_1
-        node_state.u3_counter += 1
         use_case_3()
     elif node_state.state_description == U_3_1:
-        if node_state.u3_counter < node_state.u3_repeat:
-            node_state.u3_counter += 1
-            use_case_3(last_time=node_state.u3_counter == node_state.u3_repeat and
-                                 node_state.simulated_node_counter == node_state.simulated_nodes)
-        elif node_state.simulated_node_counter < node_state.simulated_nodes:
-            node_state.u3_counter = 1
-            node_state.simulated_node_counter += 1
-            use_case_3()
-        else:
-            node_state.state_description = U_2
-            node_state.u3_counter = 0
+        node_state.simulated_node_counter += 1
+        last_time = node_state.u3_counter == node_state.u3_repeat \
+                    and node_state.simulated_node_counter == node_state.simulated_nodes
+        if node_state.simulated_node_counter > node_state.simulated_nodes:
             node_state.simulated_node_counter = 1
-            listen(sock=node_state.socket, callback=use_case_2)
+            node_state.u3_counter += 1
+            if node_state.u3_counter > node_state.u3_repeat:
+                node_state.state_description = U_2
+                node_state.u3_counter = 1
+                node_state.simulated_node_counter = 1
+                listen(sock=node_state.socket, callback=use_case_2)
+
+        if node_state.state_description == U_3_1:
+            use_case_3(last_time=last_time)
+
     elif node_state.state_description == U_2:
         node_state.state_description = U_3_2
-        node_state.u3_counter += 1
-        use_case_3(node_state.u3_counter == node_state.u3_repeat)
+        use_case_3()
     elif node_state.state_description == U_3_2:
-        if node_state.u3_counter < node_state.u3_repeat:
+        node_state.simulated_node_counter += 1
+        last_time = node_state.u3_counter == node_state.u3_repeat \
+                    and node_state.simulated_node_counter == node_state.simulated_nodes
+        if node_state.simulated_node_counter > node_state.simulated_nodes:
+            node_state.simulated_node_counter = 1
             node_state.u3_counter += 1
-            use_case_3(done=node_state.u3_counter == node_state.u3_repeat and
-                            node_state.simulated_node_counter == node_state.simulated_nodes)
-        elif node_state.simulated_node_counter < node_state.simulated_nodes:
-            node_state.u3_counter = 1
-            node_state.simulated_node_counter += 1
-            use_case_3()
-        else:
-            print('DONE')
+            if node_state.u3_counter > node_state.u3_repeat:
+                print('DONE')
+                return
+        use_case_3(done=last_time)
 
 
 def _load_model_snapshot(state, counter):
