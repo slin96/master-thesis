@@ -64,6 +64,7 @@ class NodeState:
         self.u1_last_recovered_model = None
         self.u2_model_id = None
         self.u2_last_recovered_model = None
+        self.last_u3_model_id = {}
 
         if approach == PROVENANCE:
             self.training_data_path = training_data_path
@@ -97,6 +98,8 @@ def _react_to_new_model(msg, use_case=None):
     node_state.last_model_id = model_id
     if use_case == U_1:
         node_state.u1_model_id = model_id
+    elif use_case == U_2:
+        node_state.u2_model_id = model_id
     # if we use the provenance approach we only simulate the training, thus the saved and the recovered models will
     # differ -> we deactivate the checks for this approach
     execute_checks = not (node_state.approach == PROVENANCE)
@@ -119,9 +122,26 @@ def _state_with_counter():
     return '{}_{}'.format(node_state.state_description, node_state.u3_counter)
 
 
+def get_last_model_id():
+    if node_state.state_description == U_3_1:
+        if node_state.simulated_node_counter not in node_state.last_u3_model_id:
+            # if we do not find a saved id in u3 ids -> it is the first run of U3_1
+            return node_state.u1_model_id
+        else:
+            return node_state.last_u3_model_id[node_state.simulated_node_counter]
+    elif node_state.state_description == U_3_2:
+        if node_state.simulated_node_counter not in node_state.last_u3_model_id:
+            # if we do not find a saved id in u3 ids -> it is the first run of U3_2
+            return node_state.u2_model_id
+        else:
+            return node_state.last_u3_model_id[node_state.simulated_node_counter]
+
+
 def use_case_3(last_time=False, done=False):
     state_w_counter = _state_with_counter()
     model = _load_model_snapshot(node_state.state_description, node_state.u3_counter)
+
+    last_model_id = get_last_model_id()
 
     log = log_start(NODE, state_w_counter, SAVE_MODEL)
     if node_state.approach == PROVENANCE:
@@ -129,7 +149,7 @@ def use_case_3(last_time=False, done=False):
             node_state.last_recovered_model, node_state.training_data_path)
         model_id = save_provenance_model(
             save_service=node_state.save_service,
-            base_model_id=node_state.last_model_id,
+            base_model_id=last_model_id,
             train_kwargs=node_state.dummy_train_kwargs,
             prov_env=node_state.node_environment,
             raw_data=node_state.training_data_path,
@@ -139,10 +159,10 @@ def use_case_3(last_time=False, done=False):
     else:
         # simulate model training by loading model from checkpoint
         model_id = save_model(NODE, node_state, model, node_state.save_service, node_state.node_environment,
-                              base_model_id=node_state.last_model_id)
+                              base_model_id=last_model_id)
     log_stop(log)
 
-    node_state.last_model_id = model_id
+    node_state.last_u3_model_id[node_state.simulated_node_counter] = model_id
 
     # notify server
     text = NEW_MODEL
@@ -158,7 +178,7 @@ def use_case_3(last_time=False, done=False):
 
 def next_state():
     last_time = False
-    time.sleep(5)
+    time.sleep(SYNC_TIME)
     if node_state.state_description == U_1:
         node_state.state_description = U_3_1
         use_case_3()
@@ -179,6 +199,8 @@ def next_state():
             use_case_3(last_time=last_time)
 
     elif node_state.state_description == U_2:
+        # reset because fo transition to U2
+        node_state.last_u3_model_id = {}
         node_state.state_description = U_3_2
         use_case_3()
     elif node_state.state_description == U_3_2:

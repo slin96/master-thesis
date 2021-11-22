@@ -23,7 +23,7 @@ from experiments.evaluation_flow.shared import save_model, add_paths, inform, ge
     add_node_connection_arguments, NEW_MODEL, add_model_arg, MODELS_DICT, \
     add_model_snapshot_args, U_3_1, U_4, U_2, U_3_2, U_1, log_start, log_stop, add_approach, get_save_service, \
     add_config, PROVENANCE, add_training_data_path, get_dummy_train_kwargs, save_provenance_model, FINE_TUNED, VERSION, \
-    add_u3_count, add_node_repeat
+    add_u3_count, add_node_repeat, SYNC_TIME
 
 DONE_TXT = 'done.txt'
 
@@ -199,7 +199,7 @@ def log_sizes():
 
 
 def next_state(text=None):
-    time.sleep(5)
+    time.sleep(SYNC_TIME)
     if server_state.state_description == U_1:
         server_state.state_description = U_3_1
         server_state.u3_counter += 1

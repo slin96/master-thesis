@@ -6,7 +6,8 @@ DIST_SERVER_PY = "dist-server.py"
 
 MODELS = [MOBILENET]
 
-APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
+# APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
+APPROACHES = [PARAM_UPDATE_IMPROVED, PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -90,7 +91,9 @@ def main(args):
                         ####################################################
                         node_parameters = [tmp_dir_arg, node_ip_arg, server_ip_arg, mongo_host_arg, model_arg,
                                            approach_arg, model_snapshot_args, snapshot_type_arg, u3_count_arg,
-                                           node_repeat, node_out_file]
+                                           node_repeat,
+                                           node_out_file
+                                           ]
 
                         if approach == PROVENANCE:
                             node_parameters.append(node_training_data_path_arg)
@@ -100,7 +103,9 @@ def main(args):
 
                         server_parameters = [tmp_dir_arg, server_ip_arg, node_ip_arg, mongo_host_arg, model_arg,
                                              u3_count_arg, node_repeat, approach_arg, model_snapshot_args,
-                                             snapshot_type_arg, server_out_file]
+                                             snapshot_type_arg,
+                                             server_out_file
+                                             ]
 
                         if approach == PROVENANCE:
                             server_parameters.append(server_training_data_path_arg)
