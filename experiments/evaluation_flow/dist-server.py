@@ -87,8 +87,9 @@ def main(args):
 
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
-                               MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type, args.node_repeat,
-                               args.u3_count, training_data_path=args.training_data_path, config=args.config)
+                               MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,
+                               node_repeat=args.node_repeat, u3_repeat=args.u3_count,
+                               training_data_path=args.training_data_path, config=args.config)
 
     use_case_1()
 
@@ -224,7 +225,7 @@ def next_state(text=None):
             use_case_4()
         else:
             server_state.u3_counter += 1
-            if server_state.u3_counter > server_state.simulated_nodes:
+            if server_state.u3_counter > server_state.u3_repeat:
                 server_state.u3_counter = 1
             listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_4:
