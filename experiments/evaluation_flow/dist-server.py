@@ -39,7 +39,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 class ServerState:
     def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, snapshot_types,
-                 training_data_path=None, config=None):
+                 node_repeat, training_data_path=None, config=None):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -70,8 +70,7 @@ class ServerState:
         self.server_environment = track_current_environment()
         self.dummy_train_kwargs = get_dummy_train_kwargs()
 
-        # TODO should be read from args
-        self.simulated_nodes = 2
+        self.simulated_nodes = node_repeat
 
         if approach == PROVENANCE:
             os.environ[MMLIB_CONFIG] = config
@@ -87,7 +86,7 @@ def main(args):
 
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
-                               MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type,
+                               MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type, args.node_repeat,
                                training_data_path=args.training_data_path, config=args.config)
 
     use_case_1()

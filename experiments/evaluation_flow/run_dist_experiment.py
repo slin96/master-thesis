@@ -7,7 +7,7 @@ DIST_SERVER_PY = "dist-server.py"
 MODELS = [MOBILENET]
 
 # APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [PARAM_UPDATE_IMPROVED, PROVENANCE]
+APPROACHES = [PROVENANCE]
 
 SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
 
@@ -68,11 +68,11 @@ def main(args):
 
                         node_log_name = 'node--{}.txt'.format(run_name)
                         node_log = os.path.join(log_dir, node_log_name)
-                        node_out_file = "> {}".format(str(node_log))
+                        node_out_file = "| tee {}".format(str(node_log))
 
                         server_log_name = 'server--{}.txt'.format(run_name)
                         server_log = os.path.join(log_dir, server_log_name)
-                        server_out_file = "> {}".format(server_log)
+                        server_out_file = "| tee {}".format(server_log)
 
                         node_train_data_name = '{}-512'.format(snapshot_dist)
                         node_training_data_path = os.path.join(node_train_data_root, node_train_data_name)
@@ -91,25 +91,25 @@ def main(args):
                         ####################################################
                         node_parameters = [tmp_dir_arg, node_ip_arg, server_ip_arg, mongo_host_arg, model_arg,
                                            approach_arg, model_snapshot_args, snapshot_type_arg, u3_count_arg,
-                                           node_repeat,
-                                           node_out_file
-                                           ]
+                                           node_repeat]
 
                         if approach == PROVENANCE:
                             node_parameters.append(node_training_data_path_arg)
                             node_parameters.append(node_config_arg)
 
+                        node_parameters.append(node_out_file)
+
                         run_node_cmd = "python {} {}".format(DIST_NODE_PY, " ".join(node_parameters))
 
                         server_parameters = [tmp_dir_arg, server_ip_arg, node_ip_arg, mongo_host_arg, model_arg,
                                              u3_count_arg, node_repeat, approach_arg, model_snapshot_args,
-                                             snapshot_type_arg,
-                                             server_out_file
-                                             ]
+                                             snapshot_type_arg]
 
                         if approach == PROVENANCE:
                             server_parameters.append(server_training_data_path_arg)
                             server_parameters.append(server_config_arg)
+
+                        server_parameters.append(server_out_file)
 
                         run_server_cmd = "python {} {}".format(DIST_SERVER_PY, " ".join(server_parameters))
 

@@ -423,7 +423,7 @@ def join_server_and_node_meta(meta_and_files):
     return valid_joined
 
 
-def extract_times(valid_joined):
+def extract_times(valid_joined, num_nodes=1):
     save_times = []
 
     for _dict in valid_joined:
@@ -438,10 +438,10 @@ def extract_times(valid_joined):
             RUN: server_meta[RUN]
         }
 
-        _high_level_save_times = high_level_save_times(node_meta, server_meta)
-        _detailed_save_times = detailed_save_times(node_meta, server_meta)
-        _high_level_recover_times = high_level_recover_times(server_meta)
-        _detailed_recover_times = detailed_recover_times(server_meta)
+        _high_level_save_times = high_level_save_times(node_meta, server_meta, num_nodes)
+        _detailed_save_times = detailed_save_times(node_meta, server_meta, num_nodes)
+        _high_level_recover_times = high_level_recover_times(server_meta, num_nodes)
+        _detailed_recover_times = detailed_recover_times(server_meta, num_nodes)
 
         combined[HIGH_LEVEL_SAVE_TIMES] = _high_level_save_times
         combined[DETAILED_SAVE_TIMES] = _detailed_save_times
@@ -621,15 +621,16 @@ def _extract_detailed_recover_times(event, approach):
     return result
 
 
-def high_level_recover_times(server_meta):
-    return _detailed_recover_times(server_meta, lambda x, y: x.duration_ns)
+def high_level_recover_times(server_meta, num_nodes=1):
+    return _detailed_recover_times(server_meta, lambda x, y: x.duration_ns, num_nodes)
 
 
-def detailed_recover_times(server_meta):
-    return _detailed_recover_times(server_meta, _extract_detailed_recover_times)
+def detailed_recover_times(server_meta, num_nodes=1):
+    return _detailed_recover_times(server_meta, _extract_detailed_recover_times, num_nodes)
 
 
-def _detailed_recover_times(server_meta, extract_method):
+def _detailed_recover_times(server_meta, extract_method, num_nodes=1):
+    node_count = 0
     approach = server_meta[APPROACH]
     times = {}
     for e in server_meta[EVENTS]:
@@ -637,19 +638,28 @@ def _detailed_recover_times(server_meta, extract_method):
             sub_events = e.children
             for sub_e in sub_events:
                 _, use_case, _ = sub_e.event.split('-')
-                times[use_case] = extract_method(sub_e, approach)
+
+                if 'U_3' in use_case:
+                    times[F"N{node_count}-{use_case}"] = extract_method(sub_e, approach)
+                    node_count += 1
+                    node_count %= num_nodes
+                else:
+                    times[use_case] = extract_method(sub_e, approach)
+
+
+
     return times
 
 
-def detailed_save_times(node_meta, server_meta):
-    return _detailed_save_times(node_meta, server_meta, _extract_detailed_save_times)
+def detailed_save_times(node_meta, server_meta, num_nodes=1):
+    return _detailed_save_times(node_meta, server_meta, _extract_detailed_save_times, num_nodes)
 
 
-def high_level_save_times(node_meta, server_meta):
-    return _detailed_save_times(node_meta, server_meta, lambda x, y: x.duration_ns)
+def high_level_save_times(node_meta, server_meta, num_nodes=1):
+    return _detailed_save_times(node_meta, server_meta, lambda x, y: x.duration_ns, num_nodes)
 
 
-def _detailed_save_times(node_meta, server_meta, extract_method):
+def _detailed_save_times(node_meta, server_meta, extract_method, num_nodes=1):
     times = {}
 
     approach = server_meta[APPROACH]
@@ -661,13 +671,20 @@ def _detailed_save_times(node_meta, server_meta, extract_method):
             times[U_2] = extract_method(e, approach)
     u31_counter = 1
     u32_counter = 1
+    node_counter = 0
     for e in node_meta[EVENTS]:
         if e.use_case and e.use_case.startswith(U_3_1):
-            times[e.use_case] = extract_method(e, approach)
-            u31_counter += 1
+            times[F"N{node_counter}-{e.use_case}"] = extract_method(e, approach)
+            if node_counter == num_nodes:
+                u31_counter += 1
         elif e.use_case and e.use_case.startswith(U_3_2):
-            times[e.use_case] = extract_method(e, approach)
-            u32_counter += 1
+            times[F"N{node_counter}-{e.use_case}"] = extract_method(e, approach)
+            if node_counter == num_nodes:
+                u32_counter += 1
+
+        if e.use_case and e.use_case.startswith(U_3_1) or e.use_case.startswith(U_3_2):
+            node_counter += 1
+            node_counter %= num_nodes
     return times
 
 
