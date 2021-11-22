@@ -39,7 +39,7 @@ USE_CASE_2_PT = 'use-case-2.pt'
 
 class ServerState:
     def __init__(self, approach, tmp_dir, mongo_host, ip, port, model_class, model_snapshots, snapshot_types,
-                 node_repeat, training_data_path=None, config=None):
+                 node_repeat, u3_repeat, training_data_path=None, config=None):
         # initialize a socket to communicate with other nodes
         self.socket = reusable_udp_socket()
         self.socket.bind((ip, port))
@@ -59,6 +59,7 @@ class ServerState:
 
         self.state_description = U_1
         self.u3_counter = 0
+        self.u3_repeat = u3_repeat
 
         self.model_class = model_class
         self.model_snapshots = model_snapshots
@@ -87,7 +88,7 @@ def main(args):
     global server_state
     server_state = ServerState(args.approach, args.tmp_dir, args.mongo_host, args.server_ip, args.server_port,
                                MODELS_DICT[args.model], args.model_snapshots, args.snapshot_type, args.node_repeat,
-                               training_data_path=args.training_data_path, config=args.config)
+                               args.u3_count, training_data_path=args.training_data_path, config=args.config)
 
     use_case_1()
 
@@ -210,7 +211,7 @@ def next_state(text=None):
             use_case_2()
         else:
             server_state.u3_counter += 1
-            if server_state.u3_counter > server_state.simulated_nodes:
+            if server_state.u3_counter > server_state.u3_repeat:
                 server_state.u3_counter = 1
             listen(sock=server_state.socket, callback=use_case_3)
     elif server_state.state_description == U_2:
