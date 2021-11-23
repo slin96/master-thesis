@@ -58,7 +58,7 @@ class ServerState:
         self.saved_model_ids = {}
 
         self.state_description = U_1
-        self.u3_counter = 0
+        self.u3_counter = 1
         self.u3_repeat = u3_repeat
 
         self.model_class = model_class
@@ -72,6 +72,7 @@ class ServerState:
         self.dummy_train_kwargs = get_dummy_train_kwargs()
 
         self.simulated_nodes = node_repeat
+        self.node_counter = 0
 
         if approach == PROVENANCE:
             os.environ[MMLIB_CONFIG] = config
@@ -79,6 +80,8 @@ class ServerState:
 
 server_state: ServerState = None
 init_model_id = None
+done = False
+text = ''
 
 
 def main(args):
@@ -91,7 +94,48 @@ def main(args):
                                node_repeat=args.node_repeat, u3_repeat=args.u3_count,
                                training_data_path=args.training_data_path, config=args.config)
 
-    use_case_1()
+    server_state.state_description = U_1
+
+    while not done:
+        time.sleep(SYNC_TIME)
+        next_step()
+
+    print('DONE')
+    os.system('touch %s' % DONE_TXT)
+
+
+def next_step():
+    global text
+    if server_state.state_description == U_1:
+        use_case_1()
+        server_state.state_description = U_3_1
+    elif server_state.state_description == U_3_1:
+        if server_state.node_counter >= server_state.simulated_nodes:
+            server_state.u3_counter += 1
+            server_state.node_counter = 0
+        listen(sock=server_state.socket, callback=use_case_3)
+        if 'last' in text:
+            server_state.state_description = U_2
+            server_state.node_counter = 0
+        server_state.node_counter += 1
+    elif server_state.state_description == U_2:
+        use_case_2()
+        server_state.state_description = U_3_2
+        server_state.node_counter = 0
+        server_state.u3_counter = 1
+    elif server_state.state_description == U_3_2:
+        if server_state.node_counter >= server_state.simulated_nodes:
+            server_state.u3_counter += 1
+            server_state.node_counter = 0
+        listen(sock=server_state.socket, callback=use_case_3)
+        if 'done' in text:
+            server_state.state_description = U_4
+        server_state.node_counter += 1
+    elif server_state.state_description == U_4:
+        use_case_4()
+        log_sizes()
+        global done
+        done = True
 
 
 def use_case_1():
@@ -107,8 +151,6 @@ def use_case_1():
     server_state.saved_model_ids[init_model_id] = server_state.state_description
 
     _inform_node_about_model(init_model_id)
-
-    next_state()
 
 
 def _load_model_snapshot(snapshot_name):
@@ -136,18 +178,18 @@ def _inform_node_about_model(init_model_id):
 
 
 def use_case_3(msg):
+    global text
     log = log_start(SERVER, server_state.state_description, EXTRACT_NOTIFY_MESSAGE)
     print(msg)
     text, model_id = extract_fields(msg)
     state_with_counter = _state_with_counter()
     server_state.saved_model_ids[model_id] = state_with_counter
+    print(F"NILS: {server_state.saved_model_ids}")
     log_stop(log)
-
-    next_state(text)
 
 
 def _state_with_counter():
-    return '{}_{}'.format(server_state.state_description, server_state.u3_counter)
+    return 'N{}_{}_{}'.format(server_state.node_counter, server_state.state_description, server_state.u3_counter)
 
 
 def use_case_2():
@@ -175,8 +217,6 @@ def use_case_2():
 
     _inform_node_about_model(model_id)
 
-    next_state()
-
 
 def use_case_4():
     log = log_start(SERVER, server_state.state_description, RECOVER_MODELS)
@@ -190,48 +230,13 @@ def use_case_4():
         log_stop(log_i)
 
     log_stop(log)
-    next_state()
+    # next_state()
 
 
 def log_sizes():
     for model_id in server_state.saved_model_ids.keys():
         size_info = server_state.save_service.model_save_size(model_id)
         print('size-info-{}-{}'.format(model_id, json.dumps(size_info)))
-
-
-def next_state(text=None):
-    time.sleep(SYNC_TIME)
-    if server_state.state_description == U_1:
-        server_state.state_description = U_3_1
-        server_state.u3_counter += 1
-        listen(sock=server_state.socket, callback=use_case_3)
-    elif server_state.state_description == U_3_1:
-        if 'last' in text:
-            server_state.state_description = U_2
-            server_state.u3_counter = 0
-            use_case_2()
-        else:
-            server_state.u3_counter += 1
-            if server_state.u3_counter > server_state.u3_repeat:
-                server_state.u3_counter = 1
-            listen(sock=server_state.socket, callback=use_case_3)
-    elif server_state.state_description == U_2:
-        server_state.state_description = U_3_2
-        server_state.u3_counter += 1
-        listen(sock=server_state.socket, callback=use_case_3)
-    elif server_state.state_description == U_3_2:
-        if 'done' in text:
-            server_state.state_description = U_4
-            use_case_4()
-        else:
-            server_state.u3_counter += 1
-            if server_state.u3_counter > server_state.u3_repeat:
-                server_state.u3_counter = 1
-            listen(sock=server_state.socket, callback=use_case_3)
-    elif server_state.state_description == U_4:
-        log_sizes()
-        print('DONE')
-        os.system('touch %s' % DONE_TXT)
 
 
 def dummy_custom_imagenet_train_service_wrapper(model, raw_data):
