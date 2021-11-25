@@ -6,14 +6,17 @@ DIST_SERVER_PY = "dist-server.py"
 
 MODELS = [MOBILENET]
 
-# APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
-APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED]
+APPROACHES = [BASELINE, PARAM_UPDATE_IMPROVED, PROVENANCE]
 
-SNAPSHOT_TYPES = [VERSION, FINE_TUNED]
+SNAPSHOT_TYPES_MAP = {
+    BASELINE: [VERSION],
+    PARAM_UPDATE_IMPROVED: [VERSION, FINE_TUNED],
+    PROVENANCE: [VERSION]
+}
 
 SNAPSHOT_DIST = ['outdoor']
 
-REPEAT = 5
+REPEAT = 3
 
 
 def main(args):
@@ -50,7 +53,8 @@ def main(args):
         run = r + args.run_offset
         for model in MODELS:
             for approach in APPROACHES:
-                for snapshot_type in SNAPSHOT_TYPES:
+                snapshot_types = SNAPSHOT_TYPES_MAP[approach]
+                for snapshot_type in snapshot_types:
                     for snapshot_dist in SNAPSHOT_DIST:
                         wait_counter = 0
 
