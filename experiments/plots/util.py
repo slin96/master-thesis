@@ -125,9 +125,10 @@ def use_case_ids(log_file, id2use_case=False):
         with open(log_file) as f:
             lines = f.readlines()
             search_for = 'recover-U'
+            search_for_dist = 'recover-N'
 
             for l in lines:
-                if search_for in l:
+                if search_for in l or search_for_dist in l:
                     relevant_lines.append(l)
 
         result = {}
