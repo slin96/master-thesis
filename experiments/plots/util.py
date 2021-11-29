@@ -424,7 +424,7 @@ def join_server_and_node_meta(meta_and_files):
     return valid_joined
 
 
-def extract_times(valid_joined, num_nodes=1):
+def extract_times(valid_joined, num_nodes=1, high_level_only = False):
     save_times = []
 
     for _dict in valid_joined:
@@ -439,15 +439,18 @@ def extract_times(valid_joined, num_nodes=1):
             RUN: server_meta[RUN]
         }
 
-        _high_level_save_times = high_level_save_times(node_meta, server_meta, num_nodes)
-        _detailed_save_times = detailed_save_times(node_meta, server_meta, num_nodes)
-        _high_level_recover_times = high_level_recover_times(server_meta, num_nodes)
-        _detailed_recover_times = detailed_recover_times(server_meta, num_nodes)
 
+        _high_level_save_times = high_level_save_times(node_meta, server_meta, num_nodes)
+        _high_level_recover_times = high_level_recover_times(server_meta, num_nodes)
         combined[HIGH_LEVEL_SAVE_TIMES] = _high_level_save_times
-        combined[DETAILED_SAVE_TIMES] = _detailed_save_times
         combined[HIGH_LEVEL_RECOVER_TIMES] = _high_level_recover_times
-        combined[DETAILED_RECOVER_TIMES] = _detailed_recover_times
+
+        if not high_level_only:
+            _detailed_save_times = detailed_save_times(node_meta, server_meta, num_nodes)
+            _detailed_recover_times = detailed_recover_times(server_meta, num_nodes)
+            combined[DETAILED_SAVE_TIMES] = _detailed_save_times
+            combined[DETAILED_RECOVER_TIMES] = _detailed_recover_times
+
         save_times.append(combined)
 
     return save_times
@@ -641,7 +644,10 @@ def _detailed_recover_times(server_meta, extract_method, num_nodes=1):
                 _, use_case, _ = sub_e.event.split('-')
 
                 if 'U_3' in use_case:
-                    times[F"N{node_count}-{use_case}"] = extract_method(sub_e, approach)
+                    key = use_case
+                    if "N" not in use_case:
+                        key = F"N{node_count}-{use_case}"
+                    times[key] = extract_method(sub_e, approach)
                     node_count += 1
                     node_count %= num_nodes
                 else:
@@ -751,7 +757,7 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
     handles, labels = ax.get_legend_handles_labels()
 
     for i in range(len(labels)):
-        if labels[i] is 'recover':
+        if labels[i] == 'recover':
             labels[i] = 'recover model'
 
     if reorder_labels:
