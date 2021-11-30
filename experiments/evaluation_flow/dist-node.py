@@ -118,6 +118,7 @@ def next_step():
         node_state.simulated_node_counter = 0
         listen(sock=node_state.socket, callback=use_case_2)
         node_state.state_description = U_3_2
+        node_state.last_u3_model_id = {}
     elif node_state.state_description == U_3_2:
         last_time = node_state.u3_counter == node_state.u3_repeat and \
                     node_state.simulated_node_counter == node_state.simulated_nodes - 1
