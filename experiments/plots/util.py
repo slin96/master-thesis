@@ -733,7 +733,7 @@ MODEL_PARAMETERS = np.array([3504872, 6624904, 11689512, 25557032, 60192808]) * 
 
 
 def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_colors=False, y_min_max=None, size=None,
-                        model_params=False, lgd_right=False, reorder_labels=False):
+                        model_params=False, lgd_right=False, reorder_labels=False, invert_label_order=True):
     plt.rc('font', size=40)
     fig = plt.figure()
     ax = fig.add_axes([0, 0, 1, 1])
@@ -763,6 +763,10 @@ def plot_detailed_times(plot_data, labels, x_labels, save_path=None, only_hpi_co
     if reorder_labels:
         handles = [handles[2], handles[1], handles[0], handles[3]]
         labels = [labels[2], labels[1], labels[0], labels[3]]
+
+    if invert_label_order:
+        handles.reverse()
+        labels.reverse()
 
     if lgd_right:
         plt.legend(handles, labels, bbox_to_anchor=(1.04, 1), borderaxespad=0)
